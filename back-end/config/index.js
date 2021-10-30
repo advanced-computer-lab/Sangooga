@@ -1,5 +1,5 @@
 require("dotenv").config();
 module.exports = {
-  username: process.env.USERNAME,
-  password: process.env.PASSWORD,
+  username: process.env.MONGODB_USERNAME,
+  password: process.env.MONGODB_PASSWORD,
 };
