@@ -7,7 +7,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-function Search({ setFlights, originalFlights }) {
+const Search = ({ setFlights, originalFlights }) => {
   const [searchParam, setSearchParam] = useState("flightNumber");
   const [searchValue, setSearchValue] = useState("");
 
@@ -55,6 +55,6 @@ function Search({ setFlights, originalFlights }) {
       </Box>
     </div>
   );
-}
+};
 
 export default Search;
