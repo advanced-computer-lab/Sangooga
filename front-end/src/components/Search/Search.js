@@ -1,40 +1,60 @@
-import React from 'react'
-import { originalFlights } from '../Home/Home';
+import React, { useState, useEffect } from "react";
+import "./Search.css";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
-let searchParam = "flightNumber";
-function Search({setFlights,allFlights}) {
+function Search({ setFlights, originalFlights }) {
+  const [searchParam, setSearchParam] = useState("flightNumber");
+  const [searchValue, setSearchValue] = useState("");
 
-    function changeSearchParam(param){
-        searchParam = param.target.value;
-        document.getElementById("searchInput").value = "";
-    }
+  const changeSearchParam = (e) => {
+    setSearchParam(e.target.value);
+    setSearchValue("");
+  };
 
-    const searchFunc = (searchVal)=>{
-        let searchResult;
+  const searchFunc = (e) => {
+    const filteredFlights = originalFlights.filter((flight) =>
+      JSON.stringify(flight[searchParam])
+        .toLowerCase()
+        .includes(e.target.value.toLowerCase())
+    );
+    setFlights(filteredFlights);
+    setSearchValue(e.target.value);
+  };
 
-        if(searchVal.target.value == '')
-        searchResult = originalFlights;
-
-        else if(searchParam == "flightNumber" || searchParam == "airport")
-        searchResult = originalFlights.filter(flight => JSON.stringify(flight[searchParam]).toLowerCase().includes(searchVal.target.value.toLowerCase()));
-
-        
-
-        setFlights(searchResult);
-    };
-
-    return (
-        <div>
-            <select name="searchOption" id="searchDropMenu" onChange ={changeSearchParam}>
-                <option value="flightNumber">Flight Number</option>
-                <option value="airport">Airport</option>
-                <option value="economySeats">Economoy Seats</option>
-                <option value="businessSeats">Business Seats</option>
-            </select>
-
-            <input type="text" id="searchInput" onChange = {searchFunc} />
-        </div>
-    )
+  return (
+    <div className="searchBar">
+      <Box sx={{ display: "inline" }}>
+        <FormControl sx={{ minWidth: 170 }}>
+          <InputLabel id="demo-simple-select-label">Search Param</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="Search Param"
+            onChange={changeSearchParam}
+          >
+            <MenuItem value="flightNumber">Flight Number</MenuItem>
+            <MenuItem value="airport">Airport</MenuItem>
+            <MenuItem value="economySeats">Economoy Seats</MenuItem>
+            <MenuItem value="businessSeats">Business Seats</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+      <Box sx={{ display: "inline" }}>
+        <TextField
+          id="outlined-basic"
+          label="Search Term"
+          variant="outlined"
+          value={searchValue}
+          onChange={searchFunc}
+        />
+      </Box>
+    </div>
+  );
 }
 
-export default Search
+export default Search;
