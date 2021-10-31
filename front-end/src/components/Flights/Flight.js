@@ -42,7 +42,7 @@ const onDelete = async (id) =>{
     <div>
       <Grid container spacing={2}>
         {flights.map((flight) => (
-          <Grid key={flight.flightNumber} item xs={3}>
+          <Grid key={flight._id} item xs={3}>
             <Card>
               <CardContent>
                 <Typography variant="h5">
