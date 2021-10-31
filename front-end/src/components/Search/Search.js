@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Search.css";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
@@ -12,11 +12,14 @@ const Search = ({ setFlights, originalFlights }) => {
   const [searchValue, setSearchValue] = useState("");
 
   const changeSearchParam = (e) => {
+    e.preventDefault();
     setSearchParam(e.target.value);
     setSearchValue("");
+    setFlights(originalFlights);
   };
 
   const searchFunc = (e) => {
+    e.preventDefault();
     const filteredFlights = originalFlights.filter((flight) =>
       JSON.stringify(flight[searchParam])
         .toLowerCase()
@@ -36,6 +39,7 @@ const Search = ({ setFlights, originalFlights }) => {
             id="demo-simple-select"
             label="Search Param"
             onChange={changeSearchParam}
+            value={searchParam}
           >
             <MenuItem value="flightNumber">Flight Number</MenuItem>
             <MenuItem value="airport">Airport</MenuItem>
