@@ -20,7 +20,7 @@ const Home = () => {
   return (
     <div>
       <Search setFlights={setFlights} originalFlights={originalFlights} />
-      <Flight flights={flights} />
+      <Flight flights={flights} setFlights={setFlights} />
     </div>
   );
 };
