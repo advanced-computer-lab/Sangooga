@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Flight from "../Flights/Flights";
+import Flight from "../Flights/Flight";
 import Search from "../Search/Search";
 
 const Home = () => {
@@ -15,12 +15,12 @@ const Home = () => {
 
   useEffect(() => {
     fetchFlights();
-  }, [flights]);
+  }, []);
 
   return (
     <div>
       <Search setFlights={setFlights} originalFlights={originalFlights} />
-      <Flight flights={flights} />
+      <Flight flights={flights} setFlights={setFlights} />
     </div>
   );
 };

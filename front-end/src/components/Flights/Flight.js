@@ -6,10 +6,16 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import axios from "axios";
 
-const FlightCard = ({ flights }) => {
+const FlightCard = ({ flights, setFlights}) => {
+
+const fetchFlights = async () =>{
+  const result = await axios("http://localhost:5000/flight");
+    setFlights(result.data);
+}
 
 const onDelete = async (id) =>{
   await axios.delete(`http://localhost:5000/flight/${id}`, {_id: id})
+  fetchFlights();
 }
 
   return (
