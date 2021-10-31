@@ -4,8 +4,14 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
+import axios from "axios";
 
 const FlightCard = ({ flights }) => {
+
+const onDelete = async (id) =>{
+  await axios.delete(`http://localhost:5000/flight/${id}`, {_id: id})
+}
+
   return (
     <div>
       <Grid container spacing={2}>
@@ -32,7 +38,7 @@ const FlightCard = ({ flights }) => {
               </CardContent>
               <CardActions>
                 <Button size="small">Edit</Button>
-                <Button size="small">Delete</Button>
+                <Button size="small" onClick={() => {onDelete(flight._id)}}>Delete</Button>
               </CardActions>
             </Card>
           </Grid>

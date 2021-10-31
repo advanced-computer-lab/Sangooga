@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Flight from "../Flights/Flight";
+import Flight from "../Flights/Flights";
 import Search from "../Search/Search";
 
 const Home = () => {
@@ -15,7 +15,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchFlights();
-  }, []);
+  }, [flights]);
 
   return (
     <div>
