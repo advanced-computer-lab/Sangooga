@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const Flight = require("../models/flight");
+const mongoose =  require("mongoose");
 
 router
   .route("/")
   .get(async (req, res) => {
     const flights = await Flight.find();
-    console.log(flights);
     res.send(flights);
   })
   .post(async (req, res) => {
@@ -19,7 +19,6 @@ router
       airport: "Cairo",
     });
     const newFlight = await flight.save();
-    console.log(newFlight);
     res.send(newFlight);
   })
   .put(async (req, res) => {})
