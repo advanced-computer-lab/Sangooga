@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const Flight = require("../models/flight");
+const mongoose =  require("mongoose");
 
 router
   .route("/")
   .get(async (req, res) => {
     const flights = await Flight.find();
-    console.log(flights);
     res.send(flights);
   })
   .post(async (req, res) => {
@@ -19,10 +19,18 @@ router
       airport: "Cairo",
     });
     const newFlight = await flight.save();
-    console.log(newFlight);
     res.send(newFlight);
   })
   .put(async (req, res) => {})
-  .delete(async (req, res) => {});
+ 
+ router.delete('/:id', async (req,res) =>{
+     const {id} = req.params;
+    
+     if(!mongoose.Types.ObjectId.isValid(id))
+          return res.send(`No flight with ${id}`)
+    
+        await Flight.findByIdAndDelete(id);
+        res.json('Deleted');
+      });
 
 module.exports = router;
