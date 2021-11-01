@@ -10,22 +10,25 @@ router
   .delete(async (req, res) => {});
 
 router
-.route("/login/:userName/:password")
-.get(async (req, res) => {
-  const inputUsername = req.params.userName;
-  const inputPassword = req.params.password;
-  const one = await User.findOne({username: inputUsername, password: inputPassword});
-  if(await User.findOne({username: inputUsername, password: inputPassword}))
+.route("/login")
+.get(async (req, res) => {})
+.post(async (req, res) => {
+  const inputUsername = req.body.username;
+  const inputPassword = req.body.password;
+  console.log(inputUsername,inputPassword)
+  const user = await User.findOne({username: inputUsername, password: inputPassword});
+  console.log(user);
+  if(user)
   {
+    console.log("true")
     res.send(true) ;
-    console.log(res);
   }
   else
   {
+    console.log("false")
     res.send(false);
   }
 })
-.post(async (req, res) => {})
 .put(async (req, res) => {})
 .delete(async (req, res) => {});
 
