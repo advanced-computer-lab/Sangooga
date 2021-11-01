@@ -1,4 +1,5 @@
 import TextField from '@mui/material/TextField';
+import { useHistory } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import axios from 'axios';
 import { useState } from 'react';
@@ -6,14 +7,18 @@ import { useState } from 'react';
 const Login = () => {
     const[userName, setUserName] = useState('')
     const[password, setPassword] = useState('')
-
+    const History = useHistory();
     const login = async (e) => {
+        
         console.log(userName, password);
         const loginState = await axios.get(`http://localhost:5000/user/login/${userName}/${password}`);
         console.log(loginState)
         let successfulLogin = loginState.data;
         if(successfulLogin)
+        {
             console.log("success!");
+            History.push('/home');
+        }   
         else 
             console.log("failure");
     }
