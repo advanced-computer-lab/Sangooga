@@ -10,16 +10,21 @@ router
     res.send(flights);
   })
   .post(async (req, res) => {
-    const flight = new Flight({
-      flightNumber: 101,
-      departure: 24 / 12 / 2020,
-      arrival: 25 / 12 / 2020,
-      economySeats: 213,
-      businessSeats: 12,
-      airport: "Cairo",
+    const newFlight = new Flight({
+      flightNumber: req.body.flightNumber,
+      departureAirport: req.body.departureAirport,
+      departureDateTime: req.body.departureDateTime,
+      arrivalAirport: req.body.arrivalAirport,
+      arrivalDateTime: req.body.arrivalDateTime,
+      economySeats: req.body.economySeats,
+      economyPrice: req.body.economyPrice,
+      businessSeats: req.body.buisnessSeats,
+      businessPrice: req.body.buisnessPrice,
+      firstClassSeats: req.body.firstClassSeats,
+      firstClassPrice: req.body.firstClassPrice,
     });
-    const newFlight = await flight.save();
-    res.send(newFlight);
+    const flight = await newFlight.save();
+    console.log(flight);
   })
   .put(async (req, res) => {});
 
