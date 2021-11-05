@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Flight = require("../models/flight");
-const mongoose =  require("mongoose");
+const mongoose = require("mongoose");
 
 router
   .route("/")
@@ -10,27 +10,32 @@ router
     res.send(flights);
   })
   .post(async (req, res) => {
-    const flight = new Flight({
-      flightNumber: 155,
-      departure: 24 / 12 / 2020,
-      arrival: 25 / 12 / 2020,
-      economySeats: 213,
-      businessSeats: 12,
-      airport: "Cairo",
+    const newFlight = new Flight({
+      flightNumber: req.body.flightNumber,
+      departureAirport: req.body.departureAirport,
+      departureDateTime: req.body.departureDateTime,
+      arrivalAirport: req.body.arrivalAirport,
+      arrivalDateTime: req.body.arrivalDateTime,
+      economySeats: req.body.economySeats,
+      economyPrice: req.body.economyPrice,
+      businessSeats: req.body.buisnessSeats,
+      businessPrice: req.body.buisnessPrice,
+      firstClassSeats: req.body.firstClassSeats,
+      firstClassPrice: req.body.firstClassPrice,
     });
-    const newFlight = await flight.save();
-    res.send(newFlight);
+    const flight = await newFlight.save();
+    console.log(flight);
   })
-  .put(async (req, res) => {})
- 
- router.delete('/:id', async (req,res) =>{
-     const {id} = req.params;
-    
-     if(!mongoose.Types.ObjectId.isValid(id))
-          return res.send(`No flight with ${id}`)
-    
-        await Flight.findByIdAndDelete(id);
-        res.json('Deleted');
-      });
+  .put(async (req, res) => {});
+
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.send(`No flight with ${id}`);
+
+  await Flight.findByIdAndDelete(id);
+  res.json("Deleted");
+});
 
 module.exports = router;
