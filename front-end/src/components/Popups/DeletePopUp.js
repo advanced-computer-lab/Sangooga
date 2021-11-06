@@ -9,6 +9,7 @@ const Popup = ({ flight, setOriginalFlights, popupText }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   const fetchFlights = async () => {
     const result = await axios("http://localhost:5000/flight");
     setOriginalFlights(result.data);
@@ -43,9 +44,6 @@ const Popup = ({ flight, setOriginalFlights, popupText }) => {
             p: 4,
           }}
         >
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            {popupText}
-          </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <Button
               size="small"

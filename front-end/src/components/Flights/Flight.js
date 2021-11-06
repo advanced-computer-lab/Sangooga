@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import DeletePopup from "../Popups/DeletePopUp.js";
+import EditPopUp from "../Popups/EditPopUp.js";
 
 const FlightCard = ({ flights, setOriginalFlights }) => {
   return (
@@ -32,7 +33,12 @@ const FlightCard = ({ flights, setOriginalFlights }) => {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button size="small">Edit</Button>
+                <EditPopUp
+                  flight={flight}
+                  setOriginalFlights={setOriginalFlights}
+                  popupText=" Are you sure you want to Update the flight?"
+                />
+
                 <DeletePopup
                   flight={flight}
                   setOriginalFlights={setOriginalFlights}
