@@ -25,8 +25,42 @@ router
     });
     const flight = await newFlight.save();
     console.log(flight);
-  })
-  .put(async (req, res) => {});
+  });
+router.put("/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const flightNumber = req.body.flightNumber;
+  const departureAirPort = req.body.departureAirPort;
+  const departureDateTime = req.body.departureDateTime;
+  const arrivalAirPort = req.body.arrivalAirPort;
+  const arrivalTime = req.body.arrivalTime;
+  const economySeats = req.body.economySeats;
+  const economyPrice = req.body.economyPrice;
+  const businessSeats = req.body.businessSeats;
+  const businessPrice = req.body.businessPrice;
+  const firstClassSeats = req.body.firstClassSeats;
+  const firstClassPrice = req.body.firstClassPrice;
+
+  const updatedFlight = await Flight.updateOne(
+    { _id: id },
+    {
+      $set: {
+        flightNumber: flightNumber,
+        departureAirPort: departureAirPort,
+        departureDateTime: departureDateTime,
+        arrivalAirPort: arrivalAirPort,
+        arrivalTime: arrivalTime,
+        economySeats: economySeats,
+        economyPrice: economyPrice,
+        businessSeats: businessSeats,
+        businessPrice: businessPrice,
+        firstClassSeats: firstClassSeats,
+        firstClassPrice: firstClassPrice,
+      },
+    }
+  );
+  res.send(updatedFlight);
+});
 
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
