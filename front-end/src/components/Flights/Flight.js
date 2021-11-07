@@ -18,12 +18,14 @@ const FlightCard = ({ flights, setOriginalFlights }) => {
                 <Typography variant="h5">
                   Flight Number: {flight.flightNumber}
                 </Typography>
-                <Typography variant="h6">Airport: {flight.airport}</Typography>
-                <Typography sx={{ mb: 1.5 }}>
-                  Arrival: {flight.arrival}
+                <Typography variant="h6">
+                  Departure Airport: {flight.departureAirport}
                 </Typography>
                 <Typography sx={{ mb: 1.5 }}>
-                  Departure: {flight.departure}
+                  Arrival AirPort: {flight.arrivalAirport}
+                </Typography>
+                <Typography sx={{ mb: 1.5 }}>
+                  Arrival Time: {flight.arrivalDateTime}
                 </Typography>
                 <Typography sx={{ mb: 1.5 }}>
                   Economy Seats: {flight.economySeats}
