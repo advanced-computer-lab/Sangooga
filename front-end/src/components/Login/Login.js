@@ -1,15 +1,15 @@
 import TextField from "@mui/material/TextField";
-import { useHistory } from "react-router-dom";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setError] = useState(false);
+  const navigate = useNavigate();
 
-  const History = useHistory();
   const login = async (e) => {
     e.preventDefault();
     setPassword("");
@@ -19,7 +19,7 @@ const Login = () => {
     });
     let successfulLogin = loginState.data;
     if (successfulLogin) {
-      History.push("/home");
+      navigate("/home");
     } else {
       setError(true);
     }

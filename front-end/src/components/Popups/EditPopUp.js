@@ -45,9 +45,7 @@ const EditPopUp = ({ flight, setOriginalFlights, popupText }) => {
     };
 
     await axios.put(`http://localhost:5000/flight/${id}`, newData);
-
     handleClose();
-
     fetchFlights();
   };
 

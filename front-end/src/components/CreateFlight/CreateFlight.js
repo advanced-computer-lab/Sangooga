@@ -1,11 +1,9 @@
-import React from "react";
+import { useState, React } from "react";
 import TextField from "@mui/material/TextField";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import DateTimePicker from "@mui/lab/DateTimePicker";
-import TimePicker from "@mui/lab/TimePicker";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Stack from "@mui/material/Stack";
 import InputAdornment from "@mui/material/InputAdornment";
 import { Button } from "@mui/material";
@@ -23,8 +21,8 @@ const CreateFlight = () => {
   const [buisnessPrice, setbuisnessPrice] = useState(0);
   const [firstClassSeats, setfirstClassSeats] = useState(0);
   const [firstClassPrice, setfirstClassPrice] = useState(0);
-
-  const [validFlight, setValidFlight] = useState(false);
+  // const [validFlight, setValidFlight] = useState(false);
+  const navigate = useNavigate();
 
   const createNewFlight = () => {
     if (true) {
@@ -41,6 +39,7 @@ const CreateFlight = () => {
         firstClassSeats: firstClassSeats,
         firstClassPrice: firstClassPrice,
       });
+      navigate("/home");
     }
   };
   return (

@@ -7,22 +7,21 @@ const Search = ({ setFlights, originalFlights }) => {
   const [flightNumber, setFlightNumber] = useState("");
   const [airport, setAirport] = useState("");
 
-  const searchFunc = () => {
-    const filteredFlights = originalFlights.filter(
-      (flight) =>
-        (flightNumber === "" ||
-          JSON.stringify(flight.flightNumber)
-            .toLowerCase()
-            .includes(flightNumber.toLowerCase())) &&
-        (airport === "" ||
-          JSON.stringify(flight.airport)
-            .toLowerCase()
-            .includes(airport.toLowerCase()))
-    );
-    setFlights(filteredFlights);
-  };
-
   useEffect(() => {
+    const searchFunc = () => {
+      const filteredFlights = originalFlights.filter(
+        (flight) =>
+          (flightNumber === "" ||
+            JSON.stringify(flight.flightNumber)
+              .toLowerCase()
+              .includes(flightNumber.toLowerCase())) &&
+          (airport === "" ||
+            JSON.stringify(flight.airport)
+              .toLowerCase()
+              .includes(airport.toLowerCase()))
+      );
+      setFlights(filteredFlights);
+    };
     searchFunc();
   }, [originalFlights, flightNumber, airport]);
 
