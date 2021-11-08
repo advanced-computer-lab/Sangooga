@@ -1,10 +1,12 @@
 const Flight = require("../models/flight");
+const mongoose = require("mongoose");
+
 const createFlight = async (req, res) => {
   try {
     const flight = await Flight.create(req.body);
     res.status(200).json(flight);
   } catch (err) {
-    console.log(`${err}`);
+    res.status(400).send("Could not create flight");
   }
 };
 
@@ -28,6 +30,7 @@ const deleteFlight = async (req, res) => {
     const deletedFlight = await Flight.findByIdAndDelete(id);
     res.status(200).json(deletedFlight);
   } catch (err) {
+    console.log(err);
     res.status(400).send("Could not delete flight");
   }
 };
