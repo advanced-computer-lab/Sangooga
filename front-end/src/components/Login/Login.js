@@ -4,7 +4,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = ({ setAuthenticated }) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setError] = useState(false);
@@ -13,17 +13,20 @@ const Login = () => {
   const login = async (e) => {
     e.preventDefault();
     setPassword("");
-    const loginState = await axios.post(`http://localhost:5000/user/login`, {
-      username: userName,
-      password: password,
-    });
-    let successfulLogin = loginState.data;
-    if (successfulLogin) {
+    try {
+      const user = await axios.post(`http://localhost:5000/user/login`, {
+        username: userName,
+        password: password,
+      });
+      console.log(user);
+      window.localStorage.setItem(`token`, user.data.token);
+      setAuthenticated(true);
       navigate("/home");
-    } else {
+    } catch (err) {
       setError(true);
     }
   };
+
   return (
     <div>
       <form onSubmit={login}>

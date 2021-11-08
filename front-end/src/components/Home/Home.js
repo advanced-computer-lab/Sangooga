@@ -11,7 +11,11 @@ const Home = () => {
   const [originalFlights, setOriginalFlights] = useState([]);
 
   const fetchFlights = async () => {
-    const result = await axios("http://localhost:5000/flight");
+    const result = await axios.get("http://localhost:5000/flight", {
+      headers: {
+        Authorization: window.localStorage.getItem("token"),
+      },
+    });
     setFlights(result.data);
     setOriginalFlights(result.data);
   };

@@ -1,4 +1,3 @@
-import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -8,7 +7,11 @@ import FlightIcon from "@mui/icons-material/Flight";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 
-const Navbar = () => {
+const Navbar = ({ authenticated, setAuthenticated }) => {
+  const logout = () => {
+    window.localStorage.clear();
+    setAuthenticated(false);
+  };
   return (
     <Box className="navbar" sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -20,9 +23,17 @@ const Navbar = () => {
           <Link to="/home">
             <Button color="inherit">Flights</Button>
           </Link>
-          <Link to="/">
-            <Button color="inherit">Login</Button>
-          </Link>
+          {authenticated ? (
+            <Link to="/">
+              <Button color="inherit" onClick={logout}>
+                Logout
+              </Button>
+            </Link>
+          ) : (
+            <Link to="/">
+              <Button color="inherit">Login</Button>
+            </Link>
+          )}
         </Toolbar>
       </AppBar>
     </Box>

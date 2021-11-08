@@ -29,7 +29,6 @@ const EditPopUp = ({ flight, setOriginalFlights, popupText }) => {
   };
 
   const onEdit = async (id) => {
-    console.log(id);
     const newData = {
       flightNumber: flightNumber,
       departureAirPort: departureAirPort,
@@ -44,7 +43,11 @@ const EditPopUp = ({ flight, setOriginalFlights, popupText }) => {
       firstClassPrice: firstClassPrice,
     };
 
-    await axios.put(`http://localhost:5000/flight/${id}`, newData);
+    await axios.put(`http://localhost:5000/flight/${id}`, newData, {
+      headers: {
+        Authorization: window.localStorage.getItem("token"),
+      },
+    });
     handleClose();
     fetchFlights();
   };

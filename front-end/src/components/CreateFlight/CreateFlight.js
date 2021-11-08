@@ -17,30 +17,35 @@ const CreateFlight = () => {
   const [arrivalDateTime, setarrivalDateTime] = useState(new Date());
   const [economySeats, seteconomySeats] = useState(0);
   const [economyPrice, seteconomyPrice] = useState(0);
-  const [buisnessSeats, setbuisnessSeats] = useState(0);
-  const [buisnessPrice, setbuisnessPrice] = useState(0);
+  const [businessSeats, setbusinessSeats] = useState(0);
+  const [businessPrice, setbusinessPrice] = useState(0);
   const [firstClassSeats, setfirstClassSeats] = useState(0);
   const [firstClassPrice, setfirstClassPrice] = useState(0);
   // const [validFlight, setValidFlight] = useState(false);
   const navigate = useNavigate();
 
-  const createNewFlight = () => {
-    if (true) {
-      axios.post("http://localhost:5000/flight", {
-        flightNumber: flightNumber,
-        departureAirport: departureAirport,
-        departureDateTime: departureDateTime,
-        arrivalAirport: arrivalAirport,
-        arrivalDateTime: arrivalDateTime,
-        economySeats: economySeats,
-        economyPrice: economyPrice,
-        buisnessSeats: buisnessSeats,
-        buisnessPrice: buisnessPrice,
-        firstClassSeats: firstClassSeats,
-        firstClassPrice: firstClassPrice,
-      });
-      navigate("/home");
-    }
+  const createNewFlight = async (e) => {
+    e.preventDefault();
+    const newFlight = {
+      flightNumber: flightNumber,
+      departureAirport: departureAirport,
+      departureDateTime: departureDateTime,
+      arrivalAirport: arrivalAirport,
+      arrivalDateTime: arrivalDateTime,
+      economySeats: economySeats,
+      economyPrice: economyPrice,
+      businessSeats: businessSeats,
+      businessPrice: businessPrice,
+      firstClassSeats: firstClassSeats,
+      firstClassPrice: firstClassPrice,
+    };
+    await axios.post("http://localhost:5000/flight", newFlight, {
+      headers: {
+        Authorization: window.localStorage.getItem("token"),
+      },
+    });
+    navigate("/home");
+    console.log("lol");
   };
   return (
     <div>
@@ -110,14 +115,14 @@ const CreateFlight = () => {
               <TextField
                 label="# Buisness Seats"
                 type="number"
-                value={buisnessSeats}
-                onChange={(e) => setbuisnessSeats(e.target.value)}
+                value={businessSeats}
+                onChange={(e) => setbusinessSeats(e.target.value)}
               ></TextField>
               <TextField
                 label="Buisness Seat Price"
                 type="number"
-                value={buisnessPrice}
-                onChange={(e) => setbuisnessPrice(e.target.value)}
+                value={businessPrice}
+                onChange={(e) => setbusinessPrice(e.target.value)}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">$</InputAdornment>
