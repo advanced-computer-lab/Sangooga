@@ -1,7 +1,6 @@
 .search-container {
   margin-bottom: 50px;
   display: flex;
-}
-.newFlightButton {
-  float: right;
+  justify-content: center;
+  align-items: center;
 }

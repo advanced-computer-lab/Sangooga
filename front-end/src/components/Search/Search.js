@@ -8,6 +8,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import FlightLandIcon from "@mui/icons-material/FlightLand";
 import Looks6Icon from "@mui/icons-material/Looks6";
+import "./Search.css";
 
 const Search = ({ setFlights, originalFlights }) => {
   const [flightNumber, setFlightNumber] = useState("");
@@ -105,41 +106,46 @@ const Search = ({ setFlights, originalFlights }) => {
           ),
         }}
       />
-
       <LocalizationProvider dateAdapter={DateAdapter}>
-        <DateTimePicker
-          label="Departure from date"
-          value={departureFromDate}
-          onChange={(e) => {
-            setDepartureFromDate(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
-          }}
-          renderInput={(params) => <TextField {...params} />}
-        ></DateTimePicker>
-        <DateTimePicker
-          label="Departure to date"
-          value={departureToDate}
-          onChange={(e) => {
-            setDepartureToDate(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
-          }}
-          renderInput={(params) => <TextField {...params} />}
-        ></DateTimePicker>
+        <div className="date-range">
+          <span className="date-label">Departure Date</span>
+          <DateTimePicker
+            label="From"
+            value={departureFromDate}
+            onChange={(e) => {
+              setDepartureFromDate(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
+            }}
+            renderInput={(params) => <TextField {...params} />}
+          ></DateTimePicker>
+          <DateTimePicker
+            label="To"
+            value={departureToDate}
+            onChange={(e) => {
+              setDepartureToDate(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
+            }}
+            renderInput={(params) => <TextField {...params} />}
+          ></DateTimePicker>
+        </div>
 
-        <DateTimePicker
-          label="Arrival from date"
-          value={arrivalFromDate}
-          onChange={(e) => {
-            setArrivalFromDate(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
-          }}
-          renderInput={(params) => <TextField {...params} />}
-        ></DateTimePicker>
-        <DateTimePicker
-          label="Arrival to date"
-          value={arrivalToDate}
-          onChange={(e) => {
-            setArrivalToDate(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
-          }}
-          renderInput={(params) => <TextField {...params} />}
-        ></DateTimePicker>
+        <div className="date-range">
+          <span className="date-label">Arrival Date</span>
+          <DateTimePicker
+            label="From"
+            value={arrivalFromDate}
+            onChange={(e) => {
+              setArrivalFromDate(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
+            }}
+            renderInput={(params) => <TextField {...params} />}
+          ></DateTimePicker>
+          <DateTimePicker
+            label="To"
+            value={arrivalToDate}
+            onChange={(e) => {
+              setArrivalToDate(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
+            }}
+            renderInput={(params) => <TextField {...params} />}
+          ></DateTimePicker>
+        </div>
       </LocalizationProvider>
     </div>
   );
