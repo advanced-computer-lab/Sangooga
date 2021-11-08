@@ -3,8 +3,8 @@ import axios from "axios";
 import Flight from "../Flights/Flight";
 import Search from "../Search/Search";
 import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
 import { Link } from "react-router-dom";
+import "./Home.css";
 
 const Home = () => {
   const [flights, setFlights] = useState([]);
@@ -26,12 +26,18 @@ const Home = () => {
 
   return (
     <div>
-      <Stack direction="row" spacing={2}>
-        <Search setFlights={setFlights} originalFlights={originalFlights} />
-        <Link to="/createFlight">
-          <Button variant="contained">Create New Flight</Button>
-        </Link>
-      </Stack>
+      <div className="search-container">
+        <Search
+          className="searchFilters"
+          setFlights={setFlights}
+          originalFlights={originalFlights}
+        />
+      </div>
+      <Link to="/createFlight">
+        <Button variant="contained" className="newFlightButton">
+          Create New Flight
+        </Button>
+      </Link>
       <Flight flights={flights} setOriginalFlights={setOriginalFlights} />
     </div>
   );

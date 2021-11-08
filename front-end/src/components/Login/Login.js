@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import "./Login.css";
 const Login = ({ setAuthenticated }) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -28,7 +28,7 @@ const Login = ({ setAuthenticated }) => {
   };
 
   return (
-    <div>
+    <div className="loginForm">
       <form onSubmit={login}>
         {loginError ? (
           <TextField
