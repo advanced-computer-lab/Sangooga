@@ -6,12 +6,21 @@ const flightSchema = new Schema(
     flightNumber: {
       type: Number,
       required: true,
+      unique: true,
     },
-    departure: {
+    departureAirport: {
+      type: String,
+      required: true,
+    },
+    departureDateTime: {
       type: Date,
       required: true,
     },
-    arrival: {
+    arrivalAirport: {
+      type: String,
+      required: true,
+    },
+    arrivalDateTime: {
       type: Date,
       required: true,
     },
@@ -19,12 +28,24 @@ const flightSchema = new Schema(
       type: Number,
       required: true,
     },
+    economyPrice: {
+      type: Number,
+      required: true,
+    },
     businessSeats: {
       type: Number,
       required: true,
     },
-    airport: {
-      type: String,
+    businessPrice: {
+      type: Number,
+      required: true,
+    },
+    firstClassSeats: {
+      type: Number,
+      required: true,
+    },
+    firstClassPrice: {
+      type: Number,
       required: true,
     },
   },
