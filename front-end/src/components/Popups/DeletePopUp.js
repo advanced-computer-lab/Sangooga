@@ -44,6 +44,9 @@ const Popup = ({ flight, setOriginalFlights, popupText }) => {
             p: 4,
           }}
         >
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Are you sure you want to delete the flight?
+          </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <Button
               size="small"

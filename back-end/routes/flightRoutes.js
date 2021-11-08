@@ -33,7 +33,7 @@ router.put("/:id", async (req, res) => {
   const departureAirPort = req.body.departureAirPort;
   const departureDateTime = req.body.departureDateTime;
   const arrivalAirPort = req.body.arrivalAirPort;
-  const arrivalTime = req.body.arrivalTime;
+  const arrivalDateTime = req.body.arrivalDateTime;
   const economySeats = req.body.economySeats;
   const economyPrice = req.body.economyPrice;
   const businessSeats = req.body.businessSeats;
@@ -46,10 +46,10 @@ router.put("/:id", async (req, res) => {
     {
       $set: {
         flightNumber: flightNumber,
-        departureAirPort: departureAirPort,
+        departureAirport: departureAirPort,
         departureDateTime: departureDateTime,
-        arrivalAirPort: arrivalAirPort,
-        arrivalTime: arrivalTime,
+        arrivalAirport: arrivalAirPort,
+        arrivalDateTime: arrivalDateTime,
         economySeats: economySeats,
         economyPrice: economyPrice,
         businessSeats: businessSeats,

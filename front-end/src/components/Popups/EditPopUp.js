@@ -19,7 +19,7 @@ const EditPopUp = ({ flight, setOriginalFlights, popupText }) => {
     flight.departureDateTime
   );
   const [arrivalAirPort, setArrivalAirPort] = useState(flight.arrivalAirport);
-  const [arrivalTime, setArrivalTime] = useState(flight.arrivalDateTime);
+  const [arrivalDateTime, setArrivalTime] = useState(flight.arrivalDateTime);
   const [economySeats, setEconomySeats] = useState(flight.economySeats);
   const [economyPrice, setEconomyPrice] = useState(flight.economyPrice);
   const [businessSeats, setBusinessSeats] = useState(flight.businessSeats);
@@ -43,7 +43,7 @@ const EditPopUp = ({ flight, setOriginalFlights, popupText }) => {
       departureAirPort: departureAirPort,
       departureDateTime: departureDateTime,
       arrivalAirPort: arrivalAirPort,
-      arrivalTime: arrivalTime,
+      arrivalDateTime: arrivalDateTime,
       economySeats: economySeats,
       economyPrice: economyPrice,
       businessSeats: businessSeats,
@@ -120,7 +120,7 @@ const EditPopUp = ({ flight, setOriginalFlights, popupText }) => {
                 Arrival Time
               </Typography>
               <input
-                value={arrivalTime}
+                value={arrivalDateTime}
                 onChange={(e) => setArrivalTime(e.target.value)}
               ></input>
               <Typography id="modal-modal-title" variant="h6" component="h2">
