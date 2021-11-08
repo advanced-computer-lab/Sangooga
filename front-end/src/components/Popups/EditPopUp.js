@@ -19,7 +19,7 @@ const EditPopUp = ({ flight, setOriginalFlights, popupText }) => {
     flight.departureDateTime
   );
   const [arrivalAirPort, setArrivalAirPort] = useState(flight.arrivalAirport);
-  const [arrivalTime, setArrivalTime] = useState(flight.arrivalDateTime);
+  const [arrivalDateTime, setArrivalTime] = useState(flight.arrivalDateTime);
   const [economySeats, setEconomySeats] = useState(flight.economySeats);
   const [economyPrice, setEconomyPrice] = useState(flight.economyPrice);
   const [businessSeats, setBusinessSeats] = useState(flight.businessSeats);
@@ -32,17 +32,21 @@ const EditPopUp = ({ flight, setOriginalFlights, popupText }) => {
   );
 
   const fetchFlights = async () => {
-    const result = await axios("http://localhost:5000/flight");
+    const result = await axios("http://localhost:5000/flight", {
+      headers: {
+        Authorization: window.localStorage.getItem("token"),
+      },
+    });
     setOriginalFlights(result.data);
   };
 
   const onEdit = async (id) => {
     const newData = {
       flightNumber: flightNumber,
-      departureAirPort: departureAirPort,
+      departureAirport: departureAirPort,
       departureDateTime: departureDateTime,
-      arrivalAirPort: arrivalAirPort,
-      arrivalTime: arrivalTime,
+      arrivalAirport: arrivalAirPort,
+      arrivalDateTime: arrivalDateTime,
       economySeats: economySeats,
       economyPrice: economyPrice,
       businessSeats: businessSeats,
@@ -121,7 +125,7 @@ const EditPopUp = ({ flight, setOriginalFlights, popupText }) => {
                 Arrival Time
               </Typography>
               <input
-                value={arrivalTime}
+                value={arrivalDateTime}
                 onChange={(e) => setArrivalTime(e.target.value)}
               ></input>
               <Typography id="modal-modal-title" variant="h6" component="h2">
