@@ -1,0 +1,13 @@
+.navbar {
+  margin-bottom: 50px;
+}
+a {
+  color: white;
+  text-decoration: none;
+}
+
+a:hover {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+}
