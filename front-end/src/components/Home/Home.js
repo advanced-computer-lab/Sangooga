@@ -32,12 +32,12 @@ const Home = () => {
           setFlights={setFlights}
           originalFlights={originalFlights}
         />
+        <Link to="/createFlight">
+          <Button variant="contained" className="newFlightButton">
+            Create New Flight
+          </Button>
+        </Link>
       </div>
-      <Link to="/createFlight">
-        <Button variant="contained" className="newFlightButton">
-          Create New Flight
-        </Button>
-      </Link>
       <Flight flights={flights} setOriginalFlights={setOriginalFlights} />
     </div>
   );

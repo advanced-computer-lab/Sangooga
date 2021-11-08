@@ -1,5 +1,19 @@
 .searchBar {
-  margin-bottom: 50px;
-  margin-left: auto;
-  margin-right: auto;
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 0.5rem;
+  place-items: center;
+  padding-right: 1rem;
+}
+
+.date-range {
+  display: grid;
+  place-items: center;
+}
+
+.date-label {
+  color: rgba(0, 0, 0, 0.6);
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
 }
