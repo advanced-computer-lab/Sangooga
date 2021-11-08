@@ -39,8 +39,12 @@ const Search = ({ setFlights, originalFlights }) => {
               .toLowerCase()
               .includes(departureAirport.toLowerCase())) &&
           (departureFromDate == null ||
-            departureFromDate < flight.arrivalDateTime) &&
-          (departureToDate == null || departureToDate > flight.arrivalDateTime)
+            departureFromDate < flight.departureDateTime) &&
+          (departureToDate == null ||
+            departureToDate > flight.departureDateTime) &&
+          (arrivalFromDate == null ||
+            arrivalFromDate < flight.arrivalDateTime) &&
+          (arrivalToDate == null || arrivalToDate > flight.arrivalDateTime)
       );
       setFlights(filteredFlights);
     };
@@ -123,13 +127,17 @@ const Search = ({ setFlights, originalFlights }) => {
         <DateTimePicker
           label="Arrival from date"
           value={arrivalFromDate}
-          onChange={setArrivalFromDate}
+          onChange={(e) => {
+            setArrivalFromDate(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
+          }}
           renderInput={(params) => <TextField {...params} />}
         ></DateTimePicker>
         <DateTimePicker
           label="Arrival to date"
           value={arrivalToDate}
-          onChange={setArrivalToDate}
+          onChange={(e) => {
+            setArrivalToDate(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
+          }}
           renderInput={(params) => <TextField {...params} />}
         ></DateTimePicker>
       </LocalizationProvider>

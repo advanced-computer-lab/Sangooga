@@ -18,7 +18,6 @@ const Home = () => {
     });
     setFlights(result.data);
     setOriginalFlights(result.data);
-    console.log(result.data[0].arrivalDateTime.valueOf());
   };
 
   useEffect(() => {
