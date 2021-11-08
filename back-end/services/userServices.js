@@ -37,7 +37,6 @@ const login = async (req, res) => {
           expiresIn: "1h",
         }
       );
-      res.cookie("auth", token);
       res.status(200).json({ token, ...user });
     }
   } catch (err) {
@@ -53,7 +52,7 @@ const register = async (req, res) => {
     }
     const alreadyExists = await User.findOne({ username });
     if (alreadyExists) {
-      return res.status(409).send("User Already Exist. Please Login");
+      return res.status(409).send("Username taken.");
     }
     encryptedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({

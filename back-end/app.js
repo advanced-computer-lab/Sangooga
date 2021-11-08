@@ -18,7 +18,6 @@ mongoose
 app.use(express.json());
 app.use("/user", userRouter);
 app.use("/flight", flightRouter);
-
 app.listen(port, () => {
   console.log(`Listening to requests on http://localhost:${port}`);
 });
