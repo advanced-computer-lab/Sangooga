@@ -10,6 +10,7 @@ import Stack from "@mui/material/Stack";
 import InputAdornment from "@mui/material/InputAdornment";
 import { Button } from "@mui/material";
 import axios from "axios";
+import TextareaAutosize from "@mui/material/TextareaAutosize";
 
 const CreateFlight = () => {
   const [flightNumber, setflightNumber] = useState(0);
@@ -24,23 +25,94 @@ const CreateFlight = () => {
   const [firstClassSeats, setfirstClassSeats] = useState(0);
   const [firstClassPrice, setfirstClassPrice] = useState(0);
 
-  const [validFlight, setValidFlight] = useState(false);
+  const [validFlight, setValidFlight] = useState(true);
+
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const validateFlight = () => {
+    if (
+      /[^a-zA-Z]/.test(departureAirport) ||
+      /[^a-zA-Z]/.test(arrivalAirport)
+    ) {
+      console.log("test1");
+      setValidFlight(false);
+      setErrorMessage("Airport names can only contain letters");
+      console.log(errorMessage);
+      return;
+    }
+    if (departureDateTime == null || arrivalDateTime == null) {
+      console.log("test2");
+      setValidFlight(false);
+      setErrorMessage(
+        "Arrival or Departure Time has to be in the correct format"
+      );
+      console.log(errorMessage);
+      return;
+    }
+    if (arrivalDateTime < departureDateTime) {
+      console.log("test3");
+      setValidFlight(false);
+      setErrorMessage("Arrival time has to be after Departure time");
+      console.log(errorMessage);
+      return;
+    }
+  };
 
   const createNewFlight = () => {
-    if (true) {
-      axios.post("http://localhost:5000/flight", {
-        flightNumber: flightNumber,
-        departureAirport: departureAirport,
-        departureDateTime: departureDateTime,
-        arrivalAirport: arrivalAirport,
-        arrivalDateTime: arrivalDateTime,
-        economySeats: economySeats,
-        economyPrice: economyPrice,
-        buisnessSeats: buisnessSeats,
-        buisnessPrice: buisnessPrice,
-        firstClassSeats: firstClassSeats,
-        firstClassPrice: firstClassPrice,
-      });
+    if (
+      /[^a-zA-Z]/.test(departureAirport) ||
+      /[^a-zA-Z]/.test(arrivalAirport)
+    ) {
+      setValidFlight(false);
+      setErrorMessage("Airport names can only contain letters");
+      console.log(errorMessage);
+      return;
+    }
+    if (departureDateTime == null || arrivalDateTime == null) {
+      setValidFlight(false);
+      setErrorMessage(
+        "Arrival or Departure Time has to be in the correct format"
+      );
+      console.log(errorMessage);
+      return;
+    }
+    if (arrivalDateTime < departureDateTime) {
+      setValidFlight(false);
+      setErrorMessage("Arrival time has to be after Departure time");
+      console.log(errorMessage);
+      return;
+    }
+    if (
+      economySeats < 0 ||
+      economyPrice < 0 ||
+      buisnessSeats < 0 ||
+      buisnessPrice < 0 ||
+      firstClassSeats < 0 ||
+      firstClassPrice < 0
+    ) {
+      setValidFlight(false);
+      setErrorMessage("Seat numbers and prices have to be positive");
+      console.log(errorMessage);
+      return;
+    }
+    if (validFlight) {
+      axios
+        .post("http://localhost:5000/flight", {
+          flightNumber: flightNumber,
+          departureAirport: departureAirport,
+          departureDateTime: departureDateTime,
+          arrivalAirport: arrivalAirport,
+          arrivalDateTime: arrivalDateTime,
+          economySeats: economySeats,
+          economyPrice: economyPrice,
+          buisnessSeats: buisnessSeats,
+          buisnessPrice: buisnessPrice,
+          firstClassSeats: firstClassSeats,
+          firstClassPrice: firstClassPrice,
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
   return (
@@ -50,7 +122,7 @@ const CreateFlight = () => {
           <Stack spacing={2} direction="row">
             <TextField
               label="Flight Number"
-              type="text"
+              type="number"
               value={flightNumber}
               onChange={(e) => setflightNumber(e.target.value)}
             ></TextField>

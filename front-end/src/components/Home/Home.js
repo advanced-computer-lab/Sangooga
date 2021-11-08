@@ -5,6 +5,7 @@ import Search from "../Search/Search";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import { useHistory } from "react-router-dom";
+import "./Home.css";
 
 const Home = () => {
   const [flights, setFlights] = useState([]);
@@ -27,12 +28,12 @@ const Home = () => {
 
   return (
     <div>
-      <Stack direction="row" spacing={2}>
+      <div className="search-container">
         <Search setFlights={setFlights} originalFlights={originalFlights} />
         <Button variant="contained" onClick={gotoCreateFlight}>
           Create New Flight
         </Button>
-      </Stack>
+      </div>
       <Flight flights={flights} setOriginalFlights={setOriginalFlights} />
     </div>
   );
