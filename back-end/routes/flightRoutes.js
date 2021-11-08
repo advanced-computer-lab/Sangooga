@@ -1,75 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const Flight = require("../models/flight");
-const mongoose = require("mongoose");
-
+const flightServices = require("../services/flightServices");
+const auth = require("../middleware/auth");
+router.use(auth);
 router
   .route("/")
-  .get(async (req, res) => {
-    const flights = await Flight.find();
-    res.send(flights);
-  })
-  .post(async (req, res) => {
-    const newFlight = new Flight({
-      flightNumber: req.body.flightNumber,
-      departureAirport: req.body.departureAirport,
-      departureDateTime: req.body.departureDateTime,
-      arrivalAirport: req.body.arrivalAirport,
-      arrivalDateTime: req.body.arrivalDateTime,
-      economySeats: req.body.economySeats,
-      economyPrice: req.body.economyPrice,
-      businessSeats: req.body.buisnessSeats,
-      businessPrice: req.body.buisnessPrice,
-      firstClassSeats: req.body.firstClassSeats,
-      firstClassPrice: req.body.firstClassPrice,
-    });
-    const flight = await newFlight.save();
-    console.log(flight);
-  });
-router.put("/:id", async (req, res) => {
-  const { id } = req.params;
+  .get(flightServices.getFlights)
+  .post(flightServices.createFlight);
 
-  const flightNumber = req.body.flightNumber;
-  const departureAirPort = req.body.departureAirPort;
-  const departureDateTime = req.body.departureDateTime;
-  const arrivalAirPort = req.body.arrivalAirPort;
-  const arrivalDateTime = req.body.arrivalDateTime;
-  const economySeats = req.body.economySeats;
-  const economyPrice = req.body.economyPrice;
-  const businessSeats = req.body.businessSeats;
-  const businessPrice = req.body.businessPrice;
-  const firstClassSeats = req.body.firstClassSeats;
-  const firstClassPrice = req.body.firstClassPrice;
-
-  const updatedFlight = await Flight.updateOne(
-    { _id: id },
-    {
-      $set: {
-        flightNumber: flightNumber,
-        departureAirport: departureAirPort,
-        departureDateTime: departureDateTime,
-        arrivalAirport: arrivalAirPort,
-        arrivalDateTime: arrivalDateTime,
-        economySeats: economySeats,
-        economyPrice: economyPrice,
-        businessSeats: businessSeats,
-        businessPrice: businessPrice,
-        firstClassSeats: firstClassSeats,
-        firstClassPrice: firstClassPrice,
-      },
-    }
-  );
-  res.send(updatedFlight);
-});
-
-router.delete("/:id", async (req, res) => {
-  const { id } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(id))
-    return res.send(`No flight with ${id}`);
-
-  await Flight.findByIdAndDelete(id);
-  res.json("Deleted");
-});
+router
+  .route("/:id")
+  .put(flightServices.updateFlight)
+  .delete(flightServices.deleteFlight);
 
 module.exports = router;

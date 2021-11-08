@@ -1,31 +1,34 @@
 import TextField from "@mui/material/TextField";
-import { useHistory } from "react-router-dom";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import { useState } from "react";
-
-const Login = () => {
+import { useNavigate } from "react-router-dom";
+import "./Login.css";
+const Login = ({ setAuthenticated }) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setError] = useState(false);
+  const navigate = useNavigate();
 
-  const History = useHistory();
   const login = async (e) => {
     e.preventDefault();
     setPassword("");
-    const loginState = await axios.post(`http://localhost:5000/user/login`, {
-      username: userName,
-      password: password,
-    });
-    let successfulLogin = loginState.data;
-    if (successfulLogin) {
-      History.push("/home");
-    } else {
+    try {
+      const user = await axios.post(`http://localhost:5000/user/login`, {
+        username: userName,
+        password: password,
+      });
+      console.log(user);
+      window.localStorage.setItem(`token`, user.data.token);
+      setAuthenticated(true);
+      navigate("/home");
+    } catch (err) {
       setError(true);
     }
   };
+
   return (
-    <div>
+    <div className="loginForm">
       <form onSubmit={login}>
         {loginError ? (
           <TextField

@@ -16,7 +16,15 @@ const Popup = ({ flight, setOriginalFlights, popupText }) => {
   };
 
   const onDelete = async (id) => {
-    await axios.delete(`http://localhost:5000/flight/${id}`, { _id: id });
+    await axios.delete(
+      `http://localhost:5000/flight/${id}`,
+      { _id: id },
+      {
+        headers: {
+          Authorization: window.localStorage.getItem("token"),
+        },
+      }
+    );
     fetchFlights();
   };
 

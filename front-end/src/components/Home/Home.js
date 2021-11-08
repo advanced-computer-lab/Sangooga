@@ -3,16 +3,19 @@ import axios from "axios";
 import Flight from "../Flights/Flight";
 import Search from "../Search/Search";
 import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
-import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
+import "./Home.css";
 
 const Home = () => {
   const [flights, setFlights] = useState([]);
   const [originalFlights, setOriginalFlights] = useState([]);
-  const History = useHistory();
 
   const fetchFlights = async () => {
-    const result = await axios("http://localhost:5000/flight");
+    const result = await axios.get("http://localhost:5000/flight", {
+      headers: {
+        Authorization: window.localStorage.getItem("token"),
+      },
+    });
     setFlights(result.data);
     setOriginalFlights(result.data);
   };
@@ -21,18 +24,20 @@ const Home = () => {
     fetchFlights();
   }, []);
 
-  const gotoCreateFlight = () => {
-    History.push("/createFlight");
-  };
-
   return (
     <div>
-      <Stack direction="row" spacing={2}>
-        <Search setFlights={setFlights} originalFlights={originalFlights} />
-        <Button variant="contained" onClick={gotoCreateFlight}>
-          Create New Flight
-        </Button>
-      </Stack>
+      <div className="search-container">
+        <Search
+          className="searchFilters"
+          setFlights={setFlights}
+          originalFlights={originalFlights}
+        />
+        <Link to="/createFlight">
+          <Button variant="contained" className="newFlightButton">
+            Create New Flight
+          </Button>
+        </Link>
+      </div>
       <Flight flights={flights} setOriginalFlights={setOriginalFlights} />
     </div>
   );
