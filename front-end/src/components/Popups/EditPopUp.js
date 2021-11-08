@@ -32,16 +32,20 @@ const EditPopUp = ({ flight, setOriginalFlights, popupText }) => {
   );
 
   const fetchFlights = async () => {
-    const result = await axios("http://localhost:5000/flight");
+    const result = await axios("http://localhost:5000/flight", {
+      headers: {
+        Authorization: window.localStorage.getItem("token"),
+      },
+    });
     setOriginalFlights(result.data);
   };
 
   const onEdit = async (id) => {
     const newData = {
       flightNumber: flightNumber,
-      departureAirPort: departureAirPort,
+      departureAirport: departureAirPort,
       departureDateTime: departureDateTime,
-      arrivalAirPort: arrivalAirPort,
+      arrivalAirport: arrivalAirPort,
       arrivalDateTime: arrivalDateTime,
       economySeats: economySeats,
       economyPrice: economyPrice,

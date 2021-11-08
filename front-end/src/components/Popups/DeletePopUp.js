@@ -10,21 +10,41 @@ const Popup = ({ flight, setOriginalFlights, popupText }) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const [flightNumber, setFlightNumber] = useState(flight.flightNumber);
+  const [departureAirPort, setDepartureAirPort] = useState(
+    flight.departureAirport
+  );
+  const [departureDateTime, setDepartureDateTime] = useState(
+    flight.departureDateTime
+  );
+  const [arrivalAirPort, setArrivalAirPort] = useState(flight.arrivalAirport);
+  const [arrivalDateTime, setArrivalTime] = useState(flight.arrivalDateTime);
+  const [economySeats, setEconomySeats] = useState(flight.economySeats);
+  const [economyPrice, setEconomyPrice] = useState(flight.economyPrice);
+  const [businessSeats, setBusinessSeats] = useState(flight.businessSeats);
+  const [businessPrice, setBusinessPrice] = useState(flight.businessPrice);
+  const [firstClassSeats, setFirstClassSeats] = useState(
+    flight.firstClassSeats
+  );
+  const [firstClassPrice, setFirstClassPrice] = useState(
+    flight.firstClassPrice
+  );
+
   const fetchFlights = async () => {
-    const result = await axios("http://localhost:5000/flight");
+    const result = await axios("http://localhost:5000/flight", {
+      headers: {
+        Authorization: window.localStorage.getItem("token"),
+      },
+    });
     setOriginalFlights(result.data);
   };
 
   const onDelete = async (id) => {
-    await axios.delete(
-      `http://localhost:5000/flight/${id}`,
-      { _id: id },
-      {
-        headers: {
-          Authorization: window.localStorage.getItem("token"),
-        },
-      }
-    );
+    await axios.delete(`http://localhost:5000/flight/${id}`, {
+      headers: {
+        Authorization: window.localStorage.getItem("token"),
+      },
+    });
     fetchFlights();
   };
 
@@ -55,6 +75,56 @@ const Popup = ({ flight, setOriginalFlights, popupText }) => {
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Are you sure you want to delete the flight?
           </Typography>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            FlightNumber:
+          </Typography>
+          <Typography>{flightNumber}</Typography>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Departure AirPort:
+          </Typography>
+          <Typography>{departureAirPort}</Typography>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Departure Time:
+          </Typography>
+          <Typography>{departureDateTime}</Typography>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Arrival AirPort:
+          </Typography>
+          <Typography>{arrivalAirPort}</Typography>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Arrival Time:
+          </Typography>
+          <Typography>{arrivalDateTime}</Typography>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Economy Class Seats:
+          </Typography>
+          <Typography>{economySeats}</Typography>
+
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Economy Class Price:
+          </Typography>
+          <Typography>{economyPrice}</Typography>
+
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Business Class Seats:
+          </Typography>
+          <Typography>{businessSeats}</Typography>
+
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Business Class Price:
+          </Typography>
+          <Typography>{businessPrice}</Typography>
+
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            First Class Seats:
+          </Typography>
+          <Typography>{firstClassSeats}</Typography>
+
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            First Class Price:
+          </Typography>
+          <Typography>{firstClassPrice}</Typography>
+
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <Button
               size="small"
