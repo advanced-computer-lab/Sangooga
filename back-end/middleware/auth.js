@@ -9,7 +9,7 @@ const auth = (req, res, next) => {
     return res.status(403).send("No token is supplied");
   }
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    jwt.verify(token, process.env.JWT_SECRET);
     next();
   } catch (e) {
     res.status("401").send("unauthorized access");
