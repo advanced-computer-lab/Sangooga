@@ -11,17 +11,25 @@ const EditPopUp = ({ flight, setOriginalFlights, popupText }) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const [flightNumber, setFlightNumber] = React.useState();
-  const [departureAirPort, setDepartureAirPort] = React.useState();
-  const [departureDateTime, setDepartureDateTime] = React.useState();
-  const [arrivalAirPort, setArrivalAirPort] = React.useState();
-  const [arrivalTime, setArrivalTime] = React.useState();
-  const [economySeats, setEconomySeats] = React.useState();
-  const [economyPrice, setEconomyPrice] = React.useState();
-  const [businessSeats, setBusinessSeats] = React.useState();
-  const [businessPrice, setBusinessPrice] = React.useState();
-  const [firstClassSeats, setFirstClassSeats] = React.useState();
-  const [firstClassPrice, setFirstClassPrice] = React.useState();
+  const [flightNumber, setFlightNumber] = useState(flight.flightNumber);
+  const [departureAirPort, setDepartureAirPort] = useState(
+    flight.departureAirport
+  );
+  const [departureDateTime, setDepartureDateTime] = useState(
+    flight.departureDateTime
+  );
+  const [arrivalAirPort, setArrivalAirPort] = useState(flight.arrivalAirport);
+  const [arrivalTime, setArrivalTime] = useState(flight.arrivalDateTime);
+  const [economySeats, setEconomySeats] = useState(flight.economySeats);
+  const [economyPrice, setEconomyPrice] = useState(flight.economyPrice);
+  const [businessSeats, setBusinessSeats] = useState(flight.businessSeats);
+  const [businessPrice, setBusinessPrice] = useState(flight.businessPrice);
+  const [firstClassSeats, setFirstClassSeats] = useState(
+    flight.firstClassSeats
+  );
+  const [firstClassPrice, setFirstClassPrice] = useState(
+    flight.firstClassPrice
+  );
 
   const fetchFlights = async () => {
     const result = await axios("http://localhost:5000/flight");
@@ -85,83 +93,83 @@ const EditPopUp = ({ flight, setOriginalFlights, popupText }) => {
                 FlightNumber
               </Typography>
               <input
+                value={flightNumber}
                 onChange={(e) => setFlightNumber(e.target.value)}
-                placeholder="FlightNumber"
               ></input>
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 Departure AirPort
               </Typography>
               <input
+                value={departureAirPort}
                 onChange={(e) => setDepartureAirPort(e.target.value)}
-                placeholder="AirPort"
               ></input>
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 Departure Time
               </Typography>
               <input
+                value={departureDateTime}
                 onChange={(e) => setDepartureDateTime(e.target.value)}
-                placeholder="ArrivalTime"
               ></input>
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 Arrival AirPort
               </Typography>
               <input
+                value={arrivalAirPort}
                 onChange={(e) => setArrivalAirPort(e.target.value)}
-                placeholder="DepartureTime"
               ></input>
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 Arrival Time
               </Typography>
               <input
+                value={arrivalTime}
                 onChange={(e) => setArrivalTime(e.target.value)}
-                placeholder="EconomySeats"
               ></input>
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 Economy Class Seats
               </Typography>
               <input
+                value={economySeats}
                 onChange={(e) => setEconomySeats(e.target.value)}
-                placeholder="BusinessSeats"
               ></input>
 
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 Economy Class Price
               </Typography>
               <input
+                value={economyPrice}
                 onChange={(e) => setEconomyPrice(e.target.value)}
-                placeholder="BusinessSeats"
               ></input>
 
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 Business Class Seats
               </Typography>
               <input
+                value={businessSeats}
                 onChange={(e) => setBusinessSeats(e.target.value)}
-                placeholder="BusinessSeats"
               ></input>
 
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 Business Class Price
               </Typography>
               <input
+                value={businessPrice}
                 onChange={(e) => setBusinessPrice(e.target.value)}
-                placeholder="BusinessSeats"
               ></input>
 
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 First Class Seats
               </Typography>
               <input
+                value={firstClassSeats}
                 onChange={(e) => setFirstClassSeats(e.target.value)}
-                placeholder="BusinessSeats"
               ></input>
 
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 First Class Price
               </Typography>
               <input
+                value={firstClassPrice}
                 onChange={(e) => setFirstClassPrice(e.target.value)}
-                placeholder="BusinessSeats"
               ></input>
 
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
