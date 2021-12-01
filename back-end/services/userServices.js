@@ -37,6 +37,7 @@ const login = async (req, res) => {
           expiresIn: "1h",
         }
       );
+      console.log(token);
       res.status(200).json({ token, ...user });
     }
   } catch (err) {
@@ -46,18 +47,27 @@ const login = async (req, res) => {
 
 const register = async (req, res) => {
   try {
-    const { username, password } = req.body;
-    if (!(username && password)) {
+    const { username, password, firstname, lastname, email, passport } =
+      req.body;
+    if (!(username && password && firstname && lastname && email && passport)) {
       res.status(400).send("Input is missing");
     }
     const alreadyExists = await User.findOne({ username });
     if (alreadyExists) {
       return res.status(409).send("Username taken.");
     }
+    const alreadyUsed = await User.findOne({ email });
+    if (alreadyUsed) {
+      return res.status(409).send("Email already has an account.");
+    }
     encryptedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({
       username,
       password: encryptedPassword,
+      firstname,
+      lastname,
+      email,
+      passport,
     });
     const token = jwt.sign(
       { user_id: user._id, username },
@@ -67,7 +77,7 @@ const register = async (req, res) => {
       }
     );
     user.token = token;
-    res.status(201).json(user);
+    res.status(201).json({ token, ...user });
   } catch (err) {
     res.status(400).send("Could not register");
   }
@@ -83,4 +93,10 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { login, register, getUsers, deleteUser, getUser };
+module.exports = {
+  login,
+  register,
+  getUsers,
+  deleteUser,
+  getUser,
+};

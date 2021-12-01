@@ -20,6 +20,9 @@ const Navbar = ({ authenticated, setAuthenticated }) => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Flights
           </Typography>
+          <Link to="/profile">
+            <Button color="inherit">Profile</Button>
+          </Link>
           <Link to="/home">
             <Button color="inherit">Flights</Button>
           </Link>

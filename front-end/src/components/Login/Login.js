@@ -2,8 +2,9 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./Login.css";
+import { Typography } from "@mui/material";
 const Login = ({ setAuthenticated }) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -69,6 +70,10 @@ const Login = ({ setAuthenticated }) => {
           Login
         </Button>
       </form>
+      <br /> <br />
+      <Link to="/register">
+        <Button variant="contained">Don't have an account?</Button>
+      </Link>
     </div>
   );
 };
