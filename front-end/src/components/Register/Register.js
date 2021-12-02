@@ -17,15 +17,26 @@ const Register = ({ setAuthenticated }) => {
     email: "",
     passport: "",
   });
-  const sendEmail = () => {
+
+  const test = () => {
+    const templateParams = {
+      name: "James",
+      notes: "Check this out!",
+    };
+
     emailjs
-      .sendForm("gmail", "template_mtnwpon", "user_rMqwMN2CN5vFPS24w7b2i")
+      .send(
+        "service_6q5r9lq09",
+        "template_mtnwpon",
+        templateParams,
+        "user_rMqwMN2CN5vFPS24w7b2i"
+      )
       .then(
-        (result) => {
-          console.log(result.text);
+        function (response) {
+          console.log("SUCCESS!", response.status, response.text);
         },
-        (error) => {
-          console.log(error.text);
+        function (error) {
+          console.log("FAILED...", error);
         }
       );
   };
@@ -43,7 +54,6 @@ const Register = ({ setAuthenticated }) => {
     window.localStorage.setItem(`token`, user.data.token);
     setAuthenticated(true);
     navigate("/home");
-    sendEmail();
   };
   return (
     <div className="registerForm">
@@ -128,6 +138,9 @@ const Register = ({ setAuthenticated }) => {
             Register
           </Button>
         </form>
+        <Button onClick={test()} variant="contained">
+          Test
+        </Button>
       </Paper>
     </div>
   );

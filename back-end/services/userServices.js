@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
 
 const getUser = async (req, res) => {
   try {
@@ -77,6 +78,28 @@ const register = async (req, res) => {
       }
     );
     user.token = token;
+    const transporter = nodemailer.createTransport({
+      service: "hotmail",
+      port: 587,
+      secure: false, // upgrade later with STARTTLS
+      auth: {
+        user: "flights1000@outlook.com",
+        pass: "Sangooga",
+      },
+    });
+    const options = {
+      from: "flights1000@outlook.com",
+      to: email,
+      subject: "You have successfully made an account!",
+      text: "Thank you for registering!",
+    };
+    transporter.sendMail(options, (err, info) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log(info);
+    });
+
     res.status(201).json({ token, ...user });
   } catch (err) {
     res.status(400).send("Could not register");
