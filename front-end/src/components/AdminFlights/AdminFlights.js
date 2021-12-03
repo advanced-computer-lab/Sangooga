@@ -4,7 +4,7 @@ import Flight from "../Flights/Flight";
 import Search from "../Search/Search";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
-import "./Home.css";
+import "./AdminFlights.css";
 
 const AdminFlights = () => {
   const [flights, setFlights] = useState([]);
@@ -34,7 +34,7 @@ const AdminFlights = () => {
         />
         <Link to="/createFlight">
           <Button variant="contained" className="newFlightButton">
-            Search Flights
+            Create New Flight
           </Button>
         </Link>
       </div>

@@ -11,7 +11,7 @@ const FlightCard = ({ flights, setOriginalFlights }) => {
     <div>
       <Grid container spacing={2}>
         {flights.map((flight) => (
-          <Grid key={flight._id} item xs={3}>
+          <Grid key={flight._id} item xs={12}>
             <Card>
               <CardContent>
                 <Typography variant="h5">

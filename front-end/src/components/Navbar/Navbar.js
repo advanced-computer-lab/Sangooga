@@ -13,14 +13,25 @@ const Navbar = ({ authenticated, setAuthenticated }) => {
     setAuthenticated(false);
   };
   return (
-    <Box className="navbar" sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar
+        position="static"
+        className="navbar"
+        style={{ background: "white" }}
+      >
         <Toolbar>
-          <FlightIcon />
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <FlightIcon sx={{ color: "black" }} />
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, color: "black" }}
+          >
             Flights
           </Typography>
-          <Link to="/home">
+          <Link to="/adminflights">
+            <Button color="inherit">Admin Flights</Button>
+          </Link>
+          <Link to="/">
             <Button color="inherit">Flights</Button>
           </Link>
           {authenticated ? (
@@ -30,7 +41,7 @@ const Navbar = ({ authenticated, setAuthenticated }) => {
               </Button>
             </Link>
           ) : (
-            <Link to="/">
+            <Link to="/login">
               <Button color="inherit">Login</Button>
             </Link>
           )}
