@@ -40,7 +40,7 @@ const login = async (req, res) => {
       res.status(200).json({ token, ...user });
     }
   } catch (err) {
-    res.status(400).send("Please enter correct credentials");
+    res.status(400).send(`${err}`);
   }
 };
 
