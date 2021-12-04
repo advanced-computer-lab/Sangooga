@@ -65,6 +65,7 @@ const Search = ({ setFlights, originalFlights }) => {
     <div className="searchBar">
       <SearchIcon fontSize="large" />
       <TextField
+        sx={{ background: "white", borderRadius: 1 }}
         id="flight-number-input"
         label="Flight Number"
         variant="outlined"
@@ -79,8 +80,9 @@ const Search = ({ setFlights, originalFlights }) => {
         }}
       />
       <TextField
+        sx={{ background: "white", borderRadius: 1 }}
         id="departure-input"
-        label="Departure"
+        label="Leaving from"
         variant="outlined"
         value={departureAirport}
         onChange={(e) => setDepartureAirport(e.target.value)}
@@ -93,8 +95,9 @@ const Search = ({ setFlights, originalFlights }) => {
         }}
       />
       <TextField
+        sx={{ background: "white", borderRadius: 1 }}
         id="airport-input"
-        label="Arrival"
+        label="Going to"
         variant="outlined"
         value={arrivalAirport}
         onChange={(e) => setArrivalAirport(e.target.value)}
@@ -106,45 +109,29 @@ const Search = ({ setFlights, originalFlights }) => {
           ),
         }}
       />
-      <LocalizationProvider dateAdapter={DateAdapter}>
+      <LocalizationProvider
+        dateAdapter={DateAdapter}
+        sx={{ background: "white", borderRadius: 1 }}
+      >
         <div className="date-range">
-          <span className="date-label">Departure Date</span>
           <DateTimePicker
-            label="From"
+            sx={{ background: "white", borderRadius: 1 }}
+            label="Departing"
             value={departureFromDate}
             onChange={(e) => {
               setDepartureFromDate(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
             }}
             renderInput={(params) => <TextField {...params} />}
-          ></DateTimePicker>
+          />
           <DateTimePicker
-            label="To"
-            value={departureToDate}
-            onChange={(e) => {
-              setDepartureToDate(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
-            }}
-            renderInput={(params) => <TextField {...params} />}
-          ></DateTimePicker>
-        </div>
-
-        <div className="date-range">
-          <span className="date-label">Arrival Date</span>
-          <DateTimePicker
-            label="From"
+            sx={{ background: "white", borderRadius: 1 }}
+            label="Returning"
             value={arrivalFromDate}
             onChange={(e) => {
               setArrivalFromDate(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
             }}
             renderInput={(params) => <TextField {...params} />}
-          ></DateTimePicker>
-          <DateTimePicker
-            label="To"
-            value={arrivalToDate}
-            onChange={(e) => {
-              setArrivalToDate(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
-            }}
-            renderInput={(params) => <TextField {...params} />}
-          ></DateTimePicker>
+          />
         </div>
       </LocalizationProvider>
     </div>

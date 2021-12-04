@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const auth = (req, res, next) => {
+  console.log("lol");
   const token =
     req.body.token || req.query.token || req.header("Authorization");
   if (!token) {
