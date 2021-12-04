@@ -91,44 +91,46 @@ const Search = ({ setFlights, originalFlights, isAdmin }) => {
 
   return (
     <div className="container">
-      <div className="dropDownsContainer">
-        <div className="dropdown">
-          <InputLabel id="numberSelector">Seats</InputLabel>
-          <Select
-            labelId="numberSelector"
-            id="seatsNo"
-            value={numberOfSeats}
-            label="Age"
-            onChange={(e) => {
-              setnumberOfSeats(e.target.value);
-            }}
-          >
-            <MenuItem value={1}>1</MenuItem>
-            <MenuItem value={2}>2</MenuItem>
-            <MenuItem value={3}>3</MenuItem>
-            <MenuItem value={3}>4</MenuItem>
-            <MenuItem value={3}>5</MenuItem>
-            <MenuItem value={3}>6</MenuItem>
-          </Select>
-        </div>
+      {!isAdmin && (
+        <div className="dropDownsContainer">
+          <div className="dropdown">
+            <InputLabel id="numberSelector">Seats</InputLabel>
+            <Select
+              labelId="numberSelector"
+              id="seatsNo"
+              value={numberOfSeats}
+              label="Age"
+              onChange={(e) => {
+                setnumberOfSeats(e.target.value);
+              }}
+            >
+              <MenuItem value={1}>1</MenuItem>
+              <MenuItem value={2}>2</MenuItem>
+              <MenuItem value={3}>3</MenuItem>
+              <MenuItem value={3}>4</MenuItem>
+              <MenuItem value={3}>5</MenuItem>
+              <MenuItem value={3}>6</MenuItem>
+            </Select>
+          </div>
 
-        <div className="dropdown">
-          <InputLabel id="classSelector">Class</InputLabel>
-          <Select
-            labelId="classSelector"
-            id="class"
-            value={selectedClass}
-            label="Age"
-            onChange={(e) => {
-              setSelectedClass(e.target.value);
-            }}
-          >
-            <MenuItem value={"economy"}>economy</MenuItem>
-            <MenuItem value={"Business "}>Business</MenuItem>
-            <MenuItem value={"First Class"}>First Class</MenuItem>
-          </Select>
+          <div className="dropdown">
+            <InputLabel id="classSelector">Class</InputLabel>
+            <Select
+              labelId="classSelector"
+              id="class"
+              value={selectedClass}
+              label="Age"
+              onChange={(e) => {
+                setSelectedClass(e.target.value);
+              }}
+            >
+              <MenuItem value={"economy"}>economy</MenuItem>
+              <MenuItem value={"Business "}>Business</MenuItem>
+              <MenuItem value={"First Class"}>First Class</MenuItem>
+            </Select>
+          </div>
         </div>
-      </div>
+      )}
       <div className="searchBar">
         <SearchIcon fontSize="large" />
         {isAdmin && (
