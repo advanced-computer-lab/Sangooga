@@ -11,7 +11,8 @@
 
 .date-range {
   display: grid;
-  place-items: center;
+  grid-auto-flow: column;
+  column-gap: 0.5rem;
   background-color: white;
 }
 

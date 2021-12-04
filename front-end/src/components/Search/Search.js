@@ -115,7 +115,6 @@ const Search = ({ setFlights, originalFlights }) => {
       >
         <div className="date-range">
           <DateTimePicker
-            sx={{ background: "white", borderRadius: 1 }}
             label="Departing"
             value={departureFromDate}
             onChange={(e) => {
@@ -124,7 +123,6 @@ const Search = ({ setFlights, originalFlights }) => {
             renderInput={(params) => <TextField {...params} />}
           />
           <DateTimePicker
-            sx={{ background: "white", borderRadius: 1 }}
             label="Returning"
             value={arrivalFromDate}
             onChange={(e) => {

@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Home from "./components/Home/Home";
 import axios from "axios";
 import "./App.css";
+import Card from "./components/Card/Card";
 
 const PrivateRoute = ({ authenticated }) => {
   return authenticated ? <Outlet /> : <Navigate to="/login" />;
@@ -49,6 +50,21 @@ const App = () => {
             element={<PrivateRoute authenticated={authenticated} />}
           >
             <Route path="/createFlight" element={<CreateFlight />} />
+          </Route>
+          <Route
+            path="/card"
+            element={
+              <Card
+                depTime="07:20"
+                duration="1h"
+                arrTime="08:20"
+                depAirport="CAI"
+                arrAirport="SSH"
+                airportImage="https://www.ch-aviation.com/images/stockPhotos/7914/667a51621aabde7549b0bb24d9aac6330eb2de9e.jpg"
+              />
+            }
+          >
+            {" "}
           </Route>
         </Routes>
       </div>
