@@ -31,6 +31,7 @@ const AdminFlights = () => {
           className="searchFilters"
           setFlights={setFlights}
           originalFlights={originalFlights}
+          isAdmin={true}
         />
         <Link to="/createFlight">
           <Button variant="contained" className="newFlightButton">

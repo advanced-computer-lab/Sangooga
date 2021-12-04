@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Flight from "../Flights/Flight";
 import Search from "../Search/Search";
-import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
 import "./Home.css";
 
 const AdminFlights = () => {
@@ -31,14 +29,9 @@ const AdminFlights = () => {
           className="searchFilters"
           setFlights={setFlights}
           originalFlights={originalFlights}
-        />
-        <Link to="/createFlight">
-          <Button variant="contained" className="newFlightButton">
-            Search Flights
-          </Button>
-        </Link>
-      </div>
-      <Flight flights={flights} setOriginalFlights={setOriginalFlights} />
+        />{" "}
+      </div>{" "}
+      <Flight flights={flights} setOriginalFlights={setOriginalFlights} />{" "}
     </div>
   );
 };
