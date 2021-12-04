@@ -26,6 +26,51 @@ const CreateFlight = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
+  const economySeatsArray = [
+    {
+      seatNumber: 1,
+      available: true,
+    },
+    {
+      seatNumber: 2,
+      available: false,
+    },
+    {
+      seatNumber: 3,
+      available: true,
+    },
+  ];
+
+  const businessSeatsArray = [
+    {
+      seatNumber: 1,
+      available: true,
+    },
+    {
+      seatNumber: 2,
+      available: false,
+    },
+    {
+      seatNumber: 3,
+      available: true,
+    },
+  ];
+
+  const firstClassSeatsArray = [
+    {
+      seatNumber: 1,
+      available: true,
+    },
+    {
+      seatNumber: 2,
+      available: false,
+    },
+    {
+      seatNumber: 3,
+      available: true,
+    },
+  ];
+
   // const validateFlight = () => {
   //   if (
   //     /[^a-zA-Z]/.test(departureAirport) ||
@@ -105,6 +150,9 @@ const CreateFlight = () => {
         businessPrice: businessPrice,
         firstClassSeats: firstClassSeats,
         firstClassPrice: firstClassPrice,
+        economySeatsArray: economySeatsArray,
+        businessSeatsArray: businessSeatsArray,
+        firstClassSeatsArray: firstClassSeatsArray,
       };
       await axios.post("http://localhost:5000/flight", newFlight, {
         headers: {
