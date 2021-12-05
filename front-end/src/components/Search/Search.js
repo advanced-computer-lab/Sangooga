@@ -88,8 +88,9 @@ const Search = ({ setFlights, originalFlights, isAdmin }) => {
           (seat) => seat.seatClass === selectedClass && !seat.seatStatus
         ).length >= numberOfSeats
     );
-
-    setFlights([departureFlights, arrivalFlights]);
+    isAdmin
+      ? setFlights([...departureFlights, ...arrivalFlights])
+      : setFlights([departureFlights, arrivalFlights]);
   };
 
   return (
