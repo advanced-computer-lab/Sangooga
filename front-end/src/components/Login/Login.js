@@ -4,9 +4,8 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./Login.css";
-
-const Login = ({ setAuthenticated, setTokenData }) => {
-  const [userName, setUserName] = useState("");
+const Login = ({ setAuthenticated }) => {
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setError] = useState(false);
   const navigate = useNavigate();
@@ -16,15 +15,13 @@ const Login = ({ setAuthenticated, setTokenData }) => {
     setPassword("");
     try {
       const user = await axios.post(`http://localhost:5000/user/login`, {
-        username: userName,
+        username: username,
         password: password,
       });
-      //console.log(user);
-      window.localStorage.setItem("token", user.data.token);
-      window.localStorage.setItem("userID", user.data._doc._id);
+      window.localStorage.setItem(`token`, user.data.token);
+      window.localStorage.setItem("userId", user.data._doc._id);
       setAuthenticated(true);
-      // setTokenData(user.data._doc);
-      navigate("/home");
+      navigate("/");
     } catch (err) {
       setError(true);
     }
@@ -38,15 +35,15 @@ const Login = ({ setAuthenticated, setTokenData }) => {
             error
             label="Username"
             type="text"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         ) : (
           <TextField
             label="Username"
             type="text"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         )}
         <br /> <br />

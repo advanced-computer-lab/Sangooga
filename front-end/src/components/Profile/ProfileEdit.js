@@ -15,7 +15,7 @@ import Profile from "./Profile";
 
 const ProfileEdit = () => {
   const navigate = useNavigate();
-  const userId = window.localStorage.getItem("userID");
+  const userId = window.localStorage.getItem("userId");
 
   const [userData, setUserData] = useState([]);
 

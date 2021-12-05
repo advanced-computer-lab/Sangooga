@@ -1,5 +1,49 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const seatSchema = new Schema({
+  seatNumber: {
+    type: Number,
+  },
+  seatClass: {
+    type: String,
+    enum: [("business", "first class", "economy")],
+  },
+  seatPrice: {
+    type: Number,
+  },
+  seatStatus: {
+    type: Boolean,
+    default: true,
+  },
+});
+
+const reservationSchema = new Schema(
+  {
+    reservationNumber: {
+      type: Number,
+      required: true,
+      unique: true,
+    },
+    seats: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Seat",
+      },
+    ],
+    price: {
+      type: Number,
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    flight: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Flight",
+    },
+  },
+  { timestamps: true }
+);
 
 const flightSchema = new Schema(
   {
@@ -14,7 +58,14 @@ const flightSchema = new Schema(
     },
     departureDateTime: {
       type: Date,
-      required: true,
+      default: () => {
+        let d = new Date();
+        let year = d.getFullYear();
+        let month = d.getMonth();
+        let day = d.getDate();
+        let result = new Date(year + 1, month, day);
+        return result;
+      },
     },
     arrivalAirport: {
       type: String,
@@ -22,35 +73,34 @@ const flightSchema = new Schema(
     },
     arrivalDateTime: {
       type: Date,
-      required: true,
+      default: () => {
+        let d = new Date();
+        let year = d.getFullYear();
+        let month = d.getMonth();
+        let day = d.getDate();
+        let result = new Date(year, month, day);
+        console.log(result);
+        return result;
+      },
     },
-    economySeats: {
+    baggageallowance: {
       type: Number,
-      required: true,
     },
-    economyPrice: {
-      type: Number,
-      required: true,
-    },
-    businessSeats: {
-      type: Number,
-      required: true,
-    },
-    businessPrice: {
-      type: Number,
-      required: true,
-    },
-    firstClassSeats: {
-      type: Number,
-      required: true,
-    },
-    firstClassPrice: {
-      type: Number,
-      required: true,
-    },
+    seats: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Seat",
+      },
+    ],
   },
   { timestamps: true }
 );
-
+const Seat = mongoose.model("Seat", seatSchema);
+const Reservation = mongoose.model("Reservation", reservationSchema);
 const Flight = mongoose.model("Flight", flightSchema);
-module.exports = Flight;
+
+module.exports = {
+  Flight,
+  Reservation,
+  Seat,
+};
