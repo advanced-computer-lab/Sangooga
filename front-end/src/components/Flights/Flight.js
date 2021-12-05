@@ -1,70 +1,64 @@
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import DeletePopup from "../Popups/DeletePopUp.js";
-import EditPopUp from "../Popups/EditPopUp.js";
+import Card from "../Card/Card.js";
+import { useNavigate } from "react-router-dom";
+import Button from "@mui/material/Button";
 
-const FlightCard = ({ flights, setOriginalFlights }) => {
+const Flight = ({
+  flights,
+  setChoosenFlights,
+  setReturnFlights,
+  choosenFlights,
+  returnFlights,
+  isAdmin,
+  setOriginalFlights,
+}) => {
+  const navigate = useNavigate();
+
+  const returnFlight = (flight) => {
+    if (!returnFlights) {
+      setChoosenFlights([...choosenFlights, flight]);
+      setReturnFlights(true);
+    } else {
+      setChoosenFlights([...choosenFlights, flight]);
+      navigate("/seats");
+    }
+  };
   return (
     <div>
-      <Grid container spacing={2}>
-        {flights.map((flight) => (
-          <Grid key={flight._id} item xs={12}>
-            <Card>
-              <CardContent>
-                <Typography variant="h5">
-                  Flight Number: {flight.flightNumber}
-                </Typography>
-                <Typography variant="h6">
-                  Departure Airport: {flight.departureAirport}
-                </Typography>
-                <Typography variant="h6">
-                  Departure Time: {flight.departureDateTime}
-                </Typography>
-                <Typography variant="h6">
-                  Arriavl Airport: {flight.arrivalAirport}
-                </Typography>
-                <Typography variant="h6">
-                  Arrival Date Time: {flight.arrivalDateTime}
-                </Typography>
-                <Typography sx={{ mb: 1.5 }}>
-                  Economy Seats: {flight.economySeats}
-                </Typography>
-                <Typography sx={{ mb: 1.5 }}>
-                  Economy Price: {flight.economyPrice}
-                </Typography>
-                <Typography sx={{ mb: 1.5 }}>
-                  Business Seats: {flight.businessSeats}
-                </Typography>
-                <Typography sx={{ mb: 1.5 }}>
-                  Business Price: {flight.businessPrice}
-                </Typography>
-                <Typography sx={{ mb: 1.5 }}>
-                  First Class Seats:: {flight.firstClassSeats}
-                </Typography>
-                <Typography sx={{ mb: 1.5 }}>
-                  First Class Price: {flight.firstClassPrice}
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <EditPopUp
-                  flight={flight}
-                  setOriginalFlights={setOriginalFlights}
-                  popupText=" Are you sure you want to Update the flight?"
-                />
-                <DeletePopup
-                  flight={flight}
-                  setOriginalFlights={setOriginalFlights}
-                  popupText=" Are you sure you want to delete the flight?"
-                />
-              </CardActions>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+      {returnFlights === true && !isAdmin && (
+        <div>Available return flights:</div>
+      )}
+      {!returnFlights && !isAdmin && <div>Departure Flights:</div>}
+      <Grid
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Grid item xs={12}>
+          {" "}
+          {flights.map((flight) => (
+            <Button
+              onClick={() => {
+                if (!isAdmin) returnFlight(flight);
+              }}
+            >
+              <Card
+                key={flight.id}
+                depTime={flight.departureDateTime.substring(11, 16)}
+                arrTime={flight.arrivalDateTime.substring(11, 16)}
+                duration={flight.duration}
+                depAirport={flight.departureAirport}
+                arrAirport={flight.arrivalAirport}
+                setOriginalFlights={setOriginalFlights}
+                isAdmin={isAdmin}
+                flight={flight}
+              />{" "}
+            </Button>
+          ))}{" "}
+        </Grid>{" "}
+      </Grid>{" "}
     </div>
   );
 };
-export default FlightCard;
+export default Flight;

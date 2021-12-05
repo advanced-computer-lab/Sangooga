@@ -19,7 +19,6 @@ const AdminFlights = () => {
     setFlights(result.data);
     setOriginalFlights(result.data);
   };
-
   useEffect(() => {
     fetchFlights();
   }, []);
@@ -31,6 +30,7 @@ const AdminFlights = () => {
           className="searchFilters"
           setFlights={setFlights}
           originalFlights={originalFlights}
+          isAdmin={true}
         />
         <Link to="/createFlight">
           <Button variant="contained" className="newFlightButton">
@@ -38,7 +38,11 @@ const AdminFlights = () => {
           </Button>
         </Link>
       </div>
-      <Flight flights={flights} setOriginalFlights={setOriginalFlights} />
+      <Flight
+        flights={flights}
+        setOriginalFlights={setOriginalFlights}
+        isAdmin={true}
+      />
     </div>
   );
 };

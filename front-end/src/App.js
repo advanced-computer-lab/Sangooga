@@ -12,33 +12,45 @@ import Register from "./components/Register/Register";
 import ProfileEdit from "./components/Profile/ProfileEdit";
 import MyReservations from "./components/MyReservations/MyReservations";
 import "./App.css";
+import Flight from "./components/Flights/Flight";
+import Footer from "./components/Footer/Footer";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
+import axios from "axios";
 
-const PrivateRoute = ({ authenticated }) => {
-  return authenticated ? <Outlet /> : <Navigate to="/login" />;
+const PrivateRoute = ({ authenticated, loading }) => {
+  return authenticated ? (
+    <Outlet />
+  ) : loading ? (
+    <CircularProgress />
+  ) : (
+    <Navigate to="/login" />
+  );
 };
 
 const App = () => {
-  const [authenticated, setAuthenticated] = useState(true);
-
-  // useEffect(async () => {
-  //   const checkAuth = await axios.get("http://localhost:5000/checkAuth", {
-  //     headers: {
-  //       Authorization: window.localStorage.getItem("token"),
-  //     },
-  //   });
-  //   console.log(checkAuth);
-  //   setAuthenticated(checkAuth);
-  // }, []);
-
+  const [authenticated, setAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+  useEffect(async () => {
+    const checkAuth = await axios.get("http://localhost:5000/verifyToken", {
+      headers: {
+        Authorization: window.localStorage.getItem("token"),
+      },
+    });
+    setAuthenticated(checkAuth);
+    setLoading(false);
+  }, []);
+  console.log(loading);
   return (
     <>
       <Navbar
         authenticated={authenticated}
         setAuthenticated={setAuthenticated}
       />
-      <div className="website">
+      <div className="content">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/flight" element={<Flight />} />
           <Route
             path="/login"
             element={<Login setAuthenticated={setAuthenticated} />}
@@ -46,7 +58,9 @@ const App = () => {
 
           <Route
             path="/adminFlights"
-            element={<PrivateRoute authenticated={authenticated} />}
+            element={
+              <PrivateRoute loading={loading} authenticated={authenticated} />
+            }
           >
             <Route path="/adminFlights" element={<AdminFlights />} />
           </Route>
@@ -100,6 +114,7 @@ const App = () => {
           />
         </Routes>
       </div>
+      <Footer />
     </>
   );
 };
