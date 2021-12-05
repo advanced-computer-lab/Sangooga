@@ -1,158 +1,159 @@
 import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import jwt from "jsonwebtoken";
 import jwt_decode from "jwt-decode";
-import Typography from "@mui/material/Typography";
 
 const ViewAirPlaneSeatsForReturnFlights = () => {
   const [economySeats, setEconomySeats] = useState([]);
   const [businessSeats, setBusinessSeats] = useState([]);
   const [firstClassSeats, setFirstClassSeats] = useState([]);
 
+  const [cabin, setCabin] = useState("EconomySeat");
+  const [flightID, setFlightID] = useState("61ac9b67afaf637f9f127e21");
+  const [numberOfSeatsReserved, setNumberOfSeatsReserved] = useState(3);
+  const [chosenSeatsIDs, setChosenSeatsIDs] = useState([]);
+
   useEffect(() => {
     getSeats();
   }, []);
 
   const getSeats = async () => {
-    const id = "61aa1a977157deb8f2949cd0";
-
     await axios
-      .get(`http://localhost:5000/getSeats/${id}`, {
+      .get(`http://localhost:5000/flight/${flightID}`, {
         headers: {
           Authorization: window.localStorage.getItem("token"),
         },
       })
       .then((result) => {
-        console.log("result is:", result);
+        console.log("result is:", result.data);
+        const AllSeats = result.data.seats;
+        console.log("AllSeats:", AllSeats);
+
+        setEconomySeats(
+          AllSeats.filter((economySeat) => economySeat.seatClass === "economy")
+        );
+        console.log("economy seats:", economySeats);
+
+        setBusinessSeats(
+          AllSeats.filter(
+            (businessSeat) => businessSeat.seatClass === "business"
+          )
+        );
+        console.log("business seats:", businessSeats);
+
+        setFirstClassSeats(
+          AllSeats.filter(
+            (firstClassSeat) => firstClassSeat.seatClass === "first class"
+          )
+        );
+        console.log("First Class Seat:", firstClassSeats);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  // const onChooseEconomySeat = async (id) => {
-  //   const User = window.localStorage.getItem("token");
-  //   console.log("User is:", User.username);
-  //   console.log(jwt_decode(User));
-  //   const DecodedToken = jwt_decode(User);
-  //   const UserId = DecodedToken.user_id;
-  //   console.log("UserID :", UserId);
+  const onPickSeat = (id) => {
+    if (numberOfSeatsReserved > 0) {
+      setChosenSeatsIDs([...chosenSeatsIDs, id]);
+      console.log("chosenSeatsIDs:", chosenSeatsIDs);
+      setNumberOfSeatsReserved(numberOfSeatsReserved - 1);
+      console.log("Number of seats left to reserve:", numberOfSeatsReserved);
+    }
+  };
 
-  //   console.log("Chosen Seat ID is:", id);
+  const onChooseSeat = async () => {
+    const User = window.localStorage.getItem("token");
+    const DecodedToken = jwt_decode(User);
+    const UserId = DecodedToken.user_id;
 
-  //   const newData = {
-  //     id: id,
-  //     userID: UserId,
-  //   };
-  //   const result = await axios.put(
-  //     "http://localhost:5000/chooseEconomySeat",
-  //     newData
-  //     //{
-  //     //headers: {
-  //     //Authorization: window.localStorage.getItem("token"),
-  //     //},
-  //     //}
-  //   );
-  //   console.log("Result:", result.data);
-  // };
-
-  // const onChooseBusinessSeat = async (id) => {
-  //   const User = window.localStorage.getItem("token");
-  //   console.log("User is:", User.username);
-  //   console.log(jwt_decode(User));
-  //   const DecodedToken = jwt_decode(User);
-  //   const UserId = DecodedToken.user_id;
-  //   console.log("UserID :", UserId);
-
-  //   console.log("Chosen Seat ID is:", id);
-  //   const newData = {
-  //     id: id,
-  //     userID: UserId,
-  //   };
-  //   const result = await axios.put(
-  //     "http://localhost:5000/chooseBusinessSeat",
-  //     newData,
-  //     {
-  //       headers: {
-  //         Authorization: window.localStorage.getItem("token"),
-  //       },
-  //     }
-  //   );
-  //   console.log("Result:", result.data);
-  // };
-
-  // const onChooseFirstClassSeat = async (id) => {
-  //   const User = window.localStorage.getItem("token");
-  //   console.log("User is:", User.username);
-  //   console.log(jwt_decode(User));
-  //   const DecodedToken = jwt_decode(User);
-  //   const UserId = DecodedToken.user_id;
-  //   console.log("UserID :", UserId);
-
-  //   console.log("Chosen Seat ID is:", id);
-  //   const newData = {
-  //     id: id,
-  //     userID: UserId,
-  //   };
-  //   const result = await axios.put(
-  //     "http://localhost:5000/chooseFirstClassSeat",
-  //     newData,
-  //     {
-  //       headers: {
-  //         Authorization: window.localStorage.getItem("token"),
-  //       },
-  //     }
-  //   );
-  //   console.log("Result:", result.data);
-  // };
-
-  // console.log("economySeats is ouside the getSeats:", economySeats);
+    const newData = {
+      seatIDs: chosenSeatsIDs,
+      userID: UserId,
+    };
+    const result = await axios.put(
+      "http://localhost:5000/chooseSeat",
+      newData,
+      {
+        headers: {
+          Authorization: window.localStorage.getItem("token"),
+        },
+      }
+    );
+    console.log("Result:", result.data);
+  };
 
   return (
     <div>
-      {/* <div>
-        {economySeats.map((economySeat) => {
-          return (
-            <button
-              key={economySeat._id}
-              onClick={() => {
-                onChooseEconomySeat(economySeat._id);
-              }}
-            >
-              Hi{economySeat.seatNumber}
-            </button>
-          );
-        })}
-      </div>
-      <div>
-        {businessSeats.map((businessSeat) => {
-          return (
-            <button
-              key={businessSeat._id}
-              onClick={() => {
-                onChooseBusinessSeat(businessSeat._id);
-              }}
-            >
-              Hi{businessSeat.seatNumber}
-            </button>
-          );
-        })}
-      </div>
-      <div>
-        {firstClassSeats.map((firstClassSeat) => {
-          return (
-            <button
-              key={firstClassSeat._id}
-              onClick={() => {
-                onChooseFirstClassSeat(firstClassSeat._id);
-              }}
-            >
-              Hi{firstClassSeat.seatNumber}
-            </button>
-          );
-        })}
-      </div> */}
+      <button onClick={() => onChooseSeat()}>Confirm Reservations</button>
+      {cabin == "EconomySeat" && (
+        <div>
+          {economySeats.map((economySeat) => {
+            return (
+              <div>
+                {economySeat.seatStatus ? (
+                  <button
+                    key={economySeat._id}
+                    onClick={() => {
+                      onPickSeat(economySeat._id);
+                    }}
+                  >
+                    EconomySeat {economySeat.seatNumber}
+                  </button>
+                ) : (
+                  <button>Economy seat Taken</button>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {cabin == "BusinessSeat" && (
+        <div>
+          {businessSeats.map((businessSeat) => {
+            return (
+              <div>
+                {businessSeat.seatStatus ? (
+                  <button
+                    key={businessSeat._id}
+                    onClick={() => {
+                      onPickSeat(businessSeat._id);
+                    }}
+                  >
+                    BusinessSeat {businessSeat.seatNumber}
+                  </button>
+                ) : (
+                  <button>Business seat Taken</button>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {cabin == "FirstClassSeat" && (
+        <div>
+          {firstClassSeats.map((firstClassSeat) => {
+            return (
+              <div>
+                {firstClassSeat.seatStatus ? (
+                  <button
+                    key={firstClassSeat._id}
+                    onClick={() => {
+                      onPickSeat(firstClassSeat._id);
+                    }}
+                  >
+                    FirstClass {firstClassSeat.seatNumber}
+                  </button>
+                ) : (
+                  <button>First Class Taken</button>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };

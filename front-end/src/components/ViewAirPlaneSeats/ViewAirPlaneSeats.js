@@ -1,9 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import jwt from "jsonwebtoken";
 import jwt_decode from "jwt-decode";
-import Typography from "@mui/material/Typography";
 
 const ViewAirPlaneSeats = () => {
   const [economySeats, setEconomySeats] = useState([]);
