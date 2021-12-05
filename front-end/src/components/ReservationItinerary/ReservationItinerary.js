@@ -8,30 +8,33 @@ import {
   Stack,
   Divider,
 } from "@mui/material";
-import axios from "axios";
+import Button from "@mui/material/Button";
 
-const ReserationItinerary = ({
-  departureFlight,
-  dePartureSeats,
-  ReturnFlight,
-  ReturnSeats,
-}) => {
+import axios from "axios";
+import { useLocation } from "react-router-dom";
+const ReservationItinerary = ({}) => {
   const [departurePrice, setDeparturePrice] = useState(0);
   const [returnPrice, setReturnPrice] = useState(0);
   const [departureCabin, setDepartureCabin] = useState(0);
   const [returnCabin, setReturnCabin] = useState(0);
+  const location = useLocation();
+  console.log(location.state);
+  const departureFlight = location.state.fullData[1];
+  const departureSeats = location.state.fullData[0];
+  const returnFlight = location.state.fullData[2];
+  const returnSeats = location.state.chosenSeatsIDs;
 
   const book = async () => {
     const currentUserId = window.localStorage.getItem("userId");
     const departureFlightId = departureFlight._id;
-    const returnFlightId = returnFlight_.id;
-    const departureSeatIds = [];
+    const returnFlightId = returnFlight._id;
+    const departureSeatsId = [];
     departureSeats.map((map) => {
       departureSeatsId.push(map._id);
     });
     const returnSeatIds = [];
     returnSeats.map((map) => {
-      returnSeatsId.push(map._id);
+      returnSeatIds.push(map._id);
     });
     const departureReservation = await axios.post(
       "http://localhost:5000/reservation/",
@@ -51,7 +54,7 @@ const ReserationItinerary = ({
         headers: { Authorization: window.localStorage.getItem("token") },
         body: {
           reservationNumber: 46581,
-          seats: returnSeatsId,
+          seats: returnSeatIds,
           user: currentUserId,
           flight: returnFlightId,
         },
@@ -59,7 +62,7 @@ const ReserationItinerary = ({
     );
   };
   const calculatePrices = () => {
-    dePartureSeats.map((seat) => {
+    departureSeats.map((seat) => {
       setDeparturePrice(departurePrice + seat.seatPrice);
     });
     returnSeats.map((seat) => {
@@ -112,13 +115,11 @@ const ReserationItinerary = ({
           </Stack>
         </CardContent>
         <CardActions>
-          <Button color="Success" onClick={book()}>
-            Confirm Booking
-          </Button>
+          <Button onClick={book}>Confirm Booking</Button>
         </CardActions>
       </Card>
     </div>
   );
 };
 
-export default ReserationItinerary;
+export default ReservationItinerary;

@@ -61,11 +61,7 @@ const Search = ({ setFlights, originalFlights, isAdmin }) => {
             .includes(departureAirport.toLowerCase())) &&
         (departureFromDate == null ||
           departureFromDate < flight.departureDateTime) &&
-        (arrivalFromDate == null ||
-          arrivalFromDate === flight.arrivalDateTime) &&
-        flight.seats.filter(
-          (seat) => seat.seatClass === selectedClass && !seat.seatStatus
-        ).length >= numberOfSeats
+        (arrivalFromDate == null || arrivalFromDate === flight.arrivalDateTime)
     );
     const arrivalFlights = originalFlights.filter(
       (flight) =>
@@ -83,10 +79,7 @@ const Search = ({ setFlights, originalFlights, isAdmin }) => {
             .includes(arrivalAirport.toLowerCase())) &&
         (departureFromDate == null ||
           departureFromDate < flight.departureDateTime) &&
-        (arrivalFromDate == null || arrivalFromDate < flight.arrivalDateTime) &&
-        flight.seats.filter(
-          (seat) => seat.seatClass === selectedClass && !seat.seatStatus
-        ).length >= numberOfSeats
+        (arrivalFromDate == null || arrivalFromDate < flight.arrivalDateTime)
     );
     isAdmin
       ? setFlights([...departureFlights, ...arrivalFlights])

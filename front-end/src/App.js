@@ -17,6 +17,7 @@ import Footer from "./components/Footer/Footer";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import axios from "axios";
+import ReservationItinerary from "./components/ReservationItinerary/ReservationItinerary";
 
 const PrivateRoute = ({ authenticated, loading }) => {
   return authenticated ? (
@@ -40,7 +41,6 @@ const App = () => {
     setAuthenticated(checkAuth);
     setLoading(false);
   }, []);
-  console.log(loading);
   return (
     <>
       <Navbar
@@ -102,6 +102,17 @@ const App = () => {
             }
           >
             <Route path="/myreservations" element={<MyReservations />} />
+          </Route>
+          <Route
+            path="/reservationItinerary"
+            element={
+              <PrivateRoute loading={loading} authenticated={authenticated} />
+            }
+          >
+            <Route
+              path="/reservationItinerary"
+              element={<ReservationItinerary />}
+            />
           </Route>
           <Route
             path="/profile"

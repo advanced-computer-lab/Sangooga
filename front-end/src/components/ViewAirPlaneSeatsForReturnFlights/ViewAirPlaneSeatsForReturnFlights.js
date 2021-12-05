@@ -14,23 +14,23 @@ const ViewAirPlaneSeatsForReturnFlights = () => {
   const [chosenSeatsIDs, setChosenSeatsIDs] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
-  const { flights } = location.state;
-  const chosenSeatsIDs1 = location.state.chosenSeatsIDs;
-  console.log(location);
+  const flights = location.state[1];
+  const chosenSeatsIDs1 = location.state[0];
+  const fullData = location.state;
 
   useEffect(() => {
     setEconomySeats(
-      flights.filter((economySeat) => economySeat.seatClass === "economy")
+      flights.seats.filter((economySeat) => economySeat.seatClass === "economy")
     );
-    console.log("economy seats:", economySeats);
 
     setBusinessSeats(
-      flights.filter((businessSeat) => businessSeat.seatClass === "business")
+      flights.seats.filter(
+        (businessSeat) => businessSeat.seatClass === "business"
+      )
     );
-    console.log("business seats:", businessSeats);
 
     setFirstClassSeats(
-      flights.filter(
+      flights.seats.filter(
         (firstClassSeat) => firstClassSeat.seatClass === "first class"
       )
     );
@@ -46,24 +46,20 @@ const ViewAirPlaneSeatsForReturnFlights = () => {
   };
 
   const onChooseSeat = async () => {
-    const newData = {
-      seatIDs: { chosenSeatsIDs1, chosenSeatsIDs },
-    };
     try {
-      const result = await axios.put(
-        "http://localhost:5000/chooseSeat",
-        newData,
-        {
-          headers: {
-            Authorization: window.localStorage.getItem("token"),
-          },
-        }
-      );
-      console.log(result);
+      const newData = {
+        seatIDs: { chosenSeatsIDs1, chosenSeatsIDs },
+      };
+
+      // await axios.put("http://localhost:5000/chooseSeat", newData);
+      console.log("here");
+
+      navigate("/reservationItinerary", {
+        state: { fullData, chosenSeatsIDs },
+      });
     } catch (err) {
       console.log(err);
     }
-    navigate("/reservation", { state: { flights } });
   };
 
   return (
