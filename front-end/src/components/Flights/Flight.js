@@ -47,7 +47,9 @@ const Flight = ({
                 duration={flight.duration}
                 depAirport={flight.departureAirport}
                 arrAirport={flight.arrivalAirport}
+                setOriginalFlights={setOriginalFlights}
                 isAdmin={isAdmin}
+                flight={flight}
               />{" "}
             </Button>
           ))}{" "}

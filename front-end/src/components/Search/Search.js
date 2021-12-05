@@ -110,9 +110,9 @@ const Search = ({ setFlights, originalFlights, isAdmin }) => {
             <MenuItem value={1}>1</MenuItem>
             <MenuItem value={2}>2</MenuItem>
             <MenuItem value={3}>3</MenuItem>
-            <MenuItem value={3}>4</MenuItem>
-            <MenuItem value={3}>5</MenuItem>
-            <MenuItem value={3}>6</MenuItem>
+            <MenuItem value={4}>4</MenuItem>
+            <MenuItem value={5}>5</MenuItem>
+            <MenuItem value={6}>6</MenuItem>
           </Select>
         </div>
 
@@ -128,7 +128,7 @@ const Search = ({ setFlights, originalFlights, isAdmin }) => {
             }}
           >
             <MenuItem value={"economy"}>Economy</MenuItem>
-            <MenuItem value={"business "}>Business</MenuItem>
+            <MenuItem value={"business"}>Business</MenuItem>
             <MenuItem value={"first class"}>First Class</MenuItem>
           </Select>
         </div>
