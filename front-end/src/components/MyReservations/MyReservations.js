@@ -23,6 +23,14 @@ const MyReservations = () => {
     setReservations(results.data);
   };
 
+  const getPrice = (reservation) => {
+    let price = 0;
+    reservation.seats.map((seat) => {
+      price += seat.seatPrice;
+    });
+    return "$" + price;
+  };
+
   //   const cancelReservation = async (reservation) => {
   //     const deletedReservation = await axios.delete(
   //       `http://localhost:5000/reservation/${reservation._id}`,
@@ -67,7 +75,9 @@ const MyReservations = () => {
                   ))}
                 </Stack>
               </Typography>
-              <Typography variant="h6">$100</Typography>
+              <Typography variant="h6">
+                Price: {getPrice(reservation)}
+              </Typography>
             </CardContent>
             <CardActions>
               {/* <Button
