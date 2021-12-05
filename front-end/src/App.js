@@ -5,6 +5,7 @@ import AdminFlights from "./components/AdminFlights/AdminFlights";
 import Login from "./components/Login/Login";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./components/Home/Home";
+import MyReservations from "./components/MyReservations/MyReservations";
 import axios from "axios";
 import "./App.css";
 
@@ -49,6 +50,12 @@ const App = () => {
             element={<PrivateRoute authenticated={authenticated} />}
           >
             <Route path="/createFlight" element={<CreateFlight />} />
+          </Route>
+          <Route
+            path="/myreservations"
+            element={<PrivateRoute authenticated={authenticated} />}
+          >
+            <Route path="/myreservations" element={<MyReservations />} />
           </Route>
         </Routes>
       </div>

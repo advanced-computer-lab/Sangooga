@@ -35,7 +35,14 @@ const Navbar = ({ authenticated, setAuthenticated }) => {
             <Button color="inherit">Flights</Button>
           </Link>
           {authenticated ? (
-            <Link to="/">
+            <Link to="/myreservations">
+              <Button color="inherit">My Reservations</Button>
+            </Link>
+          ) : (
+            <div />
+          )}
+          {authenticated ? ( //change link from "/login" to "/" once flights page is replaced with home page
+            <Link to="/login">
               <Button color="inherit" onClick={logout}>
                 Logout
               </Button>
