@@ -10,6 +10,7 @@ const Home = () => {
   const [originalFlights, setOriginalFlights] = useState([]);
   const [choosenFlights, setChoosenFlights] = useState([]);
   const [returnFlights, setReturnFlights] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const fetchFlights = async () => {
     const result = await axios.get("http://localhost:5000/flight", {

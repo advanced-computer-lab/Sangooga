@@ -2,14 +2,7 @@ import React from "react";
 import "./Card.css";
 import AirplanemodeActiveIcon from "@mui/icons-material/AirplanemodeActive";
 
-const Card = ({
-  depTime,
-  arrTime,
-  duration,
-  depAirport,
-  arrAirport,
-  airportImage,
-}) => {
+const Card = ({ depTime, arrTime, duration, depAirport, arrAirport }) => {
   return (
     <div className="card">
       <div className="info">

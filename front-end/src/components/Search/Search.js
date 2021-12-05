@@ -61,7 +61,11 @@ const Search = ({ setFlights, originalFlights, isAdmin }) => {
             .includes(departureAirport.toLowerCase())) &&
         (departureFromDate == null ||
           departureFromDate < flight.departureDateTime) &&
-        (arrivalFromDate == null || arrivalFromDate == flight.arrivalDateTime)
+        (arrivalFromDate == null ||
+          arrivalFromDate === flight.arrivalDateTime) &&
+        flight.seats.filter(
+          (seat) => seat.seatClass === selectedClass && !seat.seatStatus
+        ).length >= numberOfSeats
     );
     const arrivalFlights = originalFlights.filter(
       (flight) =>
@@ -79,8 +83,12 @@ const Search = ({ setFlights, originalFlights, isAdmin }) => {
             .includes(arrivalAirport.toLowerCase())) &&
         (departureFromDate == null ||
           departureFromDate < flight.departureDateTime) &&
-        (arrivalFromDate == null || arrivalFromDate < flight.arrivalDateTime)
+        (arrivalFromDate == null || arrivalFromDate < flight.arrivalDateTime) &&
+        flight.seats.filter(
+          (seat) => seat.seatClass === selectedClass && !seat.seatStatus
+        ).length >= numberOfSeats
     );
+
     setFlights([departureFlights, arrivalFlights]);
   };
 
@@ -187,6 +195,8 @@ const Search = ({ setFlights, originalFlights, isAdmin }) => {
               onChange={changeDepartureFromDate}
               renderInput={(params) => <TextField {...params} />}
             />
+          </div>
+          <div className="date-range">
             <DateTimePicker
               label="Returning"
               value={arrivalFromDate}
