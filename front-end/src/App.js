@@ -4,17 +4,20 @@ import CreateFlight from "./components/CreateFlight/CreateFlight";
 import AdminFlights from "./components/AdminFlights/AdminFlights";
 import Login from "./components/Login/Login";
 import Navbar from "./components/Navbar/Navbar";
+import ViewAirPlaneSeats from "./components/ViewAirPlaneSeats/ViewAirPlaneSeats";
+import ViewAirPlaneSeatsForReturnFlights from "./components/ViewAirPlaneSeatsForReturnFlights/ViewAirPlaneSeatsForReturnFlights";
+import Home from "./components/Home/Home";
 import Profile from "./components/Profile/Profile";
 import Register from "./components/Register/Register";
 import ProfileEdit from "./components/Profile/ProfileEdit";
-import axios from "axios";
-import Home from "./components/Home/Home";
 import MyReservations from "./components/MyReservations/MyReservations";
 import "./App.css";
 import Flight from "./components/Flights/Flight";
 import Footer from "./components/Footer/Footer";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
+import axios from "axios";
+import ReservationItinerary from "./components/ReservationItinerary/ReservationItinerary";
 
 const PrivateRoute = ({ authenticated, loading }) => {
   return authenticated ? (
@@ -38,7 +41,6 @@ const App = () => {
     setAuthenticated(checkAuth);
     setLoading(false);
   }, []);
-  console.log(loading);
   return (
     <>
       <Navbar
@@ -53,6 +55,7 @@ const App = () => {
             path="/login"
             element={<Login setAuthenticated={setAuthenticated} />}
           />
+
           <Route
             path="/adminFlights"
             element={
@@ -61,31 +64,72 @@ const App = () => {
           >
             <Route path="/adminFlights" element={<AdminFlights />} />
           </Route>
+
           <Route
             path="/createFlight"
-            element={<PrivateRoute authenticated={authenticated} />}
+            element={
+              <PrivateRoute loading={loading} authenticated={authenticated} />
+            }
           >
             <Route path="/createFlight" element={<CreateFlight />} />
           </Route>
+
+          <Route
+            path="/ViewAirPlaneSeats"
+            element={
+              <PrivateRoute loading={loading} authenticated={authenticated} />
+            }
+          >
+            <Route path="/ViewAirPlaneSeats" element={<ViewAirPlaneSeats />} />
+          </Route>
+
+          <Route
+            path="/ViewAirPlaneSeatsForReturnFlights"
+            element={
+              <PrivateRoute loading={loading} authenticated={authenticated} />
+            }
+          >
+            <Route
+              path="/ViewAirPlaneSeatsForReturnFlights"
+              element={<ViewAirPlaneSeatsForReturnFlights />}
+            />
+          </Route>
+
           <Route
             path="/myreservations"
-            element={<PrivateRoute authenticated={authenticated} />}
+            element={
+              <PrivateRoute loading={loading} authenticated={authenticated} />
+            }
           >
             <Route path="/myreservations" element={<MyReservations />} />
           </Route>
           <Route
+            path="/reservationItinerary"
+            element={
+              <PrivateRoute loading={loading} authenticated={authenticated} />
+            }
+          >
+            <Route
+              path="/reservationItinerary"
+              element={<ReservationItinerary />}
+            />
+          </Route>
+          <Route
             path="/profile"
-            element={<PrivateRoute authenticated={authenticated} />}
+            element={
+              <PrivateRoute loading={loading} authenticated={authenticated} />
+            }
           >
             <Route path="/profile" element={<Profile />} />
           </Route>
           <Route
             path="/profileEdit"
-            element={<PrivateRoute authenticated={authenticated} />}
+            element={
+              <PrivateRoute loading={loading} authenticated={authenticated} />
+            }
           >
             <Route path="/profileEdit" element={<ProfileEdit />} />
           </Route>
-
           <Route
             path="/register"
             element={<Register setAuthenticated={setAuthenticated} />}
