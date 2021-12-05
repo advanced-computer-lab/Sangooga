@@ -25,99 +25,93 @@ const ViewAirPlaneSeatsForReturnFlights = () => {
       })
       .then((result) => {
         console.log("result is:", result);
-
-        setEconomySeats(result.data.economySeatsArray);
-        setBusinessSeats(result.data.businessSeatsArray);
-        setFirstClassSeats(result.data.firstClassSeatsArray);
-
-        console.log("economySeats is in the getSeats:", economySeats);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  const onChooseEconomySeat = async (id) => {
-    const User = window.localStorage.getItem("token");
-    console.log("User is:", User.username);
-    console.log(jwt_decode(User));
-    const DecodedToken = jwt_decode(User);
-    const UserId = DecodedToken.user_id;
-    console.log("UserID :", UserId);
+  // const onChooseEconomySeat = async (id) => {
+  //   const User = window.localStorage.getItem("token");
+  //   console.log("User is:", User.username);
+  //   console.log(jwt_decode(User));
+  //   const DecodedToken = jwt_decode(User);
+  //   const UserId = DecodedToken.user_id;
+  //   console.log("UserID :", UserId);
 
-    console.log("Chosen Seat ID is:", id);
+  //   console.log("Chosen Seat ID is:", id);
 
-    const newData = {
-      id: id,
-      userID: UserId,
-    };
-    const result = await axios.put(
-      "http://localhost:5000/chooseEconomySeat",
-      newData,
-      {
-        headers: {
-          Authorization: window.localStorage.getItem("token"),
-        },
-      }
-    );
-    console.log("Result:", result.data);
-  };
+  //   const newData = {
+  //     id: id,
+  //     userID: UserId,
+  //   };
+  //   const result = await axios.put(
+  //     "http://localhost:5000/chooseEconomySeat",
+  //     newData
+  //     //{
+  //     //headers: {
+  //     //Authorization: window.localStorage.getItem("token"),
+  //     //},
+  //     //}
+  //   );
+  //   console.log("Result:", result.data);
+  // };
 
-  const onChooseBusinessSeat = async (id) => {
-    const User = window.localStorage.getItem("token");
-    console.log("User is:", User.username);
-    console.log(jwt_decode(User));
-    const DecodedToken = jwt_decode(User);
-    const UserId = DecodedToken.user_id;
-    console.log("UserID :", UserId);
+  // const onChooseBusinessSeat = async (id) => {
+  //   const User = window.localStorage.getItem("token");
+  //   console.log("User is:", User.username);
+  //   console.log(jwt_decode(User));
+  //   const DecodedToken = jwt_decode(User);
+  //   const UserId = DecodedToken.user_id;
+  //   console.log("UserID :", UserId);
 
-    console.log("Chosen Seat ID is:", id);
-    const newData = {
-      id: id,
-      userID: UserId,
-    };
-    const result = await axios.put(
-      "http://localhost:5000/chooseBusinessSeat",
-      newData,
-      {
-        headers: {
-          Authorization: window.localStorage.getItem("token"),
-        },
-      }
-    );
-    console.log("Result:", result.data);
-  };
+  //   console.log("Chosen Seat ID is:", id);
+  //   const newData = {
+  //     id: id,
+  //     userID: UserId,
+  //   };
+  //   const result = await axios.put(
+  //     "http://localhost:5000/chooseBusinessSeat",
+  //     newData,
+  //     {
+  //       headers: {
+  //         Authorization: window.localStorage.getItem("token"),
+  //       },
+  //     }
+  //   );
+  //   console.log("Result:", result.data);
+  // };
 
-  const onChooseFirstClassSeat = async (id) => {
-    const User = window.localStorage.getItem("token");
-    console.log("User is:", User.username);
-    console.log(jwt_decode(User));
-    const DecodedToken = jwt_decode(User);
-    const UserId = DecodedToken.user_id;
-    console.log("UserID :", UserId);
+  // const onChooseFirstClassSeat = async (id) => {
+  //   const User = window.localStorage.getItem("token");
+  //   console.log("User is:", User.username);
+  //   console.log(jwt_decode(User));
+  //   const DecodedToken = jwt_decode(User);
+  //   const UserId = DecodedToken.user_id;
+  //   console.log("UserID :", UserId);
 
-    console.log("Chosen Seat ID is:", id);
-    const newData = {
-      id: id,
-      userID: UserId,
-    };
-    const result = await axios.put(
-      "http://localhost:5000/chooseFirstClassSeat",
-      newData,
-      {
-        headers: {
-          Authorization: window.localStorage.getItem("token"),
-        },
-      }
-    );
-    console.log("Result:", result.data);
-  };
+  //   console.log("Chosen Seat ID is:", id);
+  //   const newData = {
+  //     id: id,
+  //     userID: UserId,
+  //   };
+  //   const result = await axios.put(
+  //     "http://localhost:5000/chooseFirstClassSeat",
+  //     newData,
+  //     {
+  //       headers: {
+  //         Authorization: window.localStorage.getItem("token"),
+  //       },
+  //     }
+  //   );
+  //   console.log("Result:", result.data);
+  // };
 
-  console.log("economySeats is ouside the getSeats:", economySeats);
+  // console.log("economySeats is ouside the getSeats:", economySeats);
 
   return (
     <div>
-      <div>
+      {/* <div>
         {economySeats.map((economySeat) => {
           return (
             <button
@@ -158,7 +152,7 @@ const ViewAirPlaneSeatsForReturnFlights = () => {
             </button>
           );
         })}
-      </div>
+      </div> */}
     </div>
   );
 };

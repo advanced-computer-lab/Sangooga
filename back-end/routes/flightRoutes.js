@@ -10,6 +10,7 @@ router
 
 router
   .route("/:id")
+  .get(flightServices.getFlightById)
   .put(flightServices.updateFlight)
   .delete(flightServices.deleteFlight);
 

@@ -11,54 +11,70 @@ const ViewAirPlaneSeats = () => {
   const [firstClassSeats, setFirstClassSeats] = useState([]);
 
   const [cabin, setCabin] = useState("EconomySeat");
+  const [flightID, setFlightID] = useState("61ac9b67afaf637f9f127e21");
+  const [numberOfSeatsReserved, setNumberOfSeatsReserved] = useState(3);
+  const [chosenSeatsIDs, setChosenSeatsIDs] = useState([]);
 
   useEffect(() => {
     getSeats();
   }, []);
 
   const getSeats = async () => {
-    const id = "61aba1d6ef6b902234dd0aca";
-    const numberOfTickets = 2;
-    const cabinType = "EconomySeat";
-
-    setCabin(cabinType);
-
     await axios
-      .get(`http://localhost:5000/getSeats/${id}`, {
+      .get(`http://localhost:5000/flight/${flightID}`, {
         headers: {
           Authorization: window.localStorage.getItem("token"),
         },
       })
       .then((result) => {
-        console.log("result is:", result);
+        console.log("result is:", result.data);
+        const AllSeats = result.data.seats;
+        console.log("AllSeats:", AllSeats);
 
-        setEconomySeats(result.data.economySeatsArray);
-        setBusinessSeats(result.data.businessSeatsArray);
-        setFirstClassSeats(result.data.firstClassSeatsArray);
+        setEconomySeats(
+          AllSeats.filter((economySeat) => economySeat.seatClass === "economy")
+        );
+        console.log("economy seats:", economySeats);
 
-        console.log("economySeats is in the getSeats:", economySeats);
+        setBusinessSeats(
+          AllSeats.filter(
+            (businessSeat) => businessSeat.seatClass === "business"
+          )
+        );
+        console.log("business seats:", businessSeats);
+
+        setFirstClassSeats(
+          AllSeats.filter(
+            (firstClassSeat) => firstClassSeat.seatClass === "first class"
+          )
+        );
+        console.log("First Class Seat:", firstClassSeats);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  const onChooseEconomySeat = async (id) => {
+  const onPickSeat = (id) => {
+    if (numberOfSeatsReserved > 0) {
+      setChosenSeatsIDs([...chosenSeatsIDs, id]);
+      console.log("chosenSeatsIDs:", chosenSeatsIDs);
+      setNumberOfSeatsReserved(numberOfSeatsReserved - 1);
+      console.log("Number of seats left to reserve:", numberOfSeatsReserved);
+    }
+  };
+
+  const onChooseSeat = async () => {
     const User = window.localStorage.getItem("token");
-    console.log("User is:", User.username);
-    console.log(jwt_decode(User));
     const DecodedToken = jwt_decode(User);
     const UserId = DecodedToken.user_id;
-    console.log("UserID :", UserId);
-
-    console.log("Chosen Seat ID is:", id);
 
     const newData = {
-      id: id,
+      seatIDs: chosenSeatsIDs,
       userID: UserId,
     };
     const result = await axios.put(
-      "http://localhost:5000/chooseEconomySeat",
+      "http://localhost:5000/chooseSeat",
       newData,
       {
         headers: {
@@ -68,71 +84,20 @@ const ViewAirPlaneSeats = () => {
     );
     console.log("Result:", result.data);
   };
-
-  const onChooseBusinessSeat = async (id) => {
-    const User = window.localStorage.getItem("token");
-    console.log("User is:", User.username);
-    console.log(jwt_decode(User));
-    const DecodedToken = jwt_decode(User);
-    const UserId = DecodedToken.user_id;
-    console.log("UserID :", UserId);
-
-    console.log("Chosen Seat ID is:", id);
-    const newData = {
-      id: id,
-      userID: UserId,
-    };
-    const result = await axios.put(
-      "http://localhost:5000/chooseBusinessSeat",
-      newData,
-      {
-        headers: {
-          Authorization: window.localStorage.getItem("token"),
-        },
-      }
-    );
-    console.log("Result:", result.data);
-  };
-
-  const onChooseFirstClassSeat = async (id) => {
-    const User = window.localStorage.getItem("token");
-    console.log("User is:", User.username);
-    console.log(jwt_decode(User));
-    const DecodedToken = jwt_decode(User);
-    const UserId = DecodedToken.user_id;
-    console.log("UserID :", UserId);
-
-    console.log("Chosen Seat ID is:", id);
-    const newData = {
-      id: id,
-      userID: UserId,
-    };
-    const result = await axios.put(
-      "http://localhost:5000/chooseFirstClassSeat",
-      newData,
-      {
-        headers: {
-          Authorization: window.localStorage.getItem("token"),
-        },
-      }
-    );
-    console.log("Result:", result.data);
-  };
-
-  console.log("economySeats is ouside the getSeats:", economySeats);
 
   return (
     <div>
+      <button onClick={() => onChooseSeat()}>Confirm Reservations</button>
       {cabin == "EconomySeat" && (
         <div>
           {economySeats.map((economySeat) => {
             return (
               <div>
-                {economySeat.available ? (
+                {economySeat.seatStatus ? (
                   <button
                     key={economySeat._id}
                     onClick={() => {
-                      onChooseEconomySeat(economySeat._id);
+                      onPickSeat(economySeat._id);
                     }}
                   >
                     EconomySeat {economySeat.seatNumber}
@@ -151,11 +116,11 @@ const ViewAirPlaneSeats = () => {
           {businessSeats.map((businessSeat) => {
             return (
               <div>
-                {businessSeat.available ? (
+                {businessSeat.seatStatus ? (
                   <button
                     key={businessSeat._id}
                     onClick={() => {
-                      onChooseBusinessSeat(businessSeat._id);
+                      onPickSeat(businessSeat._id);
                     }}
                   >
                     BusinessSeat {businessSeat.seatNumber}
@@ -174,11 +139,11 @@ const ViewAirPlaneSeats = () => {
           {firstClassSeats.map((firstClassSeat) => {
             return (
               <div>
-                {firstClassSeat.available ? (
+                {firstClassSeat.seatStatus ? (
                   <button
                     key={firstClassSeat._id}
                     onClick={() => {
-                      onChooseFirstClassSeat(firstClassSeat._id);
+                      onPickSeat(firstClassSeat._id);
                     }}
                   >
                     FirstClass {firstClassSeat.seatNumber}

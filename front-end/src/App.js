@@ -15,17 +15,17 @@ const PrivateRoute = ({ authenticated }) => {
 };
 
 const App = () => {
-  const [authenticated, setAuthenticated] = useState(false);
+  const [authenticated, setAuthenticated] = useState(true);
 
-  useEffect(async () => {
-    const checkAuth = await axios.get("http://localhost:5000/checkAuth", {
-      headers: {
-        Authorization: window.localStorage.getItem("token"),
-      },
-    });
-    console.log(checkAuth);
-    setAuthenticated(checkAuth);
-  }, []);
+  // useEffect(async () => {
+  //   const checkAuth = await axios.get("http://localhost:5000/checkAuth", {
+  //     headers: {
+  //       Authorization: window.localStorage.getItem("token"),
+  //     },
+  //   });
+  //   console.log(checkAuth);
+  //   setAuthenticated(checkAuth);
+  // }, []);
 
   return (
     <>

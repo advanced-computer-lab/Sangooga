@@ -50,4 +50,20 @@ const getFlights = async (req, res) => {
     res.status(400).send(`${err}`);
   }
 };
-module.exports = { createFlight, updateFlight, deleteFlight, getFlights };
+
+const getFlightById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const flight = await Flight.findById(id).populate("seats").exec();
+    res.status(200).json(flight);
+  } catch (err) {
+    res.status(400).send(`${err}`);
+  }
+};
+module.exports = {
+  createFlight,
+  updateFlight,
+  deleteFlight,
+  getFlights,
+  getFlightById,
+};

@@ -45,19 +45,6 @@ const reservationSchema = new Schema(
   { timestamps: true }
 );
 
-const seatSchema = new Schema({
-  seatNumber: {
-    type: Number,
-    unique: true,
-  },
-  available: {
-    type: Boolean,
-  },
-  reservedByUserID: {
-    type: String,
-  },
-});
-
 const flightSchema = new Schema(
   {
     flightNumber: {

@@ -26,50 +26,62 @@ const CreateFlight = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  const economySeatsArray = [
+  const seats = useState([
     {
       seatNumber: 1,
-      available: true,
+      seatClass: "economy",
+      seatPrice: 10,
+      seatStatus: true,
     },
     {
       seatNumber: 2,
-      available: false,
+      seatClass: "economy",
+      seatPrice: 10,
+      seatStatus: true,
     },
     {
       seatNumber: 3,
-      available: true,
-    },
-  ];
-
-  const businessSeatsArray = [
-    {
-      seatNumber: 1,
-      available: true,
+      seatClass: "economy",
+      seatPrice: 10,
+      seatStatus: true,
     },
     {
-      seatNumber: 2,
-      available: false,
+      seatNumber: 4,
+      seatClass: "business",
+      seatPrice: 20,
+      seatStatus: true,
     },
     {
-      seatNumber: 3,
-      available: true,
-    },
-  ];
-
-  const firstClassSeatsArray = [
-    {
-      seatNumber: 1,
-      available: true,
+      seatNumber: 5,
+      seatClass: "business",
+      seatPrice: 20,
+      seatStatus: true,
     },
     {
-      seatNumber: 2,
-      available: false,
+      seatNumber: 6,
+      seatClass: "business",
+      seatPrice: 20,
+      seatStatus: true,
     },
     {
-      seatNumber: 3,
-      available: true,
+      seatNumber: 7,
+      seatClass: "first class",
+      seatPrice: 30,
+      seatStatus: true,
     },
-  ];
+    {
+      seatNumber: 8,
+      seatClass: "first class",
+      seatPrice: 30,
+      seatStatus: true,
+    },
+    {
+      seatNumber: 9,
+      seatClass: "first class",
+      seatPrice: 30,
+      seatStatus: true,
+    },
+  ]);
 
   // const validateFlight = () => {
   //   if (
@@ -150,9 +162,7 @@ const CreateFlight = () => {
         businessPrice: businessPrice,
         firstClassSeats: firstClassSeats,
         firstClassPrice: firstClassPrice,
-        economySeatsArray: economySeatsArray,
-        businessSeatsArray: businessSeatsArray,
-        firstClassSeatsArray: firstClassSeatsArray,
+        seats: seats,
       };
       await axios.post("http://localhost:5000/flight", newFlight, {
         headers: {
