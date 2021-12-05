@@ -7,8 +7,8 @@ import Navbar from "./components/Navbar/Navbar";
 import Home from "./components/Home/Home";
 import axios from "axios";
 import "./App.css";
-import Card from "./components/Card/Card";
-
+import Flight from "./components/Flights/Flight";
+import Footer from "./components/Footer/Footer";
 const PrivateRoute = ({ authenticated }) => {
   return authenticated ? <Outlet /> : <Navigate to="/login" />;
 };
@@ -17,12 +17,11 @@ const App = () => {
   const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(async () => {
-    const checkAuth = await axios.get("http://localhost:5000/checkAuth", {
+    const checkAuth = await axios.get("http://localhost:5000/verifyToken", {
       headers: {
         Authorization: window.localStorage.getItem("token"),
       },
     });
-    console.log(checkAuth);
     setAuthenticated(checkAuth);
   }, []);
 
@@ -32,9 +31,10 @@ const App = () => {
         authenticated={authenticated}
         setAuthenticated={setAuthenticated}
       />
-      <div className="website">
+      <div className="content">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/flight" element={<Flight />} />
           <Route
             path="/login"
             element={<Login setAuthenticated={setAuthenticated} />}
@@ -51,23 +51,9 @@ const App = () => {
           >
             <Route path="/createFlight" element={<CreateFlight />} />
           </Route>
-          <Route
-            path="/card"
-            element={
-              <Card
-                depTime="07:20"
-                duration="1h"
-                arrTime="08:20"
-                depAirport="CAI"
-                arrAirport="SSH"
-                airportImage="https://www.ch-aviation.com/images/stockPhotos/7914/667a51621aabde7549b0bb24d9aac6330eb2de9e.jpg"
-              />
-            }
-          >
-            {" "}
-          </Route>
         </Routes>
       </div>
+      <Footer />
     </>
   );
 };

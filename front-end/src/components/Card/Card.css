@@ -1,96 +1,95 @@
 .card * {
-    font-size: 1.6rem;
-    font-family: sans-serif;
+  font-size: 1rem;
+  font-family: sans-serif;
 }
 
 .card {
-    display: grid;
-    max-width: 500px;
-    width: 90vw;
-    border: 1px solid #DDDEE1;
-    border-radius: 8px;
-    padding: 30px;
-    box-shadow: 2px 5px 10px 5px #8B8C99;
-    cursor: pointer;
+  display: grid;
+  max-width: 600px;
+  width: 90vw;
+  border: 1px solid #dddee1;
+  border-radius: 8px;
+  padding: 30px;
+  cursor: pointer;
 }
 
 .card:hover {
-    background-color: rgba(153, 153, 153, 0.1);
+  background-color: rgba(153, 153, 153, 0.1);
 }
 
 .airport-image {
-    width: 80px;
+  width: 80px;
 }
 
 .info {
-    place-self: center;
-    display: grid;
-    grid-template-columns: auto auto 1fr auto;
-    width: 100%;
-    padding: 10px;
-    justify-items: center;
+  place-self: center;
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  width: 100%;
+  padding: 10px;
+  justify-items: center;
 }
 
 .airportNtime,
 .line-duration {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .airportNtime {
-    width: 120px;
+  width: 120px;
 }
 
 .connectLine {
-    width: 100%;
-    height: 3px;
-    background-color: black;
+  width: 100%;
+  height: 3px;
+  background-color: black;
 }
 
 .line-duration,
 .connectContainer {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
 .connectContainer svg {
-    transform: rotate(90deg);
-    padding-left: 1px;
+  transform: rotate(90deg);
+  padding-left: 1px;
 }
 
 .gray,
 .connectContainer svg {
-    color: #8B8C99;
+  color: #8b8c99;
 }
 
 .gray-bg {
-    background-color: #8B8C99;
+  background-color: #8b8c99;
 }
 
 .airport {
-    font-size: 18px;
+  font-size: 18px;
 }
 
 @media screen and (max-width: 480px) {
-    .info {
-        grid-template-columns: auto;
-        row-gap: 1rem;
-    }
+  .info {
+    grid-template-columns: auto;
+    row-gap: 1rem;
+  }
 
-    .line-duration {
-        transform: rotate(90deg);
-        width: 80px;
-        padding-bottom: 32px;
-    }
+  .line-duration {
+    transform: rotate(90deg);
+    width: 80px;
+    padding-bottom: 32px;
+  }
 
-    .duration {
-        transform: rotate(-90deg);
-    }
+  .duration {
+    transform: rotate(-90deg);
+  }
 
-    .card {
-        max-width: 200px;
-    }
+  .card {
+    max-width: 200px;
+  }
 }

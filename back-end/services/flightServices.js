@@ -3,15 +3,20 @@ const mongoose = require("mongoose");
 
 const createFlight = async (req, res) => {
   try {
-    const seats = req.body.seats;
+    const promises = [];
     const seatIds = [];
-    for (const seat of seats) {
-      const flightSeat = await new Seat(seat).save();
-      seatIds.push(flightSeat._id);
+    const seats = req.body.seats;
+    if (seats) {
+      for (const seat of seats) {
+        const flightSeat = new Seat(seat).save();
+        promises.push(flightSeat);
+        seatIds.push(flightSeat._id);
+      }
     }
-    const flight = await new Flight({ ...req.body, seats: seatIds });
-    flight.save();
-    res.status(200).json(flight);
+    const flight = Flight.create({ ...req.body, seats: seatIds });
+    promises.push(flight);
+    await Promise.allSettled(promises);
+    res.status(200).json("Successfully added flight");
   } catch (err) {
     res.status(400).send(`${err}`);
   }
@@ -50,4 +55,5 @@ const getFlights = async (req, res) => {
     res.status(400).send(`${err}`);
   }
 };
+
 module.exports = { createFlight, updateFlight, deleteFlight, getFlights };

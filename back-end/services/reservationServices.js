@@ -5,7 +5,6 @@ const createReservation = async (req, res) => {
   try {
     const seats = req.body.seats;
     const reservation = await new Reservation({ ...req.body, seats });
-    console.log(reservation);
     reservation.save();
     res.status(200).json(reservation);
   } catch (err) {
@@ -39,6 +38,7 @@ const getUserReservations = async (req, res) => {
     res.status(400).send(`${err}`);
   }
 };
+
 module.exports = {
   createReservation,
   getAllReservations,

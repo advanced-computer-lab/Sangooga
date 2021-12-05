@@ -17,120 +17,114 @@ import "./Search.css";
 
 const Search = ({ setFlights, originalFlights, isAdmin }) => {
   const [flightNumber, setFlightNumber] = useState("");
-  const [arrivalAirportAdmin, setArrivalAirportAdmin] = useState("");
-  const [departureAirportAdmin, setDepartureAirportAdmin] = useState("");
-  const [departureFromDateAdmin, setDepartureFromDateAdmin] = useState(null);
-  const [arrivalFromDateAdmin, setArrivalFromDateAdmin] = useState(null);
-
-  // data that will be send to other components on click
   const [arrivalAirport, setArrivalAirport] = useState("");
   const [departureAirport, setDepartureAirport] = useState("");
   const [departureFromDate, setDepartureFromDate] = useState(null);
   const [arrivalFromDate, setArrivalFromDate] = useState(null);
-
   const [numberOfSeats, setnumberOfSeats] = useState(1);
   const [selectedClass, setSelectedClass] = useState("economy");
 
   const changeDepartureAirport = (e) => {
     setDepartureAirport(e.target.value);
-    if (isAdmin) setDepartureAirportAdmin(e.target.value);
   };
 
   const changeArrivalAirport = (e) => {
     setArrivalAirport(e.target.value);
-    if (isAdmin) setArrivalAirportAdmin(e.target.value);
   };
 
   const changeDepartureFromDate = (e) => {
     if (e != null) {
       setDepartureFromDate(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
-      if (isAdmin)
-        setDepartureFromDateAdmin(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
     }
   };
 
   const changeArrivalFromDate = (e) => {
     if (e != null) {
       setArrivalFromDate(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
-      if (isAdmin)
-        setArrivalFromDateAdmin(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
     }
   };
 
-  useEffect(() => {
-    const searchFunc = () => {
-      const filteredFlights = originalFlights.filter(
-        (flight) =>
-          (flightNumber === "" ||
-            JSON.stringify(flight.flightNumber)
-              .toLowerCase()
-              .includes(flightNumber.toLowerCase())) &&
-          (arrivalAirport === "" ||
-            JSON.stringify(flight.arrivalAirport)
-              .toLowerCase()
-              .includes(arrivalAirport.toLowerCase())) &&
-          (departureAirport === "" ||
-            JSON.stringify(flight.departureAirport)
-              .toLowerCase()
-              .includes(departureAirport.toLowerCase())) &&
-          (departureFromDate == null ||
-            departureFromDate < flight.departureDateTime) &&
-          (arrivalFromDate == null || arrivalFromDate < flight.arrivalDateTime)
-      );
-      setFlights(filteredFlights);
-    };
-    searchFunc();
-  }, [
-    originalFlights,
-    flightNumber,
-    arrivalAirportAdmin,
-    departureAirportAdmin,
-    departureFromDateAdmin,
-    arrivalFromDateAdmin,
-  ]);
+  const searchFunc = () => {
+    const departureFlights = originalFlights.filter(
+      (flight) =>
+        (flightNumber === "" ||
+          JSON.stringify(flight.flightNumber)
+            .toLowerCase()
+            .includes(flightNumber.toLowerCase())) &&
+        (arrivalAirport === "" ||
+          JSON.stringify(flight.arrivalAirport)
+            .toLowerCase()
+            .includes(arrivalAirport.toLowerCase())) &&
+        (departureAirport === "" ||
+          JSON.stringify(flight.departureAirport)
+            .toLowerCase()
+            .includes(departureAirport.toLowerCase())) &&
+        (departureFromDate == null ||
+          departureFromDate < flight.departureDateTime) &&
+        (arrivalFromDate == null || arrivalFromDate == flight.arrivalDateTime)
+    );
+    const arrivalFlights = originalFlights.filter(
+      (flight) =>
+        (flightNumber === "" ||
+          JSON.stringify(flight.flightNumber)
+            .toLowerCase()
+            .includes(flightNumber.toLowerCase())) &&
+        (departureAirport === "" ||
+          JSON.stringify(flight.arrivalAirport)
+            .toLowerCase()
+            .includes(departureAirport.toLowerCase())) &&
+        (arrivalAirport === "" ||
+          JSON.stringify(flight.departureAirport)
+            .toLowerCase()
+            .includes(arrivalAirport.toLowerCase())) &&
+        (departureFromDate == null ||
+          departureFromDate < flight.departureDateTime) &&
+        (arrivalFromDate == null || arrivalFromDate < flight.arrivalDateTime)
+    );
+    setFlights([departureFlights, arrivalFlights]);
+  };
 
   return (
     <div className="container">
-      {!isAdmin && (
-        <div className="dropDownsContainer">
-          <div className="dropdown">
-            <InputLabel id="numberSelector">Seats</InputLabel>
-            <Select
-              labelId="numberSelector"
-              id="seatsNo"
-              value={numberOfSeats}
-              label="Age"
-              onChange={(e) => {
-                setnumberOfSeats(e.target.value);
-              }}
-            >
-              <MenuItem value={1}>1</MenuItem>
-              <MenuItem value={2}>2</MenuItem>
-              <MenuItem value={3}>3</MenuItem>
-              <MenuItem value={3}>4</MenuItem>
-              <MenuItem value={3}>5</MenuItem>
-              <MenuItem value={3}>6</MenuItem>
-            </Select>
-          </div>
-
-          <div className="dropdown">
-            <InputLabel id="classSelector">Class</InputLabel>
-            <Select
-              labelId="classSelector"
-              id="class"
-              value={selectedClass}
-              label="Age"
-              onChange={(e) => {
-                setSelectedClass(e.target.value);
-              }}
-            >
-              <MenuItem value={"economy"}>economy</MenuItem>
-              <MenuItem value={"Business "}>Business</MenuItem>
-              <MenuItem value={"First Class"}>First Class</MenuItem>
-            </Select>
-          </div>
+      <div className="dropDownsContainer">
+        <div className="dropdown">
+          <InputLabel id="numberSelector">Seats</InputLabel>
+          <Select
+            labelId="numberSelector"
+            id="seatsNo"
+            value={numberOfSeats}
+            label="Age"
+            onChange={(e) => {
+              setnumberOfSeats(e.target.value);
+            }}
+          >
+            <MenuItem value={1}>1</MenuItem>
+            <MenuItem value={2}>2</MenuItem>
+            <MenuItem value={3}>3</MenuItem>
+            <MenuItem value={3}>4</MenuItem>
+            <MenuItem value={3}>5</MenuItem>
+            <MenuItem value={3}>6</MenuItem>
+          </Select>
         </div>
-      )}
+
+        <div className="dropdown">
+          <InputLabel id="classSelector">Class</InputLabel>
+          <Select
+            labelId="classSelector"
+            id="class"
+            value={selectedClass}
+            label="Age"
+            onChange={(e) => {
+              setSelectedClass(e.target.value);
+            }}
+          >
+            <MenuItem value={"economy"}>Economy</MenuItem>
+            <MenuItem value={"business "}>Business</MenuItem>
+            <MenuItem value={"first class"}>First Class</MenuItem>
+          </Select>
+        </div>
+      </div>
+
       <div className="searchBar">
         <SearchIcon fontSize="large" />
         {isAdmin && (
@@ -201,13 +195,15 @@ const Search = ({ setFlights, originalFlights, isAdmin }) => {
             />
           </div>
         </LocalizationProvider>
-        {!isAdmin && (
-          <Link to="/createFlight">
-            <Button variant="contained" className="newFlightButton">
-              Search Flights
-            </Button>
-          </Link>
-        )}
+        {
+          <Button
+            variant="contained"
+            className="newFlightButton"
+            onClick={searchFunc}
+          >
+            Search Flights
+          </Button>
+        }
       </div>
     </div>
   );

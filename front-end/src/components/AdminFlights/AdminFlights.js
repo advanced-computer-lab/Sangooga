@@ -20,6 +20,7 @@ const AdminFlights = () => {
     setOriginalFlights(result.data);
   };
 
+  console.log(flights);
   useEffect(() => {
     fetchFlights();
   }, []);

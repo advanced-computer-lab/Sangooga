@@ -8,6 +8,9 @@ const flightRouter = require("./routes/flightRoutes");
 const reservationRouter = require("./routes/reservationRoutes");
 const port = process.env.PORT || "5000";
 const auth = require("./middleware/auth");
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
+dotenv.config();
 const mongoURI = `mongodb+srv://${config.username}:${config.password}@sangooga.ip60v.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 app.use(cors());
 app.use(express.json());
@@ -17,7 +20,9 @@ mongoose
   .then((result) => console.log("MongoDB is now connected"))
   .catch((err) => console.log(err));
 
-app.get("/checkAuth", auth);
+app.get("/verifyToken", auth, (req, res) => {
+  res.status(200).send("authorized user");
+});
 
 app.use("/user", userRouter);
 app.use("/flight", flightRouter);
