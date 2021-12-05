@@ -2,7 +2,7 @@ const { Reservation, Seat } = require("../models/flight");
 const mongoose = require("mongoose");
 const User = require("../models/user");
 const nodemailer = require("nodemailer");
-
+const config = require("../config/index");
 const createReservation = async (req, res) => {
   try {
     const seats = req.body.seats;
