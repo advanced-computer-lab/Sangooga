@@ -1,12 +1,20 @@
-const Flight = require("../models/flight");
+const { Flight, Seat } = require("../models/flight");
 const mongoose = require("mongoose");
 
 const createFlight = async (req, res) => {
   try {
-    const flight = await Flight.create(req.body);
+    const seatIds = [];
+    const seats = req.body.seats;
+    if (seats) {
+      for (const seat of seats) {
+        const flightSeat = await new Seat(seat).save();
+        seatIds.push(flightSeat._id);
+      }
+    }
+    const flight = await new Flight({ ...req.body, seats: seatIds }).save();
     res.status(200).json(flight);
   } catch (err) {
-    res.status(400).send("Could not create flight");
+    res.status(400).send(`${err}`);
   }
 };
 
@@ -37,10 +45,26 @@ const deleteFlight = async (req, res) => {
 
 const getFlights = async (req, res) => {
   try {
-    const flights = await Flight.find();
+    const flights = await Flight.find().populate("seats").exec();
     res.status(200).json(flights);
   } catch (err) {
-    res.status(400).send("Could not get flights");
+    res.status(400).send(`${err}`);
   }
 };
-module.exports = { createFlight, updateFlight, deleteFlight, getFlights };
+
+const getFlightById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const flight = await Flight.findById(id).populate("seats").exec();
+    res.status(200).json(flight);
+  } catch (err) {
+    res.status(400).send(`${err}`);
+  }
+};
+module.exports = {
+  createFlight,
+  updateFlight,
+  deleteFlight,
+  getFlights,
+  getFlightById,
+};

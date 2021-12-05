@@ -3,17 +3,36 @@
   grid-auto-flow: column;
   column-gap: 0.5rem;
   place-items: center;
-  padding-right: 1rem;
+  padding: 3rem;
+  background-color: #061b41;
+  color: white;
+  border-radius: 8px;
+  width: 80vw;
 }
 
 .date-range {
   display: grid;
-  place-items: center;
+  grid-auto-flow: column;
+  column-gap: 0.5rem;
+}
+
+.date-range div {
+  background-color: white;
+  border-radius: 8px;
 }
 
 .date-label {
-  color: rgba(0, 0, 0, 0.6);
+  color: black;
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-weight: 400;
   font-size: 1rem;
+}
+
+.dropDownsContainer {
+  display: flex;
+  margin-left: 3rem;
+}
+
+.dropdown {
+  margin-right: 1rem;
 }

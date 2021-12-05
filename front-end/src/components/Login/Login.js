@@ -2,10 +2,10 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./Login.css";
 const Login = ({ setAuthenticated }) => {
-  const [userName, setUserName] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setError] = useState(false);
   const navigate = useNavigate();
@@ -15,13 +15,13 @@ const Login = ({ setAuthenticated }) => {
     setPassword("");
     try {
       const user = await axios.post(`http://localhost:5000/user/login`, {
-        username: userName,
+        username: username,
         password: password,
       });
-      console.log(user);
       window.localStorage.setItem(`token`, user.data.token);
+      window.localStorage.setItem("userId", user.data._doc._id);
       setAuthenticated(true);
-      navigate("/home");
+      navigate("/");
     } catch (err) {
       setError(true);
     }
@@ -35,15 +35,15 @@ const Login = ({ setAuthenticated }) => {
             error
             label="Username"
             type="text"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         ) : (
           <TextField
             label="Username"
             type="text"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         )}
         <br /> <br />
@@ -69,6 +69,10 @@ const Login = ({ setAuthenticated }) => {
           Login
         </Button>
       </form>
+      <br /> <br />
+      <Link to="/register">
+        <Button variant="contained">Don't have an account?</Button>
+      </Link>
     </div>
   );
 };
