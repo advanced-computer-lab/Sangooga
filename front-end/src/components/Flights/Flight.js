@@ -45,8 +45,8 @@ const Flight = ({
             >
               <Card
                 key={flight.id}
-                depTime={flight.departureDateTime.substring(11, 16)}
-                arrTime={flight.arrivalDateTime.substring(11, 16)}
+                depTime={flight.departureDateTime}
+                arrTime={flight.arrivalDateTime}
                 duration={flight.duration}
                 depAirport={flight.departureAirport}
                 arrAirport={flight.arrivalAirport}
