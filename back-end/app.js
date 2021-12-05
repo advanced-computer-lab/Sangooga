@@ -6,6 +6,7 @@ const config = require("./config/index");
 const userRouter = require("./routes/userRoutes");
 const flightRouter = require("./routes/flightRoutes");
 const reservationRouter = require("./routes/reservationRoutes");
+const { Flight, Seat } = require("./models/flight");
 const port = process.env.PORT || "5000";
 const auth = require("./middleware/auth");
 const jwt = require("jsonwebtoken");
@@ -16,7 +17,10 @@ app.use(cors());
 app.use(express.json());
 
 mongoose
-  .connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then((result) => console.log("MongoDB is now connected"))
   .catch((err) => console.log(err));
 
@@ -26,6 +30,33 @@ app.get("/verifyToken", auth, (req, res) => {
 
 app.use("/user", userRouter);
 app.use("/flight", flightRouter);
+
+app.put("/chooseSeat", async (req, res) => {
+  seatIDs = req.body.seatIDs;
+  console.log("Seat IDs:", seatIDs);
+  for (var i = 0; i < seatIDs.length; i++) {
+    const result = await Seat.find({
+      _id: seatIDs[i],
+    });
+    console.log("seat result is:", seatIDs[i]);
+
+    if (result[0].seatStatus == true) {
+      await Seat.updateOne(
+        {
+          _id: seatIDs[i],
+        },
+        {
+          $set: {
+            seatStatus: false,
+          },
+        }
+      );
+    } else {
+      console.log("Seat Already Reserved");
+    }
+  }
+});
+
 app.use("/reservation", reservationRouter);
 
 app.listen(port, () => {
