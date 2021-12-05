@@ -19,8 +19,6 @@ const AdminFlights = () => {
     setFlights(result.data);
     setOriginalFlights(result.data);
   };
-
-  console.log(flights);
   useEffect(() => {
     fetchFlights();
   }, []);

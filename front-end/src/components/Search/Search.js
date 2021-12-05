@@ -81,7 +81,9 @@ const Search = ({ setFlights, originalFlights, isAdmin }) => {
           departureFromDate < flight.departureDateTime) &&
         (arrivalFromDate == null || arrivalFromDate < flight.arrivalDateTime)
     );
-    setFlights([departureFlights, arrivalFlights]);
+    isAdmin
+      ? setFlights([...departureFlights, ...arrivalFlights])
+      : setFlights([departureFlights, arrivalFlights]);
   };
 
   return (

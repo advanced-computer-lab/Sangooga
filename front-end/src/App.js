@@ -9,13 +9,22 @@ import axios from "axios";
 import "./App.css";
 import Flight from "./components/Flights/Flight";
 import Footer from "./components/Footer/Footer";
-const PrivateRoute = ({ authenticated }) => {
-  return authenticated ? <Outlet /> : <Navigate to="/login" />;
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
+
+const PrivateRoute = ({ authenticated, loading }) => {
+  return authenticated ? (
+    <Outlet />
+  ) : loading ? (
+    <CircularProgress />
+  ) : (
+    <Navigate to="/login" />
+  );
 };
 
 const App = () => {
   const [authenticated, setAuthenticated] = useState(false);
-
+  const [loading, setLoading] = useState(true);
   useEffect(async () => {
     const checkAuth = await axios.get("http://localhost:5000/verifyToken", {
       headers: {
@@ -23,8 +32,9 @@ const App = () => {
       },
     });
     setAuthenticated(checkAuth);
+    setLoading(false);
   }, []);
-
+  console.log(loading);
   return (
     <>
       <Navbar
@@ -41,7 +51,9 @@ const App = () => {
           />
           <Route
             path="/adminFlights"
-            element={<PrivateRoute authenticated={authenticated} />}
+            element={
+              <PrivateRoute loading={loading} authenticated={authenticated} />
+            }
           >
             <Route path="/adminFlights" element={<AdminFlights />} />
           </Route>
