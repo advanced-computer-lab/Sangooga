@@ -28,6 +28,10 @@ const Navbar = ({ authenticated, setAuthenticated }) => {
           >
             Flights
           </Typography>
+          <Link to="/profile">
+            <Button color="inherit">Profile</Button>
+          </Link>
+
           <Link to="/adminflights">
             <Button color="inherit">Admin Flights</Button>
           </Link>

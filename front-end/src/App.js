@@ -1,12 +1,15 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 import CreateFlight from "./components/CreateFlight/CreateFlight";
 import AdminFlights from "./components/AdminFlights/AdminFlights";
 import Login from "./components/Login/Login";
 import Navbar from "./components/Navbar/Navbar";
+import Profile from "./components/Profile/Profile";
+import Register from "./components/Register/Register";
+import ProfileEdit from "./components/Profile/ProfileEdit";
+import axios from "axios";
 import Home from "./components/Home/Home";
 import MyReservations from "./components/MyReservations/MyReservations";
-import axios from "axios";
 import "./App.css";
 
 const PrivateRoute = ({ authenticated }) => {
@@ -57,6 +60,23 @@ const App = () => {
           >
             <Route path="/myreservations" element={<MyReservations />} />
           </Route>
+          <Route
+            path="/profile"
+            element={<PrivateRoute authenticated={authenticated} />}
+          >
+            <Route path="/profile" element={<Profile />} />
+          </Route>
+          <Route
+            path="/profileEdit"
+            element={<PrivateRoute authenticated={authenticated} />}
+          >
+            <Route path="/profileEdit" element={<ProfileEdit />} />
+          </Route>
+
+          <Route
+            path="/register"
+            element={<Register setAuthenticated={setAuthenticated} />}
+          />
         </Routes>
       </div>
     </>

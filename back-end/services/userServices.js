@@ -1,6 +1,8 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
+const mongoose = require("mongoose");
 
 const getUser = async (req, res) => {
   try {
@@ -8,8 +10,9 @@ const getUser = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(401).send(`No user with ${id}`);
     const user = await User.findById(id);
+    res.status(200).json(user);
   } catch (err) {
-    res.status(400).send("Could not get users");
+    res.status(400).send(`${err}`);
   }
 };
 
@@ -19,6 +22,18 @@ const getUsers = async (req, res) => {
     res.send(users);
   } catch (err) {
     res.status(400).send("Could not find any users");
+  }
+};
+
+const updateUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id))
+      return res.status(401).send(`No user with ${id}`);
+    const updatedUser = await User.updateOne({ _id: id }, req.body);
+    res.status(200).json(updatedUser);
+  } catch (err) {
+    res.status(400).send("Could not update user");
   }
 };
 
@@ -37,6 +52,7 @@ const login = async (req, res) => {
           expiresIn: "1h",
         }
       );
+      console.log(token);
       res.status(200).json({ token, ...user });
     }
   } catch (err) {
@@ -46,18 +62,27 @@ const login = async (req, res) => {
 
 const register = async (req, res) => {
   try {
-    const { username, password } = req.body;
-    if (!(username && password)) {
+    const { username, password, firstname, lastname, email, passport } =
+      req.body;
+    if (!(username && password && firstname && lastname && email && passport)) {
       res.status(400).send("Input is missing");
     }
     const alreadyExists = await User.findOne({ username });
     if (alreadyExists) {
       return res.status(409).send("Username taken.");
     }
+    const alreadyUsed = await User.findOne({ email });
+    if (alreadyUsed) {
+      return res.status(409).send("Email already has an account.");
+    }
     encryptedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({
       username,
       password: encryptedPassword,
+      firstname,
+      lastname,
+      email,
+      passport,
     });
     const token = jwt.sign(
       { user_id: user._id, username },
@@ -67,7 +92,29 @@ const register = async (req, res) => {
       }
     );
     user.token = token;
-    res.status(201).json(user);
+    const transporter = nodemailer.createTransport({
+      service: "hotmail",
+      port: 587,
+      secure: false, // upgrade later with STARTTLS
+      auth: {
+        user: "flights1000@outlook.com",
+        pass: "Sangooga",
+      },
+    });
+    const options = {
+      from: "flights1000@outlook.com",
+      to: email,
+      subject: "You have successfully made an account!",
+      text: "Thank you for registering!",
+    };
+    transporter.sendMail(options, (err, info) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log(info);
+    });
+
+    res.status(201).json({ token, ...user });
   } catch (err) {
     res.status(400).send("Could not register");
   }
@@ -83,4 +130,11 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { login, register, getUsers, deleteUser, getUser };
+module.exports = {
+  login,
+  register,
+  getUsers,
+  deleteUser,
+  getUser,
+  updateUser,
+};
