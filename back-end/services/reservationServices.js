@@ -65,7 +65,7 @@ const deleteReservation = async (req, res) => {
       secure: false, // upgrade later with STARTTLS
       auth: {
         user: "flights1000@outlook.com",
-        pass: "Sangooga",
+        pass: config.emailPassword,
       },
     });
     const options = {
