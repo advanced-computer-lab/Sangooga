@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const mongoose = require("mongoose");
+const config = require("../config/index");
 
 const getUser = async (req, res) => {
   try {
@@ -98,7 +99,7 @@ const register = async (req, res) => {
       secure: false, // upgrade later with STARTTLS
       auth: {
         user: "flights1000@outlook.com",
-        pass: "Sangooga",
+        pass: config.emailPassword,
       },
     });
     const options = {
