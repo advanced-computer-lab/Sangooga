@@ -19,6 +19,7 @@ const Login = ({ setAuthenticated }) => {
         password: password,
       });
       window.localStorage.setItem(`token`, user.data.token);
+      window.localStorage.setItem("userId", user.data._doc._id);
       setAuthenticated(true);
       navigate("/");
     } catch (err) {
