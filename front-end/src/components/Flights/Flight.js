@@ -19,8 +19,7 @@ const Flight = ({
       setChoosenFlights([...choosenFlights, flight]);
       setReturnFlights(true);
     } else {
-      setChoosenFlights([...choosenFlights, flight]);
-      navigate("/seats");
+      navigate("/ViewAirPlaneSeats", { state: [...choosenFlights, flight] });
     }
   };
   return (

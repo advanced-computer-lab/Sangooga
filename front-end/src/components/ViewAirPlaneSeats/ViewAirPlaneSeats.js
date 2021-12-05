@@ -2,56 +2,37 @@ import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import jwt_decode from "jwt-decode";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 
 const ViewAirPlaneSeats = () => {
   const [economySeats, setEconomySeats] = useState([]);
   const [businessSeats, setBusinessSeats] = useState([]);
   const [firstClassSeats, setFirstClassSeats] = useState([]);
-
   const [cabin, setCabin] = useState("EconomySeat");
   const [flightID, setFlightID] = useState("61ac9b67afaf637f9f127e21");
   const [numberOfSeatsReserved, setNumberOfSeatsReserved] = useState(3);
   const [chosenSeatsIDs, setChosenSeatsIDs] = useState([]);
+  const location = useLocation();
+  const { flights } = location.state;
+  console.log(location.state);
 
   useEffect(() => {
-    getSeats();
+    setEconomySeats(
+      flights.filter((economySeat) => economySeat.seatClass === "economy")
+    );
+    console.log("economy seats:", economySeats);
+
+    setBusinessSeats(
+      flights.filter((businessSeat) => businessSeat.seatClass === "business")
+    );
+    console.log("business seats:", businessSeats);
+
+    setFirstClassSeats(
+      flights.filter(
+        (firstClassSeat) => firstClassSeat.seatClass === "first class"
+      )
+    );
   }, []);
-
-  const getSeats = async () => {
-    await axios
-      .get(`http://localhost:5000/flight/${flightID}`, {
-        headers: {
-          Authorization: window.localStorage.getItem("token"),
-        },
-      })
-      .then((result) => {
-        console.log("result is:", result.data);
-        const AllSeats = result.data.seats;
-        console.log("AllSeats:", AllSeats);
-
-        setEconomySeats(
-          AllSeats.filter((economySeat) => economySeat.seatClass === "economy")
-        );
-        console.log("economy seats:", economySeats);
-
-        setBusinessSeats(
-          AllSeats.filter(
-            (businessSeat) => businessSeat.seatClass === "business"
-          )
-        );
-        console.log("business seats:", businessSeats);
-
-        setFirstClassSeats(
-          AllSeats.filter(
-            (firstClassSeat) => firstClassSeat.seatClass === "first class"
-          )
-        );
-        console.log("First Class Seat:", firstClassSeats);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   const onPickSeat = (id) => {
     if (numberOfSeatsReserved > 0) {
@@ -62,30 +43,15 @@ const ViewAirPlaneSeats = () => {
     }
   };
 
-  const onChooseSeat = async () => {
-    const User = window.localStorage.getItem("token");
-    const DecodedToken = jwt_decode(User);
-    const UserId = DecodedToken.user_id;
-
-    const newData = {
-      seatIDs: chosenSeatsIDs,
-      userID: UserId,
-    };
-    const result = await axios.put(
-      "http://localhost:5000/chooseSeat",
-      newData,
-      {
-        headers: {
-          Authorization: window.localStorage.getItem("token"),
-        },
-      }
-    );
-    console.log("Result:", result.data);
-  };
-
   return (
     <div>
-      <button onClick={() => onChooseSeat()}>Confirm Reservations</button>
+      <Link
+        to="/ViewAirPlaneSeatsForReturnFlights/"
+        state={(chosenSeatsIDs, flights[1])}
+      >
+        {" "}
+        Next{" "}
+      </Link>
       {cabin == "EconomySeat" && (
         <div>
           {economySeats.map((economySeat) => {
@@ -131,7 +97,6 @@ const ViewAirPlaneSeats = () => {
           })}
         </div>
       )}
-
       {cabin == "FirstClassSeat" && (
         <div>
           {firstClassSeats.map((firstClassSeat) => {

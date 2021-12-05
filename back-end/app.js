@@ -6,10 +6,7 @@ const config = require("./config/index");
 const userRouter = require("./routes/userRoutes");
 const flightRouter = require("./routes/flightRoutes");
 const reservationRouter = require("./routes/reservationRoutes");
-const {
-  Flight,
-  Seat
-} = require("./models/flight");
+const { Flight, Seat } = require("./models/flight");
 const port = process.env.PORT || "5000";
 const auth = require("./middleware/auth");
 const jwt = require("jsonwebtoken");
@@ -22,7 +19,7 @@ app.use(express.json());
 mongoose
   .connect(mongoURI, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
   })
   .then((result) => console.log("MongoDB is now connected"))
   .catch((err) => console.log(err));
@@ -36,25 +33,24 @@ app.use("/flight", flightRouter);
 
 app.put("/chooseSeat", async (req, res) => {
   seatIDs = req.body.seatIDs;
-  const userID = req.body.userID;
-  console.log("User ID:", userID);
   console.log("Seat IDs:", seatIDs);
-
   for (var i = 0; i < seatIDs.length; i++) {
     const result = await Seat.find({
-      _id: seatIDs[i]
+      _id: seatIDs[i],
     });
     console.log("seat result is:", seatIDs[i]);
 
     if (result[0].seatStatus == true) {
-      await Seat.updateOne({
-        _id: seatIDs[i]
-      }, {
-        $set: {
-          seatStatus: false,
-          //, reservedByUserID: userID
+      await Seat.updateOne(
+        {
+          _id: seatIDs[i],
         },
-      });
+        {
+          $set: {
+            seatStatus: false,
+          },
+        }
+      );
     } else {
       console.log("Seat Already Reserved");
     }
