@@ -10,7 +10,6 @@ const Flight = ({
   choosenFlights,
   returnFlights,
   isAdmin,
-  flight,
   setOriginalFlights,
 }) => {
   const navigate = useNavigate();
