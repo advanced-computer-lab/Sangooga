@@ -12,7 +12,7 @@ const CancelReservationPopUpButton = ({ reservationId }) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const [reservation, setReservation] = useState();
+  const [reservation, setReservation] = useState(null);
   const [flight, setFlight] = useState();
   const [seats, setSeats] = useState();
 
@@ -42,11 +42,11 @@ const CancelReservationPopUpButton = ({ reservationId }) => {
   };
 
   useEffect(() => {
-    getReservation();
-    getFlight();
-    getSeats();
-    console.log(flight);
-    console.log(seats);
+    // getReservation();
+    // // getFlight();
+    // // getSeats();
+    // console.log(flight);
+    // console.log(seats);
   }, []);
 
   const onDelete = async () => {
