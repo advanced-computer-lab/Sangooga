@@ -1,12 +1,13 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+
 const seatSchema = new Schema({
   seatNumber: {
     type: Number,
   },
   seatClass: {
     type: String,
-    enum: [("business", "first class", "economy")],
+    enum: ["economy", "first class", "business"],
   },
   seatPrice: {
     type: Number,
@@ -79,7 +80,6 @@ const flightSchema = new Schema(
         let month = d.getMonth();
         let day = d.getDate();
         let result = new Date(year, month, day);
-        console.log(result);
         return result;
       },
     },
@@ -92,6 +92,9 @@ const flightSchema = new Schema(
         ref: "Seat",
       },
     ],
+    duration: {
+      type: Number,
+    },
   },
   { timestamps: true }
 );

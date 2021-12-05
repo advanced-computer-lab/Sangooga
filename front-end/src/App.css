@@ -1,5 +1,4 @@
-.website {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.content {
+  max-width: 1000px;
+  margin: auto;
 }

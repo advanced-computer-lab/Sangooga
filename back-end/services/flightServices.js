@@ -3,14 +3,15 @@ const mongoose = require("mongoose");
 
 const createFlight = async (req, res) => {
   try {
-    const seats = req.body.seats;
     const seatIds = [];
-    for (const seat of seats) {
-      const flightSeat = await new Seat(seat).save();
-      seatIds.push(flightSeat._id);
+    const seats = req.body.seats;
+    if (seats) {
+      for (const seat of seats) {
+        const flightSeat = await new Seat(seat).save();
+        seatIds.push(flightSeat._id);
+      }
     }
-    const flight = await new Flight({ ...req.body, seats: seatIds });
-    flight.save();
+    const flight = await new Flight({ ...req.body, seats: seatIds }).save();
     res.status(200).json(flight);
   } catch (err) {
     res.status(400).send(`${err}`);

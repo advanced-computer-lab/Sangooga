@@ -7,12 +7,18 @@
   background-color: #061b41;
   color: white;
   border-radius: 8px;
+  width: 80vw;
 }
 
 .date-range {
   display: grid;
-  place-items: center;
+  grid-auto-flow: column;
+  column-gap: 0.5rem;
+}
+
+.date-range div {
   background-color: white;
+  border-radius: 8px;
 }
 
 .date-label {
@@ -20,4 +26,13 @@
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-weight: 400;
   font-size: 1rem;
+}
+
+.dropDownsContainer {
+  display: flex;
+  margin-left: 3rem;
+}
+
+.dropdown {
+  margin-right: 1rem;
 }
