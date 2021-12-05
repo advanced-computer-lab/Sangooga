@@ -41,7 +41,7 @@ const AdminFlights = () => {
       <Flight
         flights={flights}
         setOriginalFlights={setOriginalFlights}
-        isAdmin={false}
+        isAdmin={true}
       />
     </div>
   );

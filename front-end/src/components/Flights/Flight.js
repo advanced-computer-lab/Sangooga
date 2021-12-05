@@ -25,11 +25,10 @@ const Flight = ({
   };
   return (
     <div>
-      {returnFlights === true ? (
+      {returnFlights === true && !isAdmin && (
         <div>Available return flights:</div>
-      ) : (
-        <div>Departure Flights:</div>
       )}
+      {!returnFlights && !isAdmin && <div>Departure Flights:</div>}
       <Grid
         container
         direction="column"
@@ -39,7 +38,11 @@ const Flight = ({
         <Grid item xs={12}>
           {" "}
           {flights.map((flight) => (
-            <Button onClick={() => returnFlight(flight)}>
+            <Button
+              onClick={() => {
+                if (!isAdmin) returnFlight(flight);
+              }}
+            >
               <Card
                 key={flight.id}
                 depTime={flight.departureDateTime.substring(11, 16)}
