@@ -9,6 +9,11 @@ router
   .post(reservationServices.createReservation)
   .get(reservationServices.getAllReservations);
 
-router.route("/:id").get(reservationServices.getUserReservations);
+router.route("/user/:id").get(reservationServices.getUserReservations);
+
+router
+  .route("/:reservationId")
+  .get(reservationServices.getReservation)
+  .delete(reservationServices.deleteReservation);
 
 module.exports = router;
