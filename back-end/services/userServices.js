@@ -2,6 +2,7 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
+const mongoose = require("mongoose");
 
 const getUser = async (req, res) => {
   try {
@@ -9,8 +10,9 @@ const getUser = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(401).send(`No user with ${id}`);
     const user = await User.findById(id);
+    res.status(200).json(user);
   } catch (err) {
-    res.status(400).send("Could not get users");
+    res.status(400).send(`${err}`);
   }
 };
 
@@ -20,6 +22,18 @@ const getUsers = async (req, res) => {
     res.send(users);
   } catch (err) {
     res.status(400).send("Could not find any users");
+  }
+};
+
+const updateUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id))
+      return res.status(401).send(`No user with ${id}`);
+    const updatedUser = await User.updateOne({ _id: id }, req.body);
+    res.status(200).json(updatedUser);
+  } catch (err) {
+    res.status(400).send("Could not update user");
   }
 };
 
@@ -122,4 +136,5 @@ module.exports = {
   getUsers,
   deleteUser,
   getUser,
+  updateUser,
 };

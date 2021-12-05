@@ -4,8 +4,8 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "./Login.css";
-import { Typography } from "@mui/material";
-const Login = ({ setAuthenticated }) => {
+
+const Login = ({ setAuthenticated, setTokenData }) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setError] = useState(false);
@@ -19,9 +19,11 @@ const Login = ({ setAuthenticated }) => {
         username: userName,
         password: password,
       });
-      console.log(user);
-      window.localStorage.setItem(`token`, user.data.token);
+      //console.log(user);
+      window.localStorage.setItem("token", user.data.token);
+      window.localStorage.setItem("userID", user.data._doc._id);
       setAuthenticated(true);
+      // setTokenData(user.data._doc);
       navigate("/home");
     } catch (err) {
       setError(true);

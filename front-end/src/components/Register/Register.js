@@ -4,10 +4,9 @@ import Paper from "@mui/material/Paper";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import emailjs from "emailjs-com";
 import "./Register.css";
 
-const Register = ({ setAuthenticated }) => {
+const Register = ({ setAuthenticated, setTokenData }) => {
   const navigate = useNavigate();
   const [registerData, setRegisterData] = useState({
     username: "",
@@ -18,28 +17,6 @@ const Register = ({ setAuthenticated }) => {
     passport: "",
   });
 
-  const test = () => {
-    const templateParams = {
-      name: "James",
-      notes: "Check this out!",
-    };
-
-    emailjs
-      .send(
-        "service_6q5r9lq09",
-        "template_mtnwpon",
-        templateParams,
-        "user_rMqwMN2CN5vFPS24w7b2i"
-      )
-      .then(
-        function (response) {
-          console.log("SUCCESS!", response.status, response.text);
-        },
-        function (error) {
-          console.log("FAILED...", error);
-        }
-      );
-  };
   const registerUser = async (e) => {
     e.preventDefault();
 
@@ -51,7 +28,8 @@ const Register = ({ setAuthenticated }) => {
       email: registerData.email,
       passport: registerData.passport,
     });
-    window.localStorage.setItem(`token`, user.data.token);
+    window.localStorage.setItem("token", user.data.token);
+    window.localStorage.setItem("userID", user.data._doc._id);
     setAuthenticated(true);
     navigate("/home");
   };
@@ -68,7 +46,7 @@ const Register = ({ setAuthenticated }) => {
       >
         <form onSubmit={registerUser}>
           <TextField
-            className="registerM"
+            className="registerMargin"
             type="text"
             name="username"
             label="username"
@@ -79,7 +57,7 @@ const Register = ({ setAuthenticated }) => {
             }
           />
           <TextField
-            className="registerM"
+            className="registerMargin"
             type="password"
             name="password"
             label="password"
@@ -90,7 +68,7 @@ const Register = ({ setAuthenticated }) => {
             }
           />
           <TextField
-            className="registerM"
+            className="registerMargin"
             type="text"
             name="firstname"
             label="firstname"
@@ -101,7 +79,7 @@ const Register = ({ setAuthenticated }) => {
             }
           />
           <TextField
-            className="registerM"
+            className="registerMargin"
             type="text"
             name="lastname"
             label="lastname"
@@ -112,7 +90,7 @@ const Register = ({ setAuthenticated }) => {
             }
           />
           <TextField
-            className="registerM"
+            className="registerMargin"
             type="email"
             name="email"
             label="email"
@@ -123,7 +101,7 @@ const Register = ({ setAuthenticated }) => {
             }
           />
           <TextField
-            className="registerM"
+            className="registerMargin"
             type="text"
             name="passport"
             label="passport"
@@ -138,9 +116,6 @@ const Register = ({ setAuthenticated }) => {
             Register
           </Button>
         </form>
-        <Button onClick={test()} variant="contained">
-          Test
-        </Button>
       </Paper>
     </div>
   );
