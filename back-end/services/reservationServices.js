@@ -1,18 +1,42 @@
-const {
-  Reservation,
-  Seat
-} = require("../models/flight");
+const { Reservation, Seat } = require("../models/flight");
 const mongoose = require("mongoose");
 const User = require("../models/user");
 const nodemailer = require("nodemailer");
 const config = require("../config/index");
 const createReservation = async (req, res) => {
   try {
+    console.log("ReservationNumber is:", req.body.reservationNumber);
     const seats = req.body.seats;
+    console.log("Seats are:", seats);
     const reservation = await new Reservation({
-      ...req.body,
-      seats
+      reservationNumber: req.body.reservationNumber,
+      user: req.body.user,
+      flight: req.body.flight,
+      seats: seats,
     });
+    seatIDs = req.body.seats;
+    console.log("Seat IDs:", seatIDs);
+    for (var i = 0; i < seatIDs.length; i++) {
+      const result = await Seat.find({
+        _id: seatIDs[i],
+      });
+      console.log("seat result is:", seatIDs[i]);
+
+      if (result[0].seatStatus == true) {
+        await Seat.updateOne(
+          {
+            _id: seatIDs[i],
+          },
+          {
+            $set: {
+              seatStatus: false,
+            },
+          }
+        );
+      } else {
+        console.log("Seat Already Reserved");
+      }
+    }
     reservation.save();
     res.status(200).json(reservation);
   } catch (err) {
@@ -35,17 +59,15 @@ const getAllReservations = async (req, res) => {
 
 const getUserReservations = async (req, res) => {
   try {
-    const {
-      id
-    } = req.params;
+    const { id } = req.params;
     const reservations = await Reservation.find({
-        user: id
-      })
+      user: id,
+    })
       .populate("flight")
       .populate("user")
       .populate("seats")
       .exec();
-
+    console.log("RESERVATIONS IN BACKEND ARE:", reservations);
     res.status(200).json(reservations);
   } catch (err) {
     res.status(400).send(`${err}`);
@@ -54,12 +76,10 @@ const getUserReservations = async (req, res) => {
 
 const deleteReservation = async (req, res) => {
   try {
-    const {
-      reservationId
-    } = req.params;
+    const { reservationId } = req.params;
     const reservationData = await Reservation.findOne({
-        _id: reservationId
-      })
+      _id: reservationId,
+    })
       .populate("flight")
       .populate("user")
       .populate("seats")
@@ -72,7 +92,7 @@ const deleteReservation = async (req, res) => {
     });
     console.log(reservationCost);
     const reservation = await Reservation.deleteOne({
-      _id: reservationId
+      _id: reservationId,
     });
     const transporter = nodemailer.createTransport({
       service: "hotmail",
@@ -104,12 +124,10 @@ const deleteReservation = async (req, res) => {
 
 const getReservation = async (req, res) => {
   try {
-    const {
-      reservationId
-    } = req.params;
+    const { reservationId } = req.params;
     const reservation = await Reservation.find({
-        _id: reservationId
-      })
+      _id: reservationId,
+    })
       .populate("flight")
       .populate("user")
       .populate("seats")

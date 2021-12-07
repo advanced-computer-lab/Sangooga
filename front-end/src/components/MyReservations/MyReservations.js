@@ -11,16 +11,23 @@ import CancelReservationPopUpButton from "../CancelReservationPopupButton/Cancel
 
 const MyReservations = () => {
   const [Reservations, setReservations] = useState([]);
-  //   const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [res, setRes] = useState([]);
+
   const fetchReservations = async () => {
     const currentUserId = window.localStorage.getItem("userId");
+
     const results = await axios.get(
       `http://localhost:5000/reservation/user/${currentUserId}`,
       {
         headers: { Authorization: window.localStorage.getItem("token") },
       }
     );
+
+    console.log("reservation result:", results.data);
     setReservations(results.data);
+    setRes(results.data);
+    console.log("Reservation  are:", Reservations);
   };
 
   const getPrice = (reservation) => {
@@ -31,25 +38,25 @@ const MyReservations = () => {
     return "$" + price;
   };
 
-  //   const cancelReservation = async (reservation) => {
-  //     const deletedReservation = await axios.delete(
-  //       `http://localhost:5000/reservation/${reservation._id}`,
-  //       {
-  //         headers: { Authorization: window.localStorage.getItem("token") },
-  //       }
-  //     );
-  //     setReservations(
-  //       Reservations.filter((reservation) => reservation != deletedReservation)
-  //     );
-  //   };
-
-  //   const showCancelPopup = () => {
-  //     setShowDeletePopup(true);
-  //   };
-
   useEffect(() => {
     fetchReservations();
   }, []);
+
+  const cancelReservation = async (reservation) => {
+    const deletedReservation = await axios.delete(
+      `http://localhost:5000/reservation/${reservation._id}`,
+      {
+        headers: { Authorization: window.localStorage.getItem("token") },
+      }
+    );
+    setReservations(
+      Reservations.filter((reservation) => reservation != deletedReservation)
+    );
+  };
+
+  const showCancelPopup = () => {
+    setShowDeletePopup(true);
+  };
 
   return (
     <div>
@@ -87,6 +94,7 @@ const MyReservations = () => {
               >
                 Cancel Reservation
               </Button> */}
+
               <CancelReservationPopUpButton reservationId={reservation._id} />
             </CardActions>
           </Card>

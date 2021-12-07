@@ -25,7 +25,7 @@ const Home = () => {
   useEffect(() => {
     fetchFlights();
   }, []);
-  console.log(choosenFlights);
+  console.log("choooosen flights are :", choosenFlights);
 
   const ChooseText = () => {
     if (flights === [])
