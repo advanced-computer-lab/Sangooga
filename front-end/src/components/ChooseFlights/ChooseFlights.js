@@ -3,7 +3,7 @@ import Card from "../Card/Card.js";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 
-const Flight = ({
+const ChooseFlights = ({
   flights,
   setChoosenFlights,
   setReturnFlights,
@@ -35,7 +35,6 @@ const Flight = ({
         alignItems="center"
       >
         <Grid item xs={12}>
-          {" "}
           {flights.map((flight) => (
             <Button
               onClick={() => {
@@ -44,20 +43,20 @@ const Flight = ({
             >
               <Card
                 key={flight.id}
-                depTime={flight.departureDateTime.substring(11, 16)}
-                arrTime={flight.arrivalDateTime.substring(11, 16)}
+                depTime={flight.departureDateTime}
+                arrTime={flight.arrivalDateTime}
                 duration={flight.duration}
                 depAirport={flight.departureAirport}
                 arrAirport={flight.arrivalAirport}
                 setOriginalFlights={setOriginalFlights}
                 isAdmin={isAdmin}
                 flight={flight}
-              />{" "}
+              />
             </Button>
-          ))}{" "}
-        </Grid>{" "}
-      </Grid>{" "}
+          ))}
+        </Grid>
+      </Grid>
     </div>
   );
 };
-export default Flight;
+export default ChooseFlights;

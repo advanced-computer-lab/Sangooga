@@ -5,7 +5,6 @@ dotenv.config();
 const auth = (req, res, next) => {
   const token =
     req.body.token || req.query.token || req.header("Authorization");
-  console.log(token);
   if (!token) {
     return res.status(403).send("No token is supplied");
   }

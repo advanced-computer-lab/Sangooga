@@ -18,7 +18,9 @@ const Login = ({ setAuthenticated }) => {
         username: username,
         password: password,
       });
-      window.localStorage.setItem(`token`, user.data.token);
+      console.log(user.data);
+      window.localStorage.setItem("userType", user.data._doc.type);
+      window.localStorage.setItem("token", user.data.token);
       window.localStorage.setItem("userId", user.data._doc._id);
       setAuthenticated(true);
       navigate("/");
