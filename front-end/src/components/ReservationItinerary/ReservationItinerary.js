@@ -9,16 +9,15 @@ import {
   Divider,
 } from "@mui/material";
 import Button from "@mui/material/Button";
-
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+
 const ReservationItinerary = ({}) => {
   const [departurePrice, setDeparturePrice] = useState(0);
   const [returnPrice, setReturnPrice] = useState(0);
   const [departureCabin, setDepartureCabin] = useState(0);
   const [returnCabin, setReturnCabin] = useState(0);
   const location = useLocation();
-  console.log(location.state);
   const departureFlight = location.state.fullData[1];
   const departureSeats = location.state.fullData[0];
   const returnFlight = location.state.fullData[2];

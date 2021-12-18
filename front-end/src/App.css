@@ -1,4 +1,7 @@
-.content {
-  max-width: 1000px;
-  margin: auto;
+.pageWrapper {
+  position: relative;
+  min-height: 100vh;  
+}
+.contentWrapper {
+  padding-bottom: 250px; /* height of your footer */
 }

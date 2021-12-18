@@ -26,63 +26,6 @@ const CreateFlight = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  const seats = useState([
-    {
-      seatNumber: 1,
-      seatClass: "economy",
-      seatPrice: 10,
-      seatStatus: true,
-    },
-    {
-      seatNumber: 2,
-      seatClass: "economy",
-      seatPrice: 10,
-      seatStatus: true,
-    },
-    {
-      seatNumber: 3,
-      seatClass: "economy",
-      seatPrice: 10,
-      seatStatus: true,
-    },
-    {
-      seatNumber: 4,
-      seatClass: "business",
-      seatPrice: 20,
-      seatStatus: true,
-    },
-    {
-      seatNumber: 5,
-      seatClass: "business",
-      seatPrice: 20,
-      seatStatus: true,
-    },
-    {
-      seatNumber: 6,
-      seatClass: "business",
-      seatPrice: 20,
-      seatStatus: true,
-    },
-    {
-      seatNumber: 7,
-      seatClass: "first class",
-      seatPrice: 30,
-      seatStatus: true,
-    },
-    {
-      seatNumber: 8,
-      seatClass: "first class",
-      seatPrice: 30,
-      seatStatus: true,
-    },
-    {
-      seatNumber: 9,
-      seatClass: "first class",
-      seatPrice: 30,
-      seatStatus: true,
-    },
-  ]);
-
   // const validateFlight = () => {
   //   if (
   //     /[^a-zA-Z]/.test(departureAirport) ||
@@ -162,7 +105,6 @@ const CreateFlight = () => {
         businessPrice: businessPrice,
         firstClassSeats: firstClassSeats,
         firstClassPrice: firstClassPrice,
-        seats: seats,
       };
       await axios.post("http://localhost:5000/flight", newFlight, {
         headers: {

@@ -1,18 +1,18 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-
+const moment = require("moment");
 const seatSchema = new Schema({
   seatNumber: {
     type: Number,
   },
   seatClass: {
     type: String,
-    enum: ["economy", "first class", "business"],
+    enum: ["economy_class", "first_class", "business_class"],
   },
   seatPrice: {
     type: Number,
   },
-  seatStatus: {
+  seatTaken: {
     type: Boolean,
     default: true,
   },
@@ -59,14 +59,7 @@ const flightSchema = new Schema(
     },
     departureDateTime: {
       type: Date,
-      default: () => {
-        let d = new Date();
-        let year = d.getFullYear();
-        let month = d.getMonth();
-        let day = d.getDate();
-        let result = new Date(year + 1, month, day);
-        return result;
-      },
+      default: new Date(),
     },
     arrivalAirport: {
       type: String,
@@ -74,14 +67,7 @@ const flightSchema = new Schema(
     },
     arrivalDateTime: {
       type: Date,
-      default: () => {
-        let d = new Date();
-        let year = d.getFullYear();
-        let month = d.getMonth();
-        let day = d.getDate();
-        let result = new Date(year, month, day);
-        return result;
-      },
+      default: new Date(),
     },
     baggageallowance: {
       type: Number,
@@ -94,6 +80,7 @@ const flightSchema = new Schema(
     ],
     duration: {
       type: Number,
+      default: 50,
     },
   },
   { timestamps: true }
