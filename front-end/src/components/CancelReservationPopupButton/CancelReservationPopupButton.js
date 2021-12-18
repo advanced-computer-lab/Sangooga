@@ -12,7 +12,7 @@ const CancelReservationPopUpButton = ({ reservationId }) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const [reservation, setReservation] = useState(null);
+  const [reservation, setReservation] = useState();
   const [flight, setFlight] = useState();
   const [seats, setSeats] = useState();
 

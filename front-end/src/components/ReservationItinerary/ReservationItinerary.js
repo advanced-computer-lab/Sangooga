@@ -24,6 +24,9 @@ const ReservationItinerary = ({}) => {
   const returnSeats = location.state.chosenSeatsIDs;
 
   const book = async () => {
+    console.log("departure seats:", departureSeats);
+    console.log("return seats:", returnSeats);
+    console.log("random number isssssssssssss:", Math.random());
     const currentUserId = window.localStorage.getItem("userId");
     const departureFlightId = departureFlight._id;
     const returnFlightId = returnFlight._id;
@@ -35,28 +38,30 @@ const ReservationItinerary = ({}) => {
     returnSeats.map((map) => {
       returnSeatIds.push(map._id);
     });
+    const depData = {
+      reservationNumber: Math.random() * 100000000000000000,
+      seats: departureSeats,
+      user: currentUserId,
+      flight: departureFlightId,
+    };
+    const arrData = {
+      reservationNumber: Math.random() * 100000000000000000,
+      seats: returnSeats,
+      user: currentUserId,
+      flight: returnFlightId,
+    };
     const departureReservation = await axios.post(
       "http://localhost:5000/reservation/",
+      depData,
       {
         headers: { Authorization: window.localStorage.getItem("token") },
-        body: {
-          reservationNumber: 46581,
-          seats: departureSeatsId,
-          user: currentUserId,
-          flight: departureFlightId,
-        },
       }
     );
     const returnReservation = await axios.post(
       "http://localhost:5000/reservation/",
+      arrData,
       {
         headers: { Authorization: window.localStorage.getItem("token") },
-        body: {
-          reservationNumber: 46581,
-          seats: returnSeatIds,
-          user: currentUserId,
-          flight: returnFlightId,
-        },
       }
     );
   };

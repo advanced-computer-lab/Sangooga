@@ -8,7 +8,7 @@ const ViewAirPlaneSeats = () => {
   const [economySeats, setEconomySeats] = useState([]);
   const [businessSeats, setBusinessSeats] = useState([]);
   const [firstClassSeats, setFirstClassSeats] = useState([]);
-  const [cabin, setCabin] = useState("BusinessSeat");
+  const [cabin, setCabin] = useState("FirstClassSeat");
   const [numberOfSeatsReserved, setNumberOfSeatsReserved] = useState(3);
   const [chosenSeatsIDs, setChosenSeatsIDs] = useState([]);
   const location = useLocation();
