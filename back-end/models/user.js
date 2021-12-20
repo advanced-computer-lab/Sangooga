@@ -33,6 +33,19 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    address: {
+      type: String,
+      required: true,
+    },
+    countryCode: {
+      type: Number,
+      required: true,
+    },
+    phoneNumbers: {
+      type: [String],
+      required: true,
+      default: [],
+    },
   },
   {
     timestamps: true,

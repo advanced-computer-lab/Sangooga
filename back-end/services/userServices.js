@@ -62,9 +62,30 @@ const login = async (req, res) => {
 
 const register = async (req, res) => {
   try {
-    const { username, password, firstname, lastname, email, passport } =
-      req.body;
-    if (!(username && password && firstname && lastname && email && passport)) {
+    const {
+      username,
+      password,
+      firstname,
+      lastname,
+      email,
+      passport,
+      phone,
+      countryCode,
+      address,
+    } = req.body;
+    if (
+      !(
+        username &&
+        password &&
+        firstname &&
+        lastname &&
+        email &&
+        passport &&
+        phone &&
+        countryCode &&
+        address
+      )
+    ) {
       res.status(400).send("Input is missing");
     }
     const alreadyExists = await User.findOne({ username });
@@ -83,6 +104,9 @@ const register = async (req, res) => {
       lastname,
       email,
       passport,
+      address,
+      countryCode,
+      phone: { $push: { phone } },
     });
     const token = jwt.sign(
       { user_id: user._id, username },
@@ -92,27 +116,27 @@ const register = async (req, res) => {
       }
     );
     user.token = token;
-    const transporter = nodemailer.createTransport({
-      service: "hotmail",
-      port: 587,
-      secure: false, // upgrade later with STARTTLS
-      auth: {
-        user: "flights1000@outlook.com",
-        pass: config.emailPassword,
-      },
-    });
-    const options = {
-      from: "flights1000@outlook.com",
-      to: email,
-      subject: "You have successfully made an account!",
-      text: "Thank you for registering!",
-    };
-    transporter.sendMail(options, (err, info) => {
-      if (err) {
-        console.log(err);
-      }
-      console.log(info);
-    });
+    // const transporter = nodemailer.createTransport({
+    //   service: "hotmail",
+    //   port: 587,
+    //   secure: false, // upgrade later with STARTTLS
+    //   auth: {
+    //     user: "flights1000@outlook.com",
+    //     pass: config.emailPassword,
+    //   },
+    // });
+    // const options = {
+    //   from: "flights1000@outlook.com",
+    //   to: email,
+    //   subject: "You have successfully made an account!",
+    //   text: "Thank you for registering!",
+    // };
+    // transporter.sendMail(options, (err, info) => {
+    //   if (err) {
+    //     console.log(err);
+    //   }
+    //   console.log(info);
+    // });
 
     res.status(201).json({ token, ...user });
   } catch (err) {

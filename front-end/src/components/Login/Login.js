@@ -73,7 +73,7 @@ const Login = ({ setAuthenticated }) => {
       </form>
       <br /> <br />
       <Link to="/register">
-        <Button variant="contained">Don't have an account?</Button>
+        <Button sx={{ mb: 2, mt: -2 }}>Don't have an account?</Button>
       </Link>
     </div>
   );
