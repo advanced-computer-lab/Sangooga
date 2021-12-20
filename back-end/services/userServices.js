@@ -53,7 +53,6 @@ const login = async (req, res) => {
           expiresIn: "1h",
         }
       );
-      console.log(token);
       res.status(200).json({ token, ...user });
     }
   } catch (err) {
@@ -89,7 +88,7 @@ const register = async (req, res) => {
       { user_id: user._id, username },
       process.env.JWT_SECRET,
       {
-        expiresIn: "1h",
+        expiresIn: "6h",
       }
     );
     user.token = token;

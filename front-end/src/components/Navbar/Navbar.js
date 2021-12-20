@@ -6,14 +6,16 @@ import Button from "@mui/material/Button";
 import FlightIcon from "@mui/icons-material/Flight";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
+import AccountCircle from "@mui/icons-material/AccountCircle";
 
 const Navbar = ({ authenticated, setAuthenticated }) => {
   const logout = () => {
     window.localStorage.clear();
     setAuthenticated(false);
   };
+  const isAdmin = window.localStorage.getItem("userType") === "admin";
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box>
       <AppBar
         position="static"
         className="navbar"
@@ -28,22 +30,23 @@ const Navbar = ({ authenticated, setAuthenticated }) => {
           >
             Flights
           </Typography>
-          <Link to="/profile">
-            <Button color="inherit">Profile</Button>
-          </Link>
-
-          <Link to="/adminflights">
-            <Button color="inherit">Admin Flights</Button>
-          </Link>
+          {authenticated && isAdmin && (
+            <Link to="/adminflights">
+              <Button color="inherit">Admin Flights</Button>
+            </Link>
+          )}
           <Link to="/">
             <Button color="inherit">Flights</Button>
           </Link>
-          {authenticated ? (
+          {authenticated && (
+            <Link to="/profile">
+              <Button color="inherit">Profile</Button>
+            </Link>
+          )}
+          {authenticated && (
             <Link to="/myreservations">
               <Button color="inherit">My Reservations</Button>
             </Link>
-          ) : (
-            <div />
           )}
           {authenticated ? ( //change link from "/login" to "/" once flights page is replaced with home page
             <Link to="/login">

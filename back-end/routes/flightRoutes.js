@@ -9,6 +9,8 @@ router
   .get(flightServices.getFlights)
   .post(flightServices.createFlight);
 
+router.route("/filter").post(flightServices.filterFlights);
+
 router
   .route("/:id")
   .get(flightServices.getFlightById)

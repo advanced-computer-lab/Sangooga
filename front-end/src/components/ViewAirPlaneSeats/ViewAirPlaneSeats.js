@@ -8,27 +8,27 @@ const ViewAirPlaneSeats = () => {
   const [economySeats, setEconomySeats] = useState([]);
   const [businessSeats, setBusinessSeats] = useState([]);
   const [firstClassSeats, setFirstClassSeats] = useState([]);
-  const [cabin, setCabin] = useState("EconomySeat");
-  const [flightID, setFlightID] = useState("61ac9b67afaf637f9f127e21");
+  const [cabin, setCabin] = useState("FirstClassSeat");
   const [numberOfSeatsReserved, setNumberOfSeatsReserved] = useState(3);
   const [chosenSeatsIDs, setChosenSeatsIDs] = useState([]);
   const location = useLocation();
-  const { flights } = location.state;
-  console.log(location.state);
+  const flights = location.state[0];
 
   useEffect(() => {
     setEconomySeats(
-      flights.filter((economySeat) => economySeat.seatClass === "economy")
+      flights.seats.filter((economySeat) => economySeat.seatClass === "economy")
     );
     console.log("economy seats:", economySeats);
 
     setBusinessSeats(
-      flights.filter((businessSeat) => businessSeat.seatClass === "business")
+      flights.seats.filter(
+        (businessSeat) => businessSeat.seatClass === "business"
+      )
     );
     console.log("business seats:", businessSeats);
 
     setFirstClassSeats(
-      flights.filter(
+      flights.seats.filter(
         (firstClassSeat) => firstClassSeat.seatClass === "first class"
       )
     );
@@ -47,10 +47,9 @@ const ViewAirPlaneSeats = () => {
     <div>
       <Link
         to="/ViewAirPlaneSeatsForReturnFlights/"
-        state={(chosenSeatsIDs, flights[1])}
+        state={[chosenSeatsIDs, location.state[0], location.state[1]]}
       >
-        {" "}
-        Next{" "}
+        Next
       </Link>
       {cabin == "EconomySeat" && (
         <div>

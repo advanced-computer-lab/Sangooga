@@ -8,58 +8,65 @@ import {
   Stack,
   Divider,
 } from "@mui/material";
+import Button from "@mui/material/Button";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
-const ReserationItinerary = ({
-  departureFlight,
-  dePartureSeats,
-  ReturnFlight,
-  ReturnSeats,
-}) => {
+const ReservationItinerary = ({}) => {
   const [departurePrice, setDeparturePrice] = useState(0);
   const [returnPrice, setReturnPrice] = useState(0);
   const [departureCabin, setDepartureCabin] = useState(0);
   const [returnCabin, setReturnCabin] = useState(0);
+  const location = useLocation();
+  const departureFlight = location.state.fullData[1];
+  const departureSeats = location.state.fullData[0];
+  const returnFlight = location.state.fullData[2];
+  const returnSeats = location.state.chosenSeatsIDs;
 
   const book = async () => {
+    console.log("departure seats:", departureSeats);
+    console.log("return seats:", returnSeats);
+    console.log("random number isssssssssssss:", Math.random());
     const currentUserId = window.localStorage.getItem("userId");
     const departureFlightId = departureFlight._id;
-    const returnFlightId = returnFlight_.id;
-    const departureSeatIds = [];
+    const returnFlightId = returnFlight._id;
+    const departureSeatsId = [];
     departureSeats.map((map) => {
       departureSeatsId.push(map._id);
     });
     const returnSeatIds = [];
     returnSeats.map((map) => {
-      returnSeatsId.push(map._id);
+      returnSeatIds.push(map._id);
     });
+    const depData = {
+      reservationNumber: Math.random() * 100000000000000000,
+      seats: departureSeats,
+      user: currentUserId,
+      flight: departureFlightId,
+    };
+    const arrData = {
+      reservationNumber: Math.random() * 100000000000000000,
+      seats: returnSeats,
+      user: currentUserId,
+      flight: returnFlightId,
+    };
     const departureReservation = await axios.post(
       "http://localhost:5000/reservation/",
+      depData,
       {
         headers: { Authorization: window.localStorage.getItem("token") },
-        body: {
-          reservationNumber: 46581,
-          seats: departureSeatsId,
-          user: currentUserId,
-          flight: departureFlightId,
-        },
       }
     );
     const returnReservation = await axios.post(
       "http://localhost:5000/reservation/",
+      arrData,
       {
         headers: { Authorization: window.localStorage.getItem("token") },
-        body: {
-          reservationNumber: 46581,
-          seats: returnSeatsId,
-          user: currentUserId,
-          flight: returnFlightId,
-        },
       }
     );
   };
   const calculatePrices = () => {
-    dePartureSeats.map((seat) => {
+    departureSeats.map((seat) => {
       setDeparturePrice(departurePrice + seat.seatPrice);
     });
     returnSeats.map((seat) => {
@@ -112,13 +119,11 @@ const ReserationItinerary = ({
           </Stack>
         </CardContent>
         <CardActions>
-          <Button color="Success" onClick={book()}>
-            Confirm Booking
-          </Button>
+          <Button onClick={book}>Confirm Booking</Button>
         </CardActions>
       </Card>
     </div>
   );
 };
 
-export default ReserationItinerary;
+export default ReservationItinerary;
