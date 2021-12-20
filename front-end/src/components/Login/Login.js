@@ -1,46 +1,51 @@
 import TextField from "@mui/material/TextField";
-import { useHistory } from "react-router-dom";
 import Button from "@mui/material/Button";
 import axios from "axios";
 import { useState } from "react";
-
-const Login = () => {
-  const [userName, setUserName] = useState("");
+import { useNavigate, Link } from "react-router-dom";
+import "./Login.css";
+const Login = ({ setAuthenticated }) => {
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setError] = useState(false);
+  const navigate = useNavigate();
 
-  const History = useHistory();
   const login = async (e) => {
     e.preventDefault();
     setPassword("");
-    const loginState = await axios.post(`http://localhost:5000/user/login`, {
-      username: userName,
-      password: password,
-    });
-    let successfulLogin = loginState.data;
-    if (successfulLogin) {
-      History.push("/home");
-    } else {
+    try {
+      const user = await axios.post(`http://localhost:5000/user/login`, {
+        username: username,
+        password: password,
+      });
+      console.log(user.data);
+      window.localStorage.setItem("userType", user.data._doc.type);
+      window.localStorage.setItem("token", user.data.token);
+      window.localStorage.setItem("userId", user.data._doc._id);
+      setAuthenticated(true);
+      navigate("/");
+    } catch (err) {
       setError(true);
     }
   };
+
   return (
-    <div>
+    <div className="loginForm">
       <form onSubmit={login}>
         {loginError ? (
           <TextField
             error
             label="Username"
             type="text"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         ) : (
           <TextField
             label="Username"
             type="text"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         )}
         <br /> <br />
@@ -66,6 +71,10 @@ const Login = () => {
           Login
         </Button>
       </form>
+      <br /> <br />
+      <Link to="/register">
+        <Button variant="contained">Don't have an account?</Button>
+      </Link>
     </div>
   );
 };

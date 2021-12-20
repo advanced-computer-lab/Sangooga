@@ -1,3 +1,42 @@
 .searchBar {
-  margin-bottom: 50px;
+  margin: auto;
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 0.25rem;
+  place-items: center;
+  padding: 3rem;
+  background-color: rgba(0, 0, 0, 0.87);
+  color: white;
+  border-radius: 8px;
+  border: 1px solid rgb(122, 122, 122);
+  width: 70vw;
+}
+.container {
+  width: 100%;
+}
+.date-range {
+  display: grid;
+  grid-auto-flow: column;
+  column-gap: 0.5rem;
+}
+
+.date-range div {
+  background-color: white;
+  border-radius: 8px;
+}
+
+.date-label {
+  color: black;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+.dropDownsContainer {
+  display: flex;
+  margin-left: 20rem;
+}
+
+.dropdown {
+  margin-right: 1rem;
 }
