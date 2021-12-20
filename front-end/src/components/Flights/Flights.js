@@ -9,6 +9,11 @@ const Flights = () => {
   const [returnFlights, setReturnFlights] = useState(false);
   const location = useLocation();
   const flights = location.state;
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   console.log(flights);
   const ChooseText = () => {
     if (flights === [])

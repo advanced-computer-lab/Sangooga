@@ -4,34 +4,47 @@ import { useState, useEffect } from "react";
 import jwt_decode from "jwt-decode";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 
-const ViewAirPlaneSeats = () => {
+const ViewAirPlaneSeats = (currentflight) => {
   const [economySeats, setEconomySeats] = useState([]);
   const [businessSeats, setBusinessSeats] = useState([]);
   const [firstClassSeats, setFirstClassSeats] = useState([]);
   const [cabin, setCabin] = useState("FirstClassSeat");
   const [numberOfSeatsReserved, setNumberOfSeatsReserved] = useState(3);
   const [chosenSeatsIDs, setChosenSeatsIDs] = useState([]);
-  const location = useLocation();
-  const flights = location.state[0];
+  //const location = useLocation();
+  //const flights = location.state[0];
 
   useEffect(() => {
+    console.log("Current Flight is:", currentflight);
+    console.log(
+      "Current Flight CurrentFlight is:",
+      currentflight.currentflight
+    );
+    console.log(
+      "Current Flight CurrentFlight Seats is:",
+      currentflight.currentflight.seats
+    );
+
     setEconomySeats(
-      flights.seats.filter((economySeat) => economySeat.seatClass === "economy")
+      currentflight.currentflight.seats.filter(
+        (economySeat) => economySeat.seatClass === "economy_class"
+      )
     );
     console.log("economy seats:", economySeats);
 
     setBusinessSeats(
-      flights.seats.filter(
-        (businessSeat) => businessSeat.seatClass === "business"
+      currentflight.currentflight.seats.filter(
+        (businessSeat) => businessSeat.seatClass === "business_class"
       )
     );
     console.log("business seats:", businessSeats);
 
     setFirstClassSeats(
-      flights.seats.filter(
-        (firstClassSeat) => firstClassSeat.seatClass === "first class"
+      currentflight.currentflight.seats.filter(
+        (firstClassSeat) => firstClassSeat.seatClass === "first_class"
       )
     );
+    console.log("first seats:", firstClassSeats);
   }, []);
 
   const onPickSeat = (id) => {
@@ -45,12 +58,12 @@ const ViewAirPlaneSeats = () => {
 
   return (
     <div>
-      <Link
+      {/* <Link
         to="/ViewAirPlaneSeatsForReturnFlights/"
         state={[chosenSeatsIDs, location.state[0], location.state[1]]}
       >
         Next
-      </Link>
+      </Link> */}
       {cabin == "EconomySeat" && (
         <div>
           {economySeats.map((economySeat) => {
