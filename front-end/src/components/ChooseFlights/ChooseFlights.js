@@ -50,6 +50,7 @@ const ChooseFlights = ({
         <Grid item xs={12}>
           {flights.map((flight) => (
             <Button
+              key={flight.id}
               onClick={() => {
                 if (!isAdmin) returnFlight(flight);
                 handleOpen();
@@ -97,7 +98,7 @@ const ChooseFlights = ({
                 handleClose();
               }}
             >
-              confirm
+              Confirm
             </Button>
             <Button size="small" onClick={handleClose}>
               Go back

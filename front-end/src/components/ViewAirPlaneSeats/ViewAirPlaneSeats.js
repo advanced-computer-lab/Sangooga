@@ -1,7 +1,6 @@
 import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import jwt_decode from "jwt-decode";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 
 const ViewAirPlaneSeats = (currentflight) => {
@@ -11,9 +10,8 @@ const ViewAirPlaneSeats = (currentflight) => {
   const [cabin, setCabin] = useState("FirstClassSeat");
   const [numberOfSeatsReserved, setNumberOfSeatsReserved] = useState(3);
   const [chosenSeatsIDs, setChosenSeatsIDs] = useState([]);
-  //const location = useLocation();
+  const location = useLocation();
   //const flights = location.state[0];
-
   useEffect(() => {
     console.log("Current Flight is:", currentflight);
     console.log(
@@ -58,18 +56,18 @@ const ViewAirPlaneSeats = (currentflight) => {
 
   return (
     <div>
-      {/* <Link
+      <Link
         to="/ViewAirPlaneSeatsForReturnFlights/"
         state={[chosenSeatsIDs, location.state[0], location.state[1]]}
       >
         Next
-      </Link> */}
+      </Link>
       {cabin == "EconomySeat" && (
         <div>
           {economySeats.map((economySeat) => {
             return (
               <div>
-                {economySeat.seatStatus ? (
+                {!economySeat.seatTaken ? (
                   <button
                     key={economySeat._id}
                     onClick={() => {
@@ -92,7 +90,7 @@ const ViewAirPlaneSeats = (currentflight) => {
           {businessSeats.map((businessSeat) => {
             return (
               <div>
-                {businessSeat.seatStatus ? (
+                {!businessSeat.seatTaken ? (
                   <button
                     key={businessSeat._id}
                     onClick={() => {
@@ -114,7 +112,7 @@ const ViewAirPlaneSeats = (currentflight) => {
           {firstClassSeats.map((firstClassSeat) => {
             return (
               <div>
-                {firstClassSeat.seatStatus ? (
+                {!firstClassSeat.seatTaken ? (
                   <button
                     key={firstClassSeat._id}
                     onClick={() => {

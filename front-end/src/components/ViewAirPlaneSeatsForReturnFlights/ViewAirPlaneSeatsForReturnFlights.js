@@ -1,7 +1,6 @@
 import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import jwt_decode from "jwt-decode";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 
 const ViewAirPlaneSeatsForReturnFlights = () => {

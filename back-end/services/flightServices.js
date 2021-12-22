@@ -1,4 +1,7 @@
-const { Flight, Seat } = require("../models/flight");
+const {
+  Flight,
+  Seat
+} = require("../models/flight");
 const mongoose = require("mongoose");
 
 const filterFlights = async (req, res) => {
@@ -15,9 +18,13 @@ const filterFlights = async (req, res) => {
     const flights = await Flight.find({
       departureAirport,
       arrivalAirport,
-      departureDateTime: { $gte: departureDateTime },
-      arrivalDataTime: { $lte: arrivalDataTime },
-    }).exec();
+      departureDateTime: {
+        $gte: departureDateTime
+      },
+      arrivalDataTime: {
+        $lte: arrivalDataTime
+      },
+    }).populate("seats").exec();
     res.send(flights);
   } catch (err) {
     console.log(err);
@@ -50,21 +57,22 @@ const createFlight = async (req, res) => {
             seatPrice = 100;
           }
           for (let j = 1; j <= 10; j++) {
-            const flightSeat = await new Seat([
-              {
-                seatNumber: j,
-                seatClass,
-                seatPrice,
-                seatTaken: false,
-              },
-            ]).save();
+            const flightSeat = await new Seat({
+              seatNumber: j,
+              seatClass,
+              seatPrice,
+              seatTaken: false,
+            }).save();
             seatIds.push(flightSeat._id);
           }
         }
       }
     }
 
-    const flight = await new Flight({ ...req.body, seats: seatIds }).save();
+    const flight = await new Flight({
+      ...req.body,
+      seats: seatIds
+    }).save();
     res.status(200).json(flight);
   } catch (err) {
     res.status(400).send(`${err}`);
@@ -73,10 +81,14 @@ const createFlight = async (req, res) => {
 
 const updateFlight = async (req, res) => {
   try {
-    const { id } = req.params;
+    const {
+      id
+    } = req.params;
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.status(401).send(`No flight with ${id}`);
-    const updatedFlight = await Flight.updateOne({ _id: id }, req.body);
+    const updatedFlight = await Flight.updateOne({
+      _id: id
+    }, req.body);
     res.status(200).json(updatedFlight);
   } catch (err) {
     res.status(400).send("Could not update flight");
@@ -85,7 +97,9 @@ const updateFlight = async (req, res) => {
 
 const deleteFlight = async (req, res) => {
   try {
-    const { id } = req.params;
+    const {
+      id
+    } = req.params;
     if (!mongoose.Types.ObjectId.isValid(id))
       return res.send(`No flight with ${id}`);
     const deletedFlight = await Flight.findByIdAndDelete(id);
@@ -107,7 +121,9 @@ const getFlights = async (req, res) => {
 
 const getFlightById = async (req, res) => {
   try {
-    const { id } = req.params;
+    const {
+      id
+    } = req.params;
     const flight = await Flight.findById(id).populate("seats").exec();
     res.status(200).json(flight);
   } catch (err) {
