@@ -18,6 +18,7 @@ const ReservationItinerary = ({}) => {
   const [departureCabin, setDepartureCabin] = useState(0);
   const [returnCabin, setReturnCabin] = useState(0);
   const location = useLocation();
+  console.log(location);
   const departureFlight = location.state.fullData[1];
   const departureSeats = location.state.fullData[0];
   const returnFlight = location.state.fullData[2];
