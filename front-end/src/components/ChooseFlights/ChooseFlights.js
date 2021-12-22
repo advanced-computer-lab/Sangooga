@@ -1,46 +1,30 @@
 import Grid from "@mui/material/Grid";
 import Card from "../Card/Card.js";
-import { useNavigate } from "react-router-dom";
 import Modal from "@mui/material/Modal";
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import ViewAirPlaneSeats from "../ViewAirPlaneSeats/ViewAirPlaneSeats";
 
 const ChooseFlights = ({
   flights,
   setChoosenFlights,
-  setReturnFlights,
+  setIsReturnFlights,
   choosenFlights,
-  returnFlights,
+  isReturnFlights,
   isAdmin,
   setOriginalFlights,
 }) => {
-  const navigate = useNavigate();
-
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
   const [currentFlight, setCurrentFlight] = useState("");
-
-  const returnFlight = (flight) => {
-    setCurrentFlight(flight);
-    handleOpen();
-    // if (!returnFlights) {
-    //   setChoosenFlights([...choosenFlights, flight]);
-    //   setReturnFlights(true);
-    // } else {
-    //   navigate("/ViewAirPlaneSeats", { state: [...choosenFlights, flight] });
-    // }
-  };
+  const [chosenDepartureSeatsIDs, setChosenDepartureSeatsIDs] = useState([]);
+  const [chosenReturnSeatsIDs, setChosenReturnSeatsIDs] = useState([]);
   return (
     <div>
-      {returnFlights === true && !isAdmin && (
+      {isReturnFlights === true && !isAdmin && (
         <div>Available return flights:</div>
       )}
-      {!returnFlights && !isAdmin && <div>Departure Flights:</div>}
+      {!isReturnFlights && !isAdmin && <div>Departure Flights:</div>}
       <Grid
         container
         direction="column"
@@ -52,8 +36,10 @@ const ChooseFlights = ({
             <Button
               key={flight.id}
               onClick={() => {
-                if (!isAdmin) returnFlight(flight);
-                handleOpen();
+                if (!isAdmin) {
+                  setCurrentFlight(flight);
+                  setOpen(true);
+                }
               }}
             >
               <Card
@@ -73,7 +59,9 @@ const ChooseFlights = ({
       </Grid>
       <Modal
         open={open}
-        onClose={handleClose}
+        onClose={() => {
+          setOpen(false);
+        }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -91,18 +79,16 @@ const ChooseFlights = ({
           }}
         >
           <Box>
-            <ViewAirPlaneSeats currentflight={currentFlight} />
-            <Button
-              size="small"
-              onClick={() => {
-                handleClose();
-              }}
-            >
-              Confirm
-            </Button>
-            <Button size="small" onClick={handleClose}>
-              Go back
-            </Button>
+            <ViewAirPlaneSeats
+              currentflight={currentFlight}
+              isReturnFlights={isReturnFlights}
+              setOpen={setOpen}
+              setIsReturnFlights={setIsReturnFlights}
+              setChosenDepartureSeatsIDs={setChosenDepartureSeatsIDs}
+              chosenDepartureSeatsIDs={chosenDepartureSeatsIDs}
+              chosenReturnSeatsIDs={chosenReturnSeatsIDs}
+              setChosenReturnSeatsIDs={setChosenReturnSeatsIDs}
+            />
           </Box>
         </Box>
       </Modal>

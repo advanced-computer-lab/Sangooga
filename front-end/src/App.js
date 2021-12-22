@@ -5,7 +5,6 @@ import AdminFlights from "./components/AdminFlights/AdminFlights";
 import Login from "./components/Login/Login";
 import Navbar from "./components/Navbar/Navbar";
 import ViewAirPlaneSeats from "./components/ViewAirPlaneSeats/ViewAirPlaneSeats";
-import ViewAirPlaneSeatsForReturnFlights from "./components/ViewAirPlaneSeatsForReturnFlights/ViewAirPlaneSeatsForReturnFlights";
 import Home from "./components/Home/Home";
 import Profile from "./components/Profile/Profile";
 import Register from "./components/Register/Register";
@@ -92,18 +91,6 @@ const App = () => {
               <Route
                 path="/ViewAirPlaneSeats"
                 element={<ViewAirPlaneSeats />}
-              />
-            </Route>
-
-            <Route
-              path="/ViewAirPlaneSeatsForReturnFlights"
-              element={
-                <PrivateRoute loading={loading} authenticated={authenticated} />
-              }
-            >
-              <Route
-                path="/ViewAirPlaneSeatsForReturnFlights"
-                element={<ViewAirPlaneSeatsForReturnFlights />}
               />
             </Route>
 
