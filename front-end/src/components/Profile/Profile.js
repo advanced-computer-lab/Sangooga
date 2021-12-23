@@ -47,21 +47,27 @@ const Profile = ({ userData }) => {
           </Link>
         </Grid>
       </Grid>
+      <Grid container spacing={2}>
+        <Grid item xs={6} sm={6}>
+          <Typography sx={{ fontWeight: "bold", mb: 1 }} variant="h6">
+            First name:
+          </Typography>
+          <Typography variant="h6" sx={{ fontFamily: "Monospace" }}>
+            {userData.firstname}
+          </Typography>
+          <Divider sx={{ mb: 2 }} />
+        </Grid>
+        <Grid item xs={6} sm={6}>
+          <Typography sx={{ fontWeight: "bold", mb: 1 }} variant="h6">
+            Last name:
+          </Typography>
+          <Typography variant="h6" sx={{ fontFamily: "Monospace" }}>
+            {userData.lastname}
+          </Typography>
+          <Divider sx={{ mb: 2 }} />
+        </Grid>
+      </Grid>
 
-      <Typography sx={{ fontWeight: "bold", mb: 1 }} variant="h6">
-        First name:
-      </Typography>
-      <Typography variant="h6" sx={{ fontFamily: "Monospace" }}>
-        {userData.firstname}
-      </Typography>
-      <Divider sx={{ mb: 2 }} variant="fullwidth" />
-      <Typography sx={{ fontWeight: "bold", mb: 1 }} variant="h6">
-        Last name:
-      </Typography>
-      <Typography variant="h6" sx={{ fontFamily: "Monospace" }}>
-        {userData.lastname}
-      </Typography>
-      <Divider sx={{ mb: 2 }} variant="fullwidth" />
       <Typography sx={{ fontWeight: "bold", mb: 1 }} variant="h6">
         Email:
       </Typography>
@@ -75,6 +81,36 @@ const Profile = ({ userData }) => {
       <Typography variant="h6" sx={{ fontFamily: "Monospace" }}>
         {userData.passport}
       </Typography>
+      <Divider sx={{ mb: 2 }} variant="fullwidth" />
+      <Typography sx={{ fontWeight: "bold", mb: 1 }} variant="h6">
+        phone Number:
+      </Typography>
+      <Typography variant="h6" sx={{ fontFamily: "Monospace" }}>
+        {userData.phone}
+      </Typography>
+      <Divider sx={{ mb: 2 }} variant="fullwidth" />
+      <Grid container spacing={2}>
+        <Grid item xs={6} sm={6}>
+          <Typography sx={{ fontWeight: "bold", mb: 1 }} variant="h6">
+            Address:
+          </Typography>
+          <Typography variant="h6" sx={{ fontFamily: "Monospace" }}>
+            {userData.address}
+          </Typography>
+
+          <Divider sx={{ mb: 2 }} />
+        </Grid>
+        <Grid item xs={6} sm={6}>
+          <Typography sx={{ fontWeight: "bold", mb: 1 }} variant="h6">
+            Country Code:
+          </Typography>
+          <Typography variant="h6" sx={{ fontFamily: "Monospace" }}>
+            {userData.countryCode}
+          </Typography>
+          <Divider sx={{ mb: 2 }} />
+        </Grid>
+      </Grid>
+
       <Link to="/profileEdit">
         <Button sx={{ pl: 2, mt: 2 }} fullWidth variant="contained">
           Edit <EditIcon sx={{ ml: 1, fontSize: "medium" }} />

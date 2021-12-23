@@ -36,7 +36,7 @@ const Register = ({ setAuthenticated, setTokenData }) => {
       phone: registerData.phone,
     });
     window.localStorage.setItem("token", user.data.token);
-    window.localStorage.setItem("userID", user.data._doc._id);
+    window.localStorage.setItem("userId", user.data._doc._id);
     setAuthenticated(true);
     navigate("/home");
   };
@@ -172,7 +172,7 @@ const Register = ({ setAuthenticated, setTokenData }) => {
               </Typography>
               <TextField
                 sx={{ mb: 4 }}
-                type="number"
+                type="text"
                 name="countryCode"
                 fullWidth
                 value={registerData.countryCode}

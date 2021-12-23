@@ -38,13 +38,12 @@ const userSchema = new Schema(
       required: true,
     },
     countryCode: {
-      type: Number,
+      type: String,
       required: true,
     },
-    phoneNumbers: {
-      type: [String],
+    phone: {
+      type: String,
       required: true,
-      default: [],
     },
   },
   {

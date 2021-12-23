@@ -26,8 +26,10 @@ const ProfileEditPass = ({ userData }) => {
         newPassword: passData.newPassword,
       });
       navigate("/profile");
+      console.log("yo12");
     } catch (err) {
       setError(true);
+      console.log("yo2");
     }
   };
   return (

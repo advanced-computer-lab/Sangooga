@@ -59,7 +59,7 @@ const updatePass = async (req, res) => {
       res.status(200).json(updatedPass);
     }
   } catch (err) {
-    res.status(400).send("Could not update pass");
+    res.status(400).send(`${err}`);
   }
 };
 const login = async (req, res) => {
@@ -93,10 +93,11 @@ const register = async (req, res) => {
       lastname,
       email,
       passport,
-      phone,
-      countryCode,
       address,
+      countryCode,
+      phone,
     } = req.body;
+
     if (
       !(
         username &&
@@ -110,7 +111,7 @@ const register = async (req, res) => {
         address
       )
     ) {
-      res.status(400).send("Input is missing");
+      return res.status(400).send("Input is missing");
     }
     const alreadyExists = await User.findOne({ username });
     if (alreadyExists) {
@@ -130,7 +131,7 @@ const register = async (req, res) => {
       passport,
       address,
       countryCode,
-      phone: { $push: { phone } },
+      phone,
     });
     const token = jwt.sign(
       { user_id: user._id, username },

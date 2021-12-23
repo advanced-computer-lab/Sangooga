@@ -50,7 +50,7 @@ const App = () => {
       });
     setLoading(false);
   }, []);
-  const [userId, setUserId] = useState(window.localStorage.getItem("userID"));
+  const [userId, setUserId] = useState(window.localStorage.getItem("userId"));
 
   const [userData, setUserData] = useState([]);
 
@@ -65,7 +65,7 @@ const App = () => {
   };
   useEffect(() => {
     getUserData();
-  }, []);
+  }, [userData]);
   console.log(userData);
   return (
     <>
