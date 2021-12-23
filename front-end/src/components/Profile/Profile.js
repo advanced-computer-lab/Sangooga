@@ -10,28 +10,12 @@ import {
 import { useNavigate, Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import SendIcon from "@mui/icons-material/Send";
-import axios from "axios";
+
+import SettingsIcon from "@mui/icons-material/Settings";
 import ProfileEdit from "./ProfileEdit";
 
-const Profile = () => {
+const Profile = ({ userData }) => {
   const navigate = useNavigate();
-  const userId = window.localStorage.getItem("userId");
-
-  const [userData, setUserData] = useState([]);
-
-  const getUserData = async () => {
-    const result = await axios.get(`http://localhost:5000/user/${userId}`, {
-      headers: {
-        Authorization: window.localStorage.getItem("token"),
-      },
-    });
-
-    setUserData(result.data);
-  };
-  useEffect(() => {
-    getUserData();
-  }, []);
-  console.log(userData);
 
   // const editButton = () => {
   //   setEdit((current) => !current);
@@ -46,11 +30,24 @@ const Profile = () => {
         width: "50%",
         height: "100%",
         mx: "auto",
+        mb: 5,
       }}
     >
-      <Typography sx={{ fontWeight: "bold", mb: 2 }} variant="h3">
-        {userData.username}
-      </Typography>
+      <Grid container spacing={2}>
+        <Grid item xs={6} sm={10}>
+          <Typography sx={{ fontWeight: "bold", mb: 2 }} variant="h3">
+            {userData.username}
+          </Typography>
+        </Grid>
+        <Grid item xs={6} sm={2}>
+          <Link to="/profileEditPass">
+            <Button sx={{ pl: 2, mt: 2 }}>
+              <SettingsIcon sx={{ ml: 1, fontSize: "medium" }} />
+            </Button>
+          </Link>
+        </Grid>
+      </Grid>
+
       <Typography sx={{ fontWeight: "bold", mb: 1 }} variant="h6">
         First name:
       </Typography>

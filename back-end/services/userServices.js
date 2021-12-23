@@ -37,7 +37,31 @@ const updateUser = async (req, res) => {
     res.status(400).send("Could not update user");
   }
 };
+const updatePass = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { oldPassword, newPassword } = req.body;
+    // console.log(oldPassword);
+    // console.log(newPassword);
+    // console.log(id);
+    // if (!(oldPassword && newPassword)) {
+    //   return res.status(400).send("All input is required");
+    // }
+    const user = await User.findOne({ _id: id });
+    // console.log(user);
+    if (user && (await bcrypt.compare(oldPassword, user.password))) {
+      hashedPass = await bcrypt.hash(newPassword, 10);
+      const updatedPass = await User.updateOne(
+        { _id: id },
+        { password: hashedPass }
+      );
 
+      res.status(200).json(updatedPass);
+    }
+  } catch (err) {
+    res.status(400).send("Could not update pass");
+  }
+};
 const login = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -161,4 +185,5 @@ module.exports = {
   deleteUser,
   getUser,
   updateUser,
+  updatePass,
 };

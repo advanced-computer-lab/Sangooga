@@ -10,6 +10,8 @@ import Home from "./components/Home/Home";
 import Profile from "./components/Profile/Profile";
 import Register from "./components/Register/Register";
 import ProfileEdit from "./components/Profile/ProfileEdit";
+import ProfileEditPass from "./components/Profile/ProfileEditPass";
+import ProfileSetting from "./components/Profile/ProfileSetting";
 import MyReservations from "./components/MyReservations/MyReservations";
 import "./App.css";
 import Flights from "./components/Flights/Flights";
@@ -48,7 +50,23 @@ const App = () => {
       });
     setLoading(false);
   }, []);
+  const [userId, setUserId] = useState(window.localStorage.getItem("userID"));
 
+  const [userData, setUserData] = useState([]);
+
+  const getUserData = async () => {
+    const result = await axios.get(`http://localhost:5000/user/${userId}`, {
+      headers: {
+        Authorization: window.localStorage.getItem("token"),
+      },
+    });
+
+    setUserData(result.data);
+  };
+  useEffect(() => {
+    getUserData();
+  }, []);
+  console.log(userData);
   return (
     <>
       <div className="pageWrapper">
@@ -129,18 +147,54 @@ const App = () => {
             <Route
               path="/profile"
               element={
-                <PrivateRoute loading={loading} authenticated={authenticated} />
+                <PrivateRoute
+                  loading={loading}
+                  authenticated={authenticated}
+                  userData={userData}
+                />
               }
             >
-              <Route path="/profile" element={<Profile />} />
+              <Route
+                path="/profile"
+                element={<Profile userData={userData} />}
+              />
             </Route>
             <Route
               path="/profileEdit"
               element={
+                <PrivateRoute
+                  loading={loading}
+                  authenticated={authenticated}
+                  userData={userData}
+                />
+              }
+            >
+              <Route
+                path="/profileEdit"
+                element={<ProfileEdit userData={userData} />}
+              />
+            </Route>
+            <Route
+              path="/profileEditPass"
+              element={
                 <PrivateRoute loading={loading} authenticated={authenticated} />
               }
             >
-              <Route path="/profileEdit" element={<ProfileEdit />} />
+              <Route
+                path="/profileEditPass"
+                element={<ProfileEditPass userData={userData} />}
+              />
+            </Route>
+            <Route
+              path="/profileSetting"
+              element={
+                <PrivateRoute loading={loading} authenticated={authenticated} />
+              }
+            >
+              <Route
+                path="/profileSetting"
+                element={<ProfileSetting userData={userData} />}
+              />
             </Route>
             <Route
               path="/register"
