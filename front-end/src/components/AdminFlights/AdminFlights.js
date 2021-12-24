@@ -10,14 +10,13 @@ const AdminFlights = () => {
   return (
     <div>
       <div className="search-container">
-        <Search className="searchFilters" isAdmin={true} />
         <Link to="/createFlight">
           <Button variant="contained" className="newFlightButton">
             Create New Flight
           </Button>
         </Link>
       </div>
-      <Flights flights={[]} isAdmin={true} />
+      <Flights isAdmin={true} />
     </div>
   );
 };

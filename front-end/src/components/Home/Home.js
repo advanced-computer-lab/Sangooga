@@ -39,9 +39,6 @@ const Home = () => {
 
   return (
     <div className="home">
-      <div className="search-container">
-        <Search isAdmin={false} />
-      </div>
       <Grid container spacing={2} className="cardGrid">
         <Grid item xs={6}>
           <Card sx={{ maxWidth: 345 }}>

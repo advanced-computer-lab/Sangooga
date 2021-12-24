@@ -18,7 +18,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Footer from "./components/Footer/Footer";
 import axios from "axios";
 import ReservationItinerary from "./components/ReservationItinerary/ReservationItinerary";
-
+import Search from "./components/Search/Search";
 const PrivateRoute = ({ authenticated, loading }) => {
   return authenticated ? (
     <Outlet />
@@ -63,8 +63,26 @@ const App = () => {
         />
         <div className="contentWrapper">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/flights" element={<Flights />} />
+            <Route
+              path="/"
+              element={
+                <>
+                  <Search isAdmin={false} />
+
+                  <Home />
+                </>
+              }
+            />
+            <Route
+              path="/flights"
+              element={
+                <>
+                  <Search isAdmin={false} />
+
+                  <Flights />
+                </>
+              }
+            />
             <Route
               path="/login"
               element={<Login setAuthenticated={setAuthenticated} />}
@@ -76,7 +94,15 @@ const App = () => {
                 <PrivateRoute loading={loading} authenticated={authenticated} />
               }
             >
-              <Route path="/adminFlights" element={<AdminFlights />} />
+              <Route
+                path="/adminFlights"
+                element={
+                  <>
+                    <Search isAdmin={true} />
+                    <AdminFlights />
+                  </>
+                }
+              />
             </Route>
 
             <Route

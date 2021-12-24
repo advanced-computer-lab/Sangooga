@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "./Navbar.css";
 import AccountCircle from "@mui/icons-material/AccountCircle";
+import { NavLink } from "react-router-dom";
 
 const Navbar = ({ authenticated, setAuthenticated, setUserData }) => {
   const logout = () => {
@@ -19,53 +20,73 @@ const Navbar = ({ authenticated, setAuthenticated, setUserData }) => {
   const isAdmin = window.localStorage.getItem("userType") === "admin";
 
   return (
-    <Box>
-      <AppBar
-        position="static"
-        className="navbar"
-        style={{ background: "white" }}
-      >
-        <Toolbar>
-          <FlightIcon sx={{ color: "black" }} />
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, color: "black" }}
-          >
-            Flights
-          </Typography>
-          {authenticated && isAdmin && (
-            <Link to="/adminflights">
-              <Button color="inherit">Admin Flights</Button>
-            </Link>
-          )}
-          <Link to="/">
-            <Button color="inherit">Flights</Button>
-          </Link>
-          {authenticated && (
-            <Link to="/profile">
-              <Button color="inherit">Profile</Button>
-            </Link>
-          )}
-          {authenticated && (
-            <Link to="/myreservations">
-              <Button color="inherit">My Reservations</Button>
-            </Link>
-          )}
-          {authenticated ? ( //change link from "/login" to "/" once flights page is replaced with home page
-            <Link to="/login">
-              <Button color="inherit" onClick={logout}>
-                Logout
-              </Button>
-            </Link>
-          ) : (
-            <Link to="/login">
-              <Button color="inherit">Login</Button>
-            </Link>
-          )}
-        </Toolbar>
-      </AppBar>
-    </Box>
+    <nav>
+      <Box>
+        <AppBar
+          position="static"
+          className="navbar"
+          style={{ background: "white" }}
+        >
+          <Toolbar>
+            <FlightIcon sx={{ color: "black" }} />
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1, color: "black" }}
+            >
+              Flights
+            </Typography>
+            {authenticated && isAdmin && (
+              <NavLink
+                to="/adminflights"
+                activeStyle={{ textDecoration: "underline", color: "red" }}
+              >
+                <Button color="inherit">Admin Flights</Button>
+              </NavLink>
+            )}
+            <NavLink
+              to="/"
+              activeStyle={{ textDecoration: "underline", color: "red" }}
+            >
+              <Button color="inherit">Flights</Button>
+            </NavLink>
+            {authenticated && (
+              <NavLink
+                to="/profile"
+                activeStyle={{ textDecoration: "underline", color: "red" }}
+              >
+                <Button color="inherit">Profile</Button>
+              </NavLink>
+            )}
+            {authenticated && (
+              <NavLink
+                to="/myreservations"
+                activeStyle={{ textDecoration: "underline", color: "red" }}
+              >
+                <Button color="inherit">My Reservations</Button>
+              </NavLink>
+            )}
+            {authenticated ? ( //change link from "/login" to "/" once flights page is replaced with home page
+              <NavLink
+                to="/login"
+                activeStyle={{ textDecoration: "underline", color: "red" }}
+              >
+                <Button color="inherit" onClick={logout}>
+                  Logout
+                </Button>
+              </NavLink>
+            ) : (
+              <NavLink
+                to="/login"
+                activeStyle={{ textDecoration: "underline", color: "red" }}
+              >
+                <Button color="inherit">Login</Button>
+              </NavLink>
+            )}
+          </Toolbar>
+        </AppBar>
+      </Box>
+    </nav>
   );
 };
 export default Navbar;
