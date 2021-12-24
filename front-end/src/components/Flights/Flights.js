@@ -6,9 +6,10 @@ import { useLocation } from "react-router-dom";
 
 const Flights = () => {
   const [choosenFlights, setChoosenFlights] = useState([]);
-  const [returnFlights, setReturnFlights] = useState(false);
+  const [isReturnFlights, setIsReturnFlights] = useState(false);
   const location = useLocation();
   const flights = location.state;
+
   console.log(flights);
   const ChooseText = () => {
     if (flights === [])
@@ -30,8 +31,8 @@ const Flights = () => {
         flights={flights}
         setChoosenFlights={setChoosenFlights}
         choosenFlights={choosenFlights}
-        setReturnFlights={setReturnFlights}
-        returnFlights={returnFlights}
+        setIsReturnFlights={setIsReturnFlights}
+        isReturnFlights={isReturnFlights}
       />
     </div>
   );
