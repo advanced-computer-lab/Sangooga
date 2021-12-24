@@ -19,6 +19,7 @@ import Footer from "./components/Footer/Footer";
 import axios from "axios";
 import ReservationItinerary from "./components/ReservationItinerary/ReservationItinerary";
 import Search from "./components/Search/Search";
+import PaymentSuccess from "./components/PaymentSuccess/PaymentSuccess";
 const PrivateRoute = ({ authenticated, loading }) => {
   return authenticated ? (
     <Outlet />
@@ -144,6 +145,14 @@ const App = () => {
                 path="/reservationItinerary"
                 element={<ReservationItinerary />}
               />
+            </Route>
+            <Route
+              path="/paymentSuccess"
+              element={
+                <PrivateRoute loading={loading} authenticated={authenticated} />
+              }
+            >
+              <Route path="/paymentSuccess" element={<PaymentSuccess />} />
             </Route>
             <Route
               path="/profile"

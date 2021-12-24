@@ -23,7 +23,7 @@ const createCheckoutSession = async (req, res) => {
   console.log("ret", retPrice);
   const checoutSession = await stripe.checkout.sessions.create({
     success_url: "http://localhost:3000/paymentSuccess",
-    cancel_url: "http://localhost:3000/reservationItinerary",
+    cancel_url: "http://localhost:3000/",
     customer: stripeCustomerId,
     line_items: [
       {
