@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
-import DateTimePicker from "@mui/lab/DateTimePicker";
+import DatePicker from "@mui/lab/DatePicker";
 import DateAdapter from "@mui/lab/AdapterMoment";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { InputAdornment, Grid } from "@mui/material";
@@ -33,6 +33,11 @@ const Search = ({
   const [numberOfSeats, setNumberOfSeats] = useState(1);
   const [selectedClass, setSelectedClass] = useState("economy_class");
   const navigate = useNavigate();
+
+  const getTime = (e) => {
+    setArrivalDateTime(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
+    console.log(arrivalDateTime);
+  };
 
   const filterFlights = async () => {
     try {
