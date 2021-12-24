@@ -50,22 +50,9 @@ const App = () => {
       });
     setLoading(false);
   }, []);
-  const [userId, setUserId] = useState(window.localStorage.getItem("userId"));
 
   const [userData, setUserData] = useState([]);
 
-  const getUserData = async () => {
-    const result = await axios.get(`http://localhost:5000/user/${userId}`, {
-      headers: {
-        Authorization: window.localStorage.getItem("token"),
-      },
-    });
-
-    setUserData(result.data);
-  };
-  useEffect(() => {
-    getUserData();
-  }, [userData]);
   console.log(userData);
   return (
     <>
@@ -73,6 +60,7 @@ const App = () => {
         <Navbar
           authenticated={authenticated}
           setAuthenticated={setAuthenticated}
+          setUserData={setUserData}
         />
         <div className="contentWrapper">
           <Routes>
@@ -151,12 +139,15 @@ const App = () => {
                   loading={loading}
                   authenticated={authenticated}
                   userData={userData}
+                  setUserData={setUserData}
                 />
               }
             >
               <Route
                 path="/profile"
-                element={<Profile userData={userData} />}
+                element={
+                  <Profile userData={userData} setUserData={setUserData} />
+                }
               />
             </Route>
             <Route
@@ -166,12 +157,15 @@ const App = () => {
                   loading={loading}
                   authenticated={authenticated}
                   userData={userData}
+                  setUserData={setUserData}
                 />
               }
             >
               <Route
                 path="/profileEdit"
-                element={<ProfileEdit userData={userData} />}
+                element={
+                  <ProfileEdit userData={userData} setUserData={setUserData} />
+                }
               />
             </Route>
             <Route

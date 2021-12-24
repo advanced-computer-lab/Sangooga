@@ -49,6 +49,8 @@ const updatePass = async (req, res) => {
     // }
     const user = await User.findOne({ _id: id });
     // console.log(user);
+    if (!(await bcrypt.compare(oldPassword, user.password)))
+      return res.status(400).send("Incorrect password");
     if (user && (await bcrypt.compare(oldPassword, user.password))) {
       hashedPass = await bcrypt.hash(newPassword, 10);
       const updatedPass = await User.updateOne(

@@ -26,10 +26,8 @@ const ProfileEditPass = ({ userData }) => {
         newPassword: passData.newPassword,
       });
       navigate("/profile");
-      console.log("yo12");
     } catch (err) {
       setError(true);
-      console.log("yo2");
     }
   };
   return (
@@ -53,10 +51,10 @@ const ProfileEditPass = ({ userData }) => {
         {passError ? (
           <TextField
             error
-            error
             sx={{ mb: 1 }}
             name="oldPassword"
             fullWidth
+            type="password"
             value={passData.oldPassword}
             helperText="Incorrect password"
             onChange={(e) => {
@@ -68,6 +66,7 @@ const ProfileEditPass = ({ userData }) => {
             sx={{ mb: 1 }}
             name="oldPassword"
             fullWidth
+            type="password"
             value={passData.oldPassword}
             onChange={(e) => {
               setPassData({ ...passData, oldPassword: e.target.value });
@@ -79,10 +78,10 @@ const ProfileEditPass = ({ userData }) => {
         </Typography>
         {passError ? (
           <TextField
-            error
             sx={{ mb: 1 }}
             name="newPassword"
             fullWidth
+            type="password"
             value={passData.newPassword}
             onChange={(e) => {
               setPassData({ ...passData, newPassword: e.target.value });
@@ -93,6 +92,7 @@ const ProfileEditPass = ({ userData }) => {
             sx={{ mb: 1 }}
             name="newPassword"
             fullWidth
+            type="password"
             value={passData.newPassword}
             onChange={(e) => {
               setPassData({ ...passData, newPassword: e.target.value });

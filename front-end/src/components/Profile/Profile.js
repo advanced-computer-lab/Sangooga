@@ -10,13 +10,25 @@ import {
 import { useNavigate, Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import SendIcon from "@mui/icons-material/Send";
-
+import axios from "axios";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ProfileEdit from "./ProfileEdit";
 
-const Profile = ({ userData }) => {
+const Profile = ({ userData, setUserData }) => {
+  const [userId, setUserId] = useState(window.localStorage.getItem("userId"));
   const navigate = useNavigate();
+  const getUserData = async () => {
+    const result = await axios.get(`http://localhost:5000/user/${userId}`, {
+      headers: {
+        Authorization: window.localStorage.getItem("token"),
+      },
+    });
 
+    setUserData(result.data);
+  };
+  useEffect(() => {
+    getUserData();
+  }, []);
   // const editButton = () => {
   //   setEdit((current) => !current);
   //   console.log(edit);
@@ -34,18 +46,12 @@ const Profile = ({ userData }) => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item xs={6} sm={10}>
+        <Grid item xs={10} sm={10}>
           <Typography sx={{ fontWeight: "bold", mb: 2 }} variant="h3">
             {userData.username}
           </Typography>
         </Grid>
-        <Grid item xs={6} sm={2}>
-          <Link to="/profileEditPass">
-            <Button sx={{ pl: 2, mt: 2 }}>
-              <SettingsIcon sx={{ ml: 1, fontSize: "medium" }} />
-            </Button>
-          </Link>
-        </Grid>
+        <Grid item xs={2} sm={2}></Grid>
       </Grid>
       <Grid container spacing={2}>
         <Grid item xs={6} sm={6}>
@@ -113,7 +119,12 @@ const Profile = ({ userData }) => {
 
       <Link to="/profileEdit">
         <Button sx={{ pl: 2, mt: 2 }} fullWidth variant="contained">
-          Edit <EditIcon sx={{ ml: 1, fontSize: "medium" }} />
+          Edit Profile <EditIcon sx={{ ml: 1, fontSize: "medium" }} />
+        </Button>
+      </Link>
+      <Link to="/profileEditPass">
+        <Button sx={{ pl: 2, mt: 2 }} variant="outlined" fullWidth>
+          change Password?
         </Button>
       </Link>
     </Paper>
