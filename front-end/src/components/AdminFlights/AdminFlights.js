@@ -17,7 +17,7 @@ const AdminFlights = () => {
           </Button>
         </Link>
       </div>
-      <Flights flights={[]} isAdmin={true} />
+      <Flights isAdmin={true} />
     </div>
   );
 };

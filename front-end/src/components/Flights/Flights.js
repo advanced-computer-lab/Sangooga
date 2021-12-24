@@ -10,23 +10,8 @@ const Flights = () => {
   const location = useLocation();
   const flights = location.state;
 
-  console.log(flights);
-  const ChooseText = () => {
-    if (flights === [])
-      return (
-        <div>
-          <b>Choose Departing Flight</b>
-        </div>
-      );
-    else return "";
-  };
-
   return (
     <div>
-      <div className="search-container">
-        <Search isAdmin={false} {...flights} />
-      </div>
-      <ChooseText />
       <ChooseFlights
         flights={flights}
         setChoosenFlights={setChoosenFlights}

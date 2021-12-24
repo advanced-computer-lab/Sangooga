@@ -16,15 +16,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Search.css";
 
-const Search = ({
-  isAdmin,
-  arrAirport,
-  depAirport,
-  depDateTime,
-  arrDateTime,
-  numfSeats,
-  selClass,
-}) => {
+const Search = ({ isAdmin }) => {
   const [flightNumber, setFlightNumber] = useState();
   const [arrivalAirport, setArrivalAirport] = useState("");
   const [departureAirport, setDepartureAirport] = useState("");
