@@ -19,6 +19,8 @@ const ChooseFlights = ({
   const [currentFlight, setCurrentFlight] = useState("");
   const [chosenDepartureSeatsIDs, setChosenDepartureSeatsIDs] = useState([]);
   const [chosenReturnSeatsIDs, setChosenReturnSeatsIDs] = useState([]);
+  const [chosenDepartureFlight, setChosenDepartureFlight] = useState({});
+
   return (
     <div>
       {isReturnFlights === true && !isAdmin && (
@@ -88,6 +90,8 @@ const ChooseFlights = ({
               chosenDepartureSeatsIDs={chosenDepartureSeatsIDs}
               chosenReturnSeatsIDs={chosenReturnSeatsIDs}
               setChosenReturnSeatsIDs={setChosenReturnSeatsIDs}
+              chosenDepartureFlight={chosenDepartureFlight}
+              setChosenDepartureFlight={setChosenDepartureFlight}
             />
           </Box>
         </Box>

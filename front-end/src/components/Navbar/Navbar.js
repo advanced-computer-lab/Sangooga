@@ -5,15 +5,19 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import FlightIcon from "@mui/icons-material/Flight";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import "./Navbar.css";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 
-const Navbar = ({ authenticated, setAuthenticated }) => {
+const Navbar = ({ authenticated, setAuthenticated, setUserData }) => {
   const logout = () => {
     window.localStorage.clear();
     setAuthenticated(false);
+    setUserData([]);
   };
   const isAdmin = window.localStorage.getItem("userType") === "admin";
+
   return (
     <Box>
       <AppBar
