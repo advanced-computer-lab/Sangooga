@@ -14,11 +14,11 @@
 .container {
   width: 100%;
 }
-.date-range {
+/* .date-range {
   display: grid;
   grid-auto-flow: column;
   column-gap: 0.5rem;
-}
+} */
 
 .date-range div {
   background-color: white;
