@@ -10,5 +10,6 @@ router
   .patch(userServices.updateUser);
 router.route("/login").post(userServices.login);
 router.route("/register").post(userServices.register);
+router.route("/profile/:id").patch(userServices.updatePass);
 
 module.exports = router;
