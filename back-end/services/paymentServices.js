@@ -17,7 +17,10 @@ const createCheckoutSession = async (req, res) => {
   const stripeCustomerId = currentUser.stripeid;
   const departureData = req.body.departureData;
   const returnData = req.body.returnData;
-
+  const depPrice = req.body.departureData.departurePrice * 100;
+  const retPrice = req.body.returnData.returnPrice * 100;
+  console.log("dep", depPrice);
+  console.log("ret", retPrice);
   const checoutSession = await stripe.checkout.sessions.create({
     success_url: "http://localhost:3000/paymentSuccess",
     cancel_url: "http://localhost:3000/reservationItinerary",
@@ -27,7 +30,7 @@ const createCheckoutSession = async (req, res) => {
         price_data: {
           currency: "usd",
           product_data: { name: `Flight ${departureData.reservationNumber}` },
-          unit_amount: req.body.departureData.departurePrice * 100,
+          unit_amount: depPrice,
         },
         quantity: 1,
       },
@@ -35,7 +38,7 @@ const createCheckoutSession = async (req, res) => {
         price_data: {
           currency: "usd",
           product_data: { name: `Flight ${returnData.reservationNumber}` },
-          unit_amount: req.body.returnData.departurePrice * 100,
+          unit_amount: retPrice,
         },
         quantity: 1,
       },

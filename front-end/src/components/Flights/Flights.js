@@ -12,8 +12,8 @@ const Flights = ({ isAdmin }) => {
   const [isReturnFlights, setIsReturnFlights] = useState(false);
   const [open, setOpen] = useState(false);
   const [currentFlight, setCurrentFlight] = useState("");
-  const [chosenDepartureSeatsIDs, setChosenDepartureSeatsIDs] = useState([]);
-  const [chosenReturnSeatsIDs, setChosenReturnSeatsIDs] = useState([]);
+  const [chosenDepartureSeats, setChosenDepartureSeats] = useState([]);
+  const [chosenReturnSeats, setChosenReturnSeats] = useState([]);
   const [chosenDepartureFlight, setChosenDepartureFlight] = useState({});
   const location = useLocation();
   let flights = location.state;
@@ -85,10 +85,10 @@ const Flights = ({ isAdmin }) => {
               isReturnFlights={isReturnFlights}
               setOpen={setOpen}
               setIsReturnFlights={setIsReturnFlights}
-              setChosenDepartureSeatsIDs={setChosenDepartureSeatsIDs}
-              chosenDepartureSeatsIDs={chosenDepartureSeatsIDs}
-              chosenReturnSeatsIDs={chosenReturnSeatsIDs}
-              setChosenReturnSeatsIDs={setChosenReturnSeatsIDs}
+              setChosenDepartureSeats={setChosenDepartureSeats}
+              chosenDepartureSeats={chosenDepartureSeats}
+              chosenReturnSeats={chosenReturnSeats}
+              setChosenReturnSeats={setChosenReturnSeats}
               chosenDepartureFlight={chosenDepartureFlight}
               setChosenDepartureFlight={setChosenDepartureFlight}
             />

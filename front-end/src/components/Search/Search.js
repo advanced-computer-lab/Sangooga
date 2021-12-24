@@ -153,7 +153,7 @@ const Search = ({ isAdmin }) => {
           sx={{ background: "white", borderRadius: 1 }}
         >
           <div className="date-range">
-            <DateTimePicker
+            <DatePicker
               label="Departing"
               value={departureDateTime}
               onChange={(e) =>
@@ -163,7 +163,7 @@ const Search = ({ isAdmin }) => {
             />
           </div>
           <div className="date-range">
-            <DateTimePicker
+            <DatePicker
               label="Returning"
               value={arrivalDateTime}
               onChange={(e) =>

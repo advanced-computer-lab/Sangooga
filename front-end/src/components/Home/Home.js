@@ -12,31 +12,6 @@ import Box from "@mui/material/Box";
 import axios from "axios";
 
 const Home = () => {
-  const fakeBook = async () => {
-    const departureData = {
-      reservationNumber: Math.random() * 100000000000000000,
-      flight: 555564,
-      user: window.localStorage.getItem("userId"),
-      departurePrice: 250,
-    };
-
-    const returnData = {
-      reservationNumber: Math.random() * 100000000000000000,
-      flight: 555565,
-      user: window.localStorage.getItem("userId"),
-      departurePrice: 250,
-    };
-
-    const checkoutSession = await axios.post(
-      "http://localhost:5000/payment/createCheckoutSession",
-      { departureData, returnData },
-      {
-        headers: { Authorization: window.localStorage.getItem("token") },
-      }
-    );
-    window.location = checkoutSession.data.url;
-  };
-
   return (
     <div className="home">
       <Grid container spacing={2} className="cardGrid">
@@ -124,7 +99,6 @@ const Home = () => {
             </CardActionArea>
           </Card>
         </Grid>
-        <Button onClick={fakeBook}>Fake Book Flight </Button>
       </Grid>
     </div>
   );
