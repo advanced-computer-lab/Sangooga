@@ -90,7 +90,12 @@ const App = () => {
             >
               <Route
                 path="/adminFlights"
-                element={((<Search />), (<AdminFlights />))}
+                element={
+                  <>
+                    <Search isAdmin={true} />
+                    <AdminFlights />
+                  </>
+                }
               />
             </Route>
 

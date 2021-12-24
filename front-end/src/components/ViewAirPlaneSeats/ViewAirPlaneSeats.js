@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 
 const ViewAirPlaneSeats = ({
-  currentflight,
+  currentFlight,
   isReturnFlights,
   numberOfSeatsChosen,
   cabinChosen,
@@ -24,21 +24,21 @@ const ViewAirPlaneSeats = ({
   const [numberOfSeatsReserved, setNumberOfSeatsReserved] = useState(3);
 
   useEffect(() => {
-    console.log("Current Flight is:", currentflight);
+    console.log("Current Flight is:", currentFlight);
     setEconomySeats(
-      currentflight.seats.filter(
+      currentFlight.seats.filter(
         (economySeat) => economySeat.seatClass === "economy_class"
       )
     );
 
     setBusinessSeats(
-      currentflight.seats.filter(
+      currentFlight.seats.filter(
         (businessSeat) => businessSeat.seatClass === "business_class"
       )
     );
 
     setFirstClassSeats(
-      currentflight.seats.filter(
+      currentFlight.seats.filter(
         (firstClassSeat) => firstClassSeat.seatClass === "first_class"
       )
     );
@@ -66,7 +66,7 @@ const ViewAirPlaneSeats = ({
       {!isReturnFlights ? (
         <Button
           onClick={() => {
-            setChosenDepartureFlight(currentflight);
+            setChosenDepartureFlight(currentFlight);
             setOpen(false);
             setIsReturnFlights(true);
           }}
@@ -80,7 +80,7 @@ const ViewAirPlaneSeats = ({
             chosenDepartureSeatsIDs,
             chosenReturnSeatsIDs,
             chosenDepartureFlight,
-            currentflight,
+            currentFlight,
           ]}
         >
           Confirm

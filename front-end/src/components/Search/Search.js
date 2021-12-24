@@ -33,23 +33,26 @@ const Search = ({ isAdmin }) => {
 
   const filterFlights = async () => {
     try {
+      const searchParams = {
+        arrivalAirport,
+        departureAirport,
+        departureDateTime,
+        arrivalDateTime,
+        numberOfSeats,
+        selectedClass,
+      };
       const flights = await axios.post(
         "http://localhost:5000/flight/filter",
-        {
-          arrivalAirport,
-          departureAirport,
-          departureDateTime,
-          arrivalDateTime,
-          numberOfSeats,
-          selectedClass,
-        },
+        searchParams,
         {
           headers: {
             Authorization: window.localStorage.getItem("token"),
           },
         }
       );
-      navigate("/flights", { state: flights.data });
+      !isAdmin
+        ? navigate("/flights", { state: flights.data })
+        : navigate("/adminFlights", { state: flights.data });
     } catch (err) {
       console.log(err);
     }
