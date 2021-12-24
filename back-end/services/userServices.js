@@ -4,6 +4,9 @@ const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const mongoose = require("mongoose");
 const config = require("../config/index");
+const dotenv = require("dotenv");
+dotenv.config();
+const stripe = require("stripe")(process.env.STRIPE_KEY);
 
 const getUser = async (req, res) => {
   try {
@@ -124,6 +127,17 @@ const register = async (req, res) => {
       return res.status(409).send("Email already has an account.");
     }
     encryptedPassword = await bcrypt.hash(password, 10);
+    let customer = {};
+    try {
+      customer = await stripe.customers.create({
+        email: email,
+        name: firstname + lastname,
+      });
+    } catch (err) {
+      res.status(403).send(`Stripe couldn't create customer: ${err}`);
+    }
+    const stripeid = customer.id;
+    console.log(stripeid);
     const user = await User.create({
       username,
       password: encryptedPassword,
@@ -134,6 +148,7 @@ const register = async (req, res) => {
       address,
       countryCode,
       phone,
+      stripeid,
     });
     const token = jwt.sign(
       { user_id: user._id, username },

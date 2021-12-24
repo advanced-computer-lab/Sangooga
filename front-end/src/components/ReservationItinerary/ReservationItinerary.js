@@ -7,6 +7,7 @@ import {
   Typography,
   Stack,
   Divider,
+  Grid,
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import axios from "axios";
@@ -29,43 +30,50 @@ const ReservationItinerary = ({}) => {
     console.log("return seats:", returnSeats);
     console.log("random number isssssssssssss:", Math.random());
     const currentUserId = window.localStorage.getItem("userId");
-    const departureFlightId = departureFlight._id;
-    const returnFlightId = returnFlight._id;
-    const departureSeatsId = [];
-    departureSeats.map((map) => {
-      departureSeatsId.push(map._id);
-    });
-    const returnSeatIds = [];
-    returnSeats.map((map) => {
-      returnSeatIds.push(map._id);
-    });
-    const depData = {
+
+    const departureData = {
       reservationNumber: Math.random() * 100000000000000000,
       seats: departureSeats,
       user: currentUserId,
-      flight: departureFlightId,
+      flight: departureFlight,
+      departurePrice: departurePrice,
     };
-    const arrData = {
+    const returnData = {
       reservationNumber: Math.random() * 100000000000000000,
       seats: returnSeats,
       user: currentUserId,
-      flight: returnFlightId,
+      flight: returnFlight,
+      returnPrice: returnPrice,
     };
-    const departureReservation = await axios.post(
-      "http://localhost:5000/reservation/",
-      depData,
+
+    const checkoutSession = await axios.post(
+      "http://localhost:5000/payment/createCheckoutSession",
+      { departureData, returnData },
       {
         headers: { Authorization: window.localStorage.getItem("token") },
       }
     );
-    const returnReservation = await axios.post(
-      "http://localhost:5000/reservation/",
-      arrData,
-      {
-        headers: { Authorization: window.localStorage.getItem("token") },
-      }
-    );
+
+    window.localStorage.setItem("departureData", departureData);
+    window.localStorage.setItem("returnData", returnData);
+    window.location = checkoutSession.data.url;
+    //all below will be removed to after checkout is confirmed
+    // const departureReservation = await axios.post(
+    //   "http://localhost:5000/reservation/",
+    //   departureData,
+    //   {
+    //     headers: { Authorization: window.localStorage.getItem("token") },
+    //   }
+    // );
+    // const returnReservation = await axios.post(
+    //   "http://localhost:5000/reservation/",
+    //   returnData,
+    //   {
+    //     headers: { Authorization: window.localStorage.getItem("token") },
+    //   }
+    // );
   };
+
   const calculatePrices = () => {
     departureSeats.map((seat) => {
       setDeparturePrice(departurePrice + seat.seatPrice);
@@ -77,8 +85,10 @@ const ReservationItinerary = ({}) => {
 
   useEffect(() => {
     calculatePrices();
-    setDepartureCabin(departureSeats[0].seatClass);
-    setReturnCabin(returnSeats[0].seatClass);
+    console.log(departurePrice);
+    console.log(returnPrice);
+    setDepartureCabin(departureSeats[0].seatClass.split("_").join(" "));
+    setReturnCabin(returnSeats[0].seatClass.split("_").join(" "));
   }, []);
   return (
     <div>
@@ -99,7 +109,14 @@ const ReservationItinerary = ({}) => {
             </Typography>
             <Typography variant="h7"></Typography>
             <Typography variant="h7">Cabin: {departureCabin}</Typography>
-            <Typography variant="h7">Seat(s): {departureSeats}</Typography>
+            <Typography variant="h7">
+              <Grid spacing={3}>
+                Seat(s):{" "}
+                {departureSeats.map((seat) => {
+                  return <span>{seat.seatNumber} </span>;
+                })}
+              </Grid>
+            </Typography>
             <Typography variant="h7">Price: ${departurePrice}</Typography>
             <Divider />
             <Typography variant="h5">Return Trip:</Typography>
@@ -115,7 +132,14 @@ const ReservationItinerary = ({}) => {
             </Typography>
             <Typography variant="h7"></Typography>
             <Typography variant="h7">Cabin: {returnCabin}</Typography>
-            <Typography variant="h7">Seat(s): {returnSeats}</Typography>
+            <Typography variant="h7">
+              <Grid spacing={3}>
+                Seat(s):{" "}
+                {returnSeats.map((seat) => {
+                  return <span>{seat.seatNumber} </span>;
+                })}
+              </Grid>
+            </Typography>
             <Typography variant="h7">Price: ${returnPrice}</Typography>
           </Stack>
         </CardContent>

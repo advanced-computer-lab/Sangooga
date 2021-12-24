@@ -46,15 +46,15 @@ const Profile = ({ userData, setUserData }) => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item xs={6} sm={10}>
+        <Grid item xs={10} sm={10}>
           <Typography sx={{ fontWeight: "bold", mb: 2 }} variant="h3">
             {userData.username}
           </Typography>
         </Grid>
-        <Grid item xs={6} sm={2}></Grid>
+        <Grid item xs={2} sm={2}></Grid>
       </Grid>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={6} sm={6}>
           <Typography sx={{ fontWeight: "bold", mb: 1 }} variant="h6">
             First name:
           </Typography>
@@ -63,7 +63,7 @@ const Profile = ({ userData, setUserData }) => {
           </Typography>
           <Divider sx={{ mb: 2 }} />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={6} sm={6}>
           <Typography sx={{ fontWeight: "bold", mb: 1 }} variant="h6">
             Last name:
           </Typography>
@@ -96,7 +96,7 @@ const Profile = ({ userData, setUserData }) => {
       </Typography>
       <Divider sx={{ mb: 2 }} variant="fullwidth" />
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={6} sm={6}>
           <Typography sx={{ fontWeight: "bold", mb: 1 }} variant="h6">
             Address:
           </Typography>
@@ -106,7 +106,7 @@ const Profile = ({ userData, setUserData }) => {
 
           <Divider sx={{ mb: 2 }} />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={6} sm={6}>
           <Typography sx={{ fontWeight: "bold", mb: 1 }} variant="h6">
             Country Code:
           </Typography>
