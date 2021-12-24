@@ -19,10 +19,10 @@ const ReservationItinerary = ({}) => {
   const [returnCabin, setReturnCabin] = useState(0);
   const location = useLocation();
   console.log(location);
-  const departureFlight = location.state.fullData[1];
-  const departureSeats = location.state.fullData[0];
-  const returnFlight = location.state.fullData[2];
-  const returnSeats = location.state.chosenSeatsIDs;
+  const departureFlight = location.state[2];
+  const departureSeats = location.state[0];
+  const returnFlight = location.state[3];
+  const returnSeats = location.state[1];
 
   const book = async () => {
     console.log("departure seats:", departureSeats);

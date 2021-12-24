@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
-import DateTimePicker from "@mui/lab/DateTimePicker";
+import DatePicker from "@mui/lab/DatePicker";
 import DateAdapter from "@mui/lab/AdapterMoment";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { InputAdornment } from "@mui/material";
@@ -25,6 +25,11 @@ const Search = ({ isAdmin }) => {
   const [numberOfSeats, setNumberOfSeats] = useState(1);
   const [selectedClass, setSelectedClass] = useState("economy_class");
   const navigate = useNavigate();
+
+  const getTime = (e) => {
+    setArrivalDateTime(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
+    console.log(arrivalDateTime);
+  };
 
   const filterFlights = async () => {
     try {
@@ -68,6 +73,7 @@ const Search = ({ isAdmin }) => {
             <MenuItem value={3}>3</MenuItem>
             <MenuItem value={4}>4</MenuItem>
             <MenuItem value={5}>5</MenuItem>
+            <MenuItem value={6}>6</MenuItem>
           </Select>
         </div>
 
@@ -145,7 +151,7 @@ const Search = ({ isAdmin }) => {
           sx={{ background: "white", borderRadius: 1 }}
         >
           <div className="date-range">
-            <DateTimePicker
+            <DatePicker
               label="Departing"
               value={departureDateTime}
               onChange={(e) =>
@@ -155,12 +161,10 @@ const Search = ({ isAdmin }) => {
             />
           </div>
           <div className="date-range">
-            <DateTimePicker
+            <DatePicker
               label="Returning"
               value={arrivalDateTime}
-              onChange={(e) =>
-                setArrivalDateTime(e.format("YYYY-MM-DD[T00:00:00.000Z]"))
-              }
+              onChange={getTime}
               renderInput={(params) => <TextField {...params} />}
             />
           </div>
