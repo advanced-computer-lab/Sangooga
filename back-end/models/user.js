@@ -45,6 +45,9 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    stripeid: {
+      type: String,
+    },
   },
   {
     timestamps: true,

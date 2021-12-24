@@ -5,12 +5,38 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActionArea } from "@mui/material";
+import { CardActionArea, Button } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
+import axios from "axios";
 
 const Home = () => {
+  const fakeBook = async () => {
+    const departureData = {
+      reservationNumber: Math.random() * 100000000000000000,
+      flight: 555564,
+      user: window.localStorage.getItem("userId"),
+      departurePrice: 250,
+    };
+
+    const returnData = {
+      reservationNumber: Math.random() * 100000000000000000,
+      flight: 555565,
+      user: window.localStorage.getItem("userId"),
+      departurePrice: 250,
+    };
+
+    const checkoutSession = await axios.post(
+      "http://localhost:5000/payment/createCheckoutSession",
+      { departureData, returnData },
+      {
+        headers: { Authorization: window.localStorage.getItem("token") },
+      }
+    );
+    window.location = checkoutSession.data.url;
+  };
+
   return (
     <div className="home">
       <div className="search-container">
@@ -101,6 +127,7 @@ const Home = () => {
             </CardActionArea>
           </Card>
         </Grid>
+        <Button onClick={fakeBook}>Fake Book Flight </Button>
       </Grid>
     </div>
   );

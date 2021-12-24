@@ -6,6 +6,7 @@ const config = require("./config/index");
 const userRouter = require("./routes/userRoutes");
 const flightRouter = require("./routes/flightRoutes");
 const reservationRouter = require("./routes/reservationRoutes");
+const paymentRouter = require("./routes/paymentRoutes");
 const { Flight, Seat } = require("./models/flight");
 const port = process.env.PORT || "5000";
 const auth = require("./middleware/auth");
@@ -30,6 +31,8 @@ app.get("/verifyToken", auth, (req, res) => {
 
 app.use("/user", userRouter);
 app.use("/flight", flightRouter);
+app.use("/reservation", reservationRouter);
+app.use("/payment", paymentRouter);
 
 app.put("/chooseSeat", async (req, res) => {
   seatIDs = req.body.seatIDs;
@@ -56,8 +59,6 @@ app.put("/chooseSeat", async (req, res) => {
     }
   }
 });
-
-app.use("/reservation", reservationRouter);
 
 app.listen(port, () => {
   console.log(`Listening to requests on http://localhost:${port}`);

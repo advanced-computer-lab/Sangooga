@@ -39,33 +39,50 @@ const ReservationItinerary = ({}) => {
     returnSeats.map((map) => {
       returnSeatIds.push(map._id);
     });
-    const depData = {
+
+    const departureData = {
       reservationNumber: Math.random() * 100000000000000000,
       seats: departureSeats,
       user: currentUserId,
       flight: departureFlightId,
+      departurePrice: departurePrice,
     };
-    const arrData = {
+    const returnData = {
       reservationNumber: Math.random() * 100000000000000000,
       seats: returnSeats,
       user: currentUserId,
       flight: returnFlightId,
+      returnPrice: returnPrice,
     };
+
+    const checkoutSession = await axios.post(
+      "http://localhost:5000/payment/createCheckoutSession",
+      { departureData, returnData },
+      {
+        headers: { Authorization: window.localStorage.getItem("token") },
+      }
+    );
+
+    window.localStorage.setItem("departureData", departureData);
+    window.localStorage.setItem("returnData", returnData);
+    window.location = checkoutSession.data.url;
+    //all below will be removed to after checkout is confirmed
     const departureReservation = await axios.post(
       "http://localhost:5000/reservation/",
-      depData,
+      departureData,
       {
         headers: { Authorization: window.localStorage.getItem("token") },
       }
     );
     const returnReservation = await axios.post(
       "http://localhost:5000/reservation/",
-      arrData,
+      returnData,
       {
         headers: { Authorization: window.localStorage.getItem("token") },
       }
     );
   };
+
   const calculatePrices = () => {
     departureSeats.map((seat) => {
       setDeparturePrice(departurePrice + seat.seatPrice);
