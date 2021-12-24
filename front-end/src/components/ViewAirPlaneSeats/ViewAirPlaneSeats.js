@@ -14,6 +14,8 @@ const ViewAirPlaneSeats = ({
   setChosenReturnSeatsIDs,
   chosenReturnSeatsIDs,
   chosenDepartureSeatsIDs,
+  setChosenDepartureFlight,
+  chosenDepartureFlight,
 }) => {
   const [economySeats, setEconomySeats] = useState([]);
   const [businessSeats, setBusinessSeats] = useState([]);
@@ -64,6 +66,7 @@ const ViewAirPlaneSeats = ({
       {!isReturnFlights ? (
         <Button
           onClick={() => {
+            setChosenDepartureFlight(currentflight);
             setOpen(false);
             setIsReturnFlights(true);
           }}
@@ -73,7 +76,12 @@ const ViewAirPlaneSeats = ({
       ) : (
         <Link
           to="/reservationItinerary"
-          state={[chosenDepartureSeatsIDs, chosenReturnSeatsIDs]}
+          state={[
+            chosenDepartureSeatsIDs,
+            chosenReturnSeatsIDs,
+            chosenDepartureFlight,
+            currentflight,
+          ]}
         >
           Confirm
         </Link>
