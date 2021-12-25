@@ -8,7 +8,7 @@ import { useLocation } from "react-router-dom";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CheckCircleTwoToneIcon from "@mui/icons-material/CheckCircleTwoTone";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
-import "./PaymentSuccess.css";
+import "./paymentSuccess.css";
 
 const PaymentSuccess = () => {
   // const location = useLocation();
