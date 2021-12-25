@@ -82,6 +82,11 @@ const Search = ({ isAdmin }) => {
               <MenuItem value={3}>3</MenuItem>
               <MenuItem value={4}>4</MenuItem>
               <MenuItem value={5}>5</MenuItem>
+              <MenuItem value={6}>6</MenuItem>
+              <MenuItem value={7}>7</MenuItem>
+              <MenuItem value={8}>8</MenuItem>
+              <MenuItem value={9}>9</MenuItem>
+              <MenuItem value={10}>10</MenuItem>
             </Select>
           </div>
         </Grid>
@@ -170,9 +175,13 @@ const Search = ({ isAdmin }) => {
                 <DatePicker
                   label="Departing"
                   value={departureDateTime}
-                  onChange={(e) =>
-                    setDepartureDateTime(e.format("YYYY-MM-DD[T00:00:00.000Z]"))
-                  }
+                  onChange={(e) => {
+                    if (e != null)
+                      setDepartureDateTime(
+                        e.format("YYYY-MM-DD[T00:00:00.000Z]")
+                      );
+                    else setDepartureDateTime(null);
+                  }}
                   renderInput={(params) => <TextField {...params} />}
                 />
               </div>
@@ -183,9 +192,13 @@ const Search = ({ isAdmin }) => {
                 <DatePicker
                   label="Returning"
                   value={arrivalDateTime}
-                  onChange={(e) =>
-                    setArrivalDateTime(e.format("YYYY-MM-DD[T00:00:00.000Z]"))
-                  }
+                  onChange={(e) => {
+                    if (e != null)
+                      setArrivalDateTime(
+                        e.format("YYYY-MM-DD[T00:00:00.000Z]")
+                      );
+                    else setArrivalDateTime(null);
+                  }}
                   renderInput={(params) => <TextField {...params} />}
                 />
               </div>

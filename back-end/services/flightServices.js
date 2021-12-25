@@ -1,65 +1,6 @@
 const { Flight, Seat } = require("../models/flight");
 const mongoose = require("mongoose");
 const moment = require("moment");
-const filterFlights = async (req, res) => {
-  let {
-    flightNumber,
-    arrivalAirport,
-    departureAirport,
-    departureDateTime,
-    arrivalDateTime,
-    numberOfSeats,
-    selectedClass,
-  } = req.body;
-
-  const maybeCreateMongoQuery = (prop, queryProp, value) => {
-    return value == null || value === ""
-      ? null
-      : { [prop]: { [queryProp]: value } };
-  };
-
-  const maybeCreateMongoQueryTwoProps = (
-    prop,
-    queryProp,
-    value,
-    queryProp2,
-    value2
-  ) => {
-    return value == null || value === ""
-      ? null
-      : { [prop]: { [queryProp]: value, [queryProp2]: value2 } };
-  };
-
-  try {
-    const flights = await Flight.find({
-      $and: [
-        maybeCreateMongoQuery("flightNumber", "$eq", flightNumber),
-        maybeCreateMongoQuery("departureAirport", "$eq", departureAirport),
-        maybeCreateMongoQuery("arrivalAirport", "$eq", arrivalAirport),
-        maybeCreateMongoQueryTwoProps(
-          "departureDateTime",
-          "$gte",
-          departureDateTime,
-          "$lte",
-          moment(departureDateTime).format("YYYY-MM-DD[T23:59:59.000Z]")
-        ),
-        maybeCreateMongoQueryTwoProps(
-          "arrivalDateTime",
-          "$gte",
-          arrivalDateTime,
-          "$lte",
-          moment(arrivalDateTime).format("YYYY-MM-DD[T23:59:59.000Z]")
-        ),
-      ].filter((q) => q !== null),
-    })
-      .populate("seats")
-      .exec();
-    res.send(flights);
-  } catch (err) {
-    console.log(err);
-    res.status(500).send(err);
-  }
-};
 
 const createFlight = async (req, res) => {
   try {
@@ -156,6 +97,114 @@ const getFlightById = async (req, res) => {
     res.status(400).send(`${err}`);
   }
 };
+
+const filterFlights = async (req, res) => {
+  let {
+    flightNumber,
+    arrivalAirport,
+    departureAirport,
+    departureDateTime,
+    arrivalDateTime,
+    numberOfSeats,
+    selectedClass,
+  } = req.body;
+
+  const isNullorEmpty = (thing) => {
+    if (thing == null || thing == "") return true;
+
+    return false;
+  };
+
+  const maybeCreateMongoQuery = (prop, queryProp, value) => {
+    return value == null || value === ""
+      ? null
+      : { [prop]: { [queryProp]: value } };
+  };
+
+  const maybeCreateMongoQueryTwoProps = (
+    prop,
+    queryProp,
+    value,
+    queryProp2,
+    value2
+  ) => {
+    return value == null || value === ""
+      ? null
+      : { [prop]: { [queryProp]: value, [queryProp2]: value2 } };
+  };
+
+  if (
+    isNullorEmpty(flightNumber) &&
+    isNullorEmpty(arrivalAirport) &&
+    isNullorEmpty(departureAirport) &&
+    isNullorEmpty(departureDateTime) &&
+    isNullorEmpty(arrivalDateTime)
+  ) {
+    getFlights(req, res);
+  } else {
+    try {
+      const flights = await Flight.find({
+        $and: [
+          maybeCreateMongoQuery("flightNumber", "$eq", flightNumber),
+          {
+            $or: [
+              {
+                $and: [
+                  maybeCreateMongoQuery(
+                    "departureAirport",
+                    "$eq",
+                    departureAirport
+                  ),
+                  maybeCreateMongoQuery(
+                    "arrivalAirport",
+                    "$eq",
+                    arrivalAirport
+                  ),
+                ].filter((q) => q !== null),
+              },
+              {
+                $and: [
+                  maybeCreateMongoQuery(
+                    "departureAirport",
+                    "$eq",
+                    arrivalAirport
+                  ),
+                  maybeCreateMongoQuery(
+                    "arrivalAirport",
+                    "$eq",
+                    departureAirport
+                  ),
+                ].filter((q) => q !== null),
+              },
+            ],
+          },
+
+          maybeCreateMongoQueryTwoProps(
+            "departureDateTime",
+            "$gte",
+            departureDateTime,
+            "$lte",
+            moment(departureDateTime).format("YYYY-MM-DD[T23:59:59.000Z]")
+          ),
+          maybeCreateMongoQueryTwoProps(
+            "arrivalDateTime",
+            "$gte",
+            arrivalDateTime,
+            "$lte",
+            moment(arrivalDateTime).format("YYYY-MM-DD[T23:59:59.000Z]")
+          ),
+        ].filter((q) => q !== null),
+      })
+        .populate("seats")
+        .exec();
+      res.send(flights);
+    } catch (err) {
+      console.log(err);
+      res.status(500).send(err);
+    }
+  }
+};
+
 module.exports = {
   createFlight,
   updateFlight,
