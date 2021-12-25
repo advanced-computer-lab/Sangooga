@@ -91,6 +91,7 @@ const PaymentSuccess = () => {
     <div>
       <Grid>
         <Paper
+          className="successPaper"
           elevation={16}
           sx={{
             p: 6,
