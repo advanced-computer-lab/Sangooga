@@ -70,14 +70,31 @@ const Search = ({ isAdmin }) => {
 
       flights.data = flights.data.filter(
         (flight) =>
+          flight.departureAirport === departureAirport &&
           flight.seats.filter(
             (seat) => seat.seatClass === selectedClass && !seat.seatTaken
           ).length >= numberOfSeats
       );
 
+      returnFlights.data = returnFlights.data.filter(
+        (flight) =>
+          flight.departureAirport === arrivalAirport &&
+          flight.seats.filter(
+            (seat) => seat.seatClass === selectedClass && !seat.seatTaken
+          ).length >= numberOfSeats
+      );
+
+      console.log("departureFlights", flights);
+      console.log("returnFlights", returnFlights);
+
       !isAdmin
         ? navigate("/flights", {
-            state: [flights.data, numberOfSeats, selectedClass],
+            state: [
+              flights.data,
+              numberOfSeats,
+              selectedClass,
+              returnFlights.data,
+            ],
           })
         : navigate("/adminFlights", { state: flights.data });
     } catch (err) {
