@@ -96,6 +96,7 @@ const MyReservations = () => {
               </Button> */}
 
               <CancelReservationPopUpButton reservationId={reservation._id} />
+              <Button>Edit Rerservation</Button>
             </CardActions>
           </Card>
         ))}
