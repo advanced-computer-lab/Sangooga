@@ -27,6 +27,7 @@ const Search = ({ isAdmin }) => {
   const navigate = useNavigate();
 
   const filterFlights = async () => {
+    window.localStorage.removeItem("editReservation");
     try {
       const searchParams = {
         arrivalAirport: arrivalAirport.toUpperCase(),
@@ -46,7 +47,24 @@ const Search = ({ isAdmin }) => {
         }
       );
 
-      console.log(flights);
+      const returnSearchParams = {
+        arrivalAirport: departureAirport.toUpperCase(),
+        departureAirport: arrivalAirport.toUpperCase(),
+        departureDateTime,
+        arrivalDateTime,
+        numberOfSeats,
+        selectedClass,
+      };
+
+      let returnFlights = await axios.post(
+        "http://localhost:5000/flight/filter",
+        returnSearchParams,
+        {
+          headers: {
+            Authorization: window.localStorage.getItem("token"),
+          },
+        }
+      );
 
       flights.data = flights.data.filter(
         (flight) =>
@@ -55,9 +73,30 @@ const Search = ({ isAdmin }) => {
           ).length >= numberOfSeats
       );
 
+      returnFlights.data = returnFlights.data.filter(
+        (flight) =>
+          flight.seats.filter(
+            (seat) => seat.seatClass === selectedClass && !seat.seatTaken
+          ).length >= numberOfSeats
+      );
+
       !isAdmin
-        ? navigate("/flights", { state: flights.data })
-        : navigate("/adminFlights", { state: flights.data });
+        ? navigate("/flights", {
+            state: [
+              flights.data,
+              numberOfSeats,
+              selectedClass,
+              returnFlights.data,
+            ],
+          })
+        : navigate("/adminFlights", {
+            state: [
+              flights.data,
+              numberOfSeats,
+              selectedClass,
+              returnFlights.data,
+            ],
+          });
     } catch (err) {
       console.log(err);
     }

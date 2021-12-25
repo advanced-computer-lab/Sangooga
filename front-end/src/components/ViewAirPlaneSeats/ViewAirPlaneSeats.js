@@ -1,7 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
-import { useLocation, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const ViewAirPlaneSeats = ({
   currentFlight,
@@ -16,14 +17,21 @@ const ViewAirPlaneSeats = ({
   chosenDepartureSeats,
   setChosenDepartureFlight,
   chosenDepartureFlight,
+  numberOfSeats,
+  selectedClass,
 }) => {
   const [economySeats, setEconomySeats] = useState([]);
   const [businessSeats, setBusinessSeats] = useState([]);
   const [firstClassSeats, setFirstClassSeats] = useState([]);
-  const [cabin, setCabin] = useState("FirstClassSeat");
-  const [numberOfSeatsReserved, setNumberOfSeatsReserved] = useState(3);
+  const [numberOfSeatsReserved, setNumberOfSeatsReserved] = useState();
+  const reservation = JSON.parse(
+    window.localStorage.getItem("editReservation")
+  );
+
+  const navigate = useNavigate();
 
   useEffect(() => {
+    setNumberOfSeatsReserved(numberOfSeats);
     setEconomySeats(
       currentFlight.seats.filter(
         (economySeat) => economySeat.seatClass === "economy_class"
@@ -44,8 +52,11 @@ const ViewAirPlaneSeats = ({
   }, []);
 
   const onPickSeat = (seat) => {
+    console.log(chosenDepartureSeats);
+    console.log(chosenReturnSeats);
+
     if (numberOfSeatsReserved > 0) {
-      console.log(chosenDepartureSeats);
+      console.log("chosen seats:", chosenDepartureSeats);
       if (!isReturnFlights) {
         setChosenDepartureSeats([...chosenDepartureSeats, seat]);
         console.log("chosenSeats:", chosenDepartureSeats);
@@ -60,37 +71,55 @@ const ViewAirPlaneSeats = ({
       }
     }
   };
-
+  const editReservation = async () => {
+    const edited = await axios.put(
+      `http://localhost:5000/reservation/${reservation._id}`,
+      { flight: currentFlight, seats: chosenDepartureSeats },
+      {
+        headers: {
+          Authorization: window.localStorage.getItem("token"),
+        },
+      }
+    );
+    window.localStorage.removeItem("editReservation");
+    navigate("/myreservations");
+  };
   return (
     <div>
-      {!isReturnFlights ? (
-        <Button
-          onClick={() => {
-            setChosenDepartureFlight(currentFlight);
-            setOpen(false);
-            setIsReturnFlights(true);
-          }}
-        >
-          Next
-        </Button>
+      {!reservation ? (
+        !isReturnFlights ? (
+          <Button
+            onClick={() => {
+              setChosenDepartureFlight(currentFlight);
+              setOpen(false);
+              setIsReturnFlights(true);
+            }}
+          >
+            Next
+          </Button>
+        ) : (
+          <Link
+            to="/reservationItinerary"
+            state={[
+              chosenDepartureSeats,
+              chosenReturnSeats,
+              chosenDepartureFlight,
+              currentFlight,
+            ]}
+          >
+            Confirm
+          </Link>
+        )
       ) : (
-        <Link
-          to="/reservationItinerary"
-          state={[
-            chosenDepartureSeats,
-            chosenReturnSeats,
-            chosenDepartureFlight,
-            currentFlight,
-          ]}
-        >
-          Confirm
-        </Link>
+        <Button onClick={() => editReservation()}>
+          Confirm Reservation Edit
+        </Button>
       )}
 
       <Button size="small" onClick={() => setOpen(false)}>
         Go back
       </Button>
-      {cabin == "EconomySeat" && (
+      {(selectedClass == "economy_class" || reservation) && (
         <div>
           {economySeats.map((economySeat) => {
             return (
@@ -112,7 +141,7 @@ const ViewAirPlaneSeats = ({
           })}
         </div>
       )}
-      {cabin == "BusinessSeat" && (
+      {(selectedClass == "business_class" || reservation) && (
         <div>
           {businessSeats.map((businessSeat) => {
             return (
@@ -134,7 +163,7 @@ const ViewAirPlaneSeats = ({
           })}
         </div>
       )}
-      {cabin == "FirstClassSeat" && (
+      {(selectedClass == "first_class" || reservation) && (
         <div>
           {firstClassSeats.map((firstClassSeat) => {
             return (

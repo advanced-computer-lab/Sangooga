@@ -250,6 +250,22 @@ const getReservation = async (req, res) => {
   }
 };
 
+const updateReservation = async (req, res) => {
+  try {
+    const { reservationId } = req.params;
+    console.log(reservationId);
+    const updatedReservation = await Reservation.updateOne(
+      {
+        _id: reservationId,
+      },
+      req.body
+    );
+    res.status(200).json(updatedReservation);
+  } catch (err) {
+    res.status(400).send("Could not update reservation");
+  }
+};
+
 module.exports = {
   createReservation,
   getAllReservations,
@@ -257,4 +273,5 @@ module.exports = {
   deleteReservation,
   getReservation,
   emailReservation,
+  updateReservation,
 };

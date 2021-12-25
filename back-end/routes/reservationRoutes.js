@@ -15,6 +15,7 @@ router.route("/email").post(reservationServices.emailReservation);
 router
   .route("/:reservationId")
   .get(reservationServices.getReservation)
-  .delete(reservationServices.deleteReservation);
+  .delete(reservationServices.deleteReservation)
+  .put(reservationServices.updateReservation);
 
 module.exports = router;

@@ -124,7 +124,7 @@ const Profile = ({ userData, setUserData }) => {
       </Link>
       <Link to="/profileEditPass">
         <Button sx={{ pl: 2, mt: 2 }} variant="outlined" fullWidth>
-          change Password?
+          change Password
         </Button>
       </Link>
     </Paper>

@@ -19,7 +19,7 @@ import Footer from "./components/Footer/Footer";
 import axios from "axios";
 import ReservationItinerary from "./components/ReservationItinerary/ReservationItinerary";
 import Search from "./components/Search/Search";
-import PaymentSuccess from "./components/PaymentSuccess/paymentSuccess";
+import PaymentSuccessful from "./components/PaymentSuccessful/PaymentSuccessful";
 const PrivateRoute = ({ authenticated, loading }) => {
   return authenticated ? (
     <Outlet />
@@ -53,7 +53,6 @@ const App = () => {
 
   const [userData, setUserData] = useState([]);
 
-  console.log(userData);
   return (
     <>
       <div className="pageWrapper">
@@ -152,7 +151,7 @@ const App = () => {
                 <PrivateRoute loading={loading} authenticated={authenticated} />
               }
             >
-              <Route path="/paymentSuccess" element={<PaymentSuccess />} />
+              <Route path="/paymentSuccess" element={<PaymentSuccessful />} />
             </Route>
             <Route
               path="/profile"
