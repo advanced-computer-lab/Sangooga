@@ -3,36 +3,134 @@ const mongoose = require("mongoose");
 const User = require("../models/user");
 const nodemailer = require("nodemailer");
 const config = require("../config/index");
-
-const createReservation = async (req, res) => {
+const emailReservation = async (req, res) => {
   try {
-    const { departureData, returnData } = req.body;
-    const userData = await User.findById({ _id: departureData.user });
+    const {
+      user,
+      depReservationNumber,
+      depFlight,
+      depSeats,
+      retReservationNumber,
+      retFlight,
+      retSeats,
+    } = req.body;
+    // console.log("------------------", depReservationNumber);
+    // console.log("Flight", depFlight);
+    // console.log("seats", depSeats);
+    // console.log(retReservationNumber);
+    // console.log(retFlight);
+    // console.log(retSeats);
+
+    const userData = await User.findOne({ _id: user });
     const userEmail = userData.email;
     var seatsDep = [];
-    var seatsArr = [];
+    var seatsRet = [];
+    var seatsDepPrice = 0;
+    var seatsRetPrice = 0;
+    //console.log("sbeforeeatsDepBitch1", );
+    depSeats.forEach((seat) => {
+      seatsDep.push(seat.seatNumber);
+      seatsDepPrice = seatsDepPrice + seat.seatPrice;
+    });
 
-    departureData.seats.forEach((seat) => {
-      seatsDep + seat;
+    retSeats.forEach((seat) => {
+      seatsRet.push(seat.seatNumber);
+      seatsRetPrice = seatsRetPrice + seat.seatPrice;
     });
-    returnData.seats.forEach((seat) => {
-      seatsArr + seat;
+
+    console.log("seatsDepBitch1", seatsDep);
+    console.log("seatsDepBitch2", seatsRet);
+    console.log("seatsDepBitch3", seatsRetPrice);
+    const transporter = nodemailer.createTransport({
+      service: "hotmail",
+      port: 587,
+      secure: false, // upgrade later with STARTTLS
+      auth: {
+        user: "flights1000@outlook.com",
+        pass: config.emailPassword,
+      },
     });
-    console.log("ReservationNumber is:", req.body.reservationNumber);
+    const options = {
+      from: "flights1000@outlook.com",
+      to: userEmail,
+      subject: "Yo",
+      text:
+        "Departure Reservation Number: " +
+        depReservationNumber +
+        "\n" +
+        "Departure Trip: " +
+        depFlight.departureAirport +
+        " to " +
+        depFlight.arrivalAirport +
+        "\n" +
+        "Leaves: " +
+        depFlight.departureDateTime +
+        "\n" +
+        "Arrives: " +
+        depFlight.arrivalDateTime +
+        "\n" +
+        "Cabin: " +
+        retSeats[0].seatClass +
+        "\n" +
+        "Seats: " +
+        seatsDep +
+        "\n" +
+        "Price: " +
+        seatsDepPrice +
+        "\n" +
+        "--------------------------------------" +
+        "\n" +
+        "Return Reservation Number: " +
+        retReservationNumber +
+        "\n" +
+        "Return Trip: " +
+        retFlight.departureAirport +
+        " to " +
+        retFlight.arrivalAirport +
+        "\n" +
+        "Leaves: " +
+        retFlight.departureDateTime +
+        "\n" +
+        "Arrives: " +
+        retFlight.arrivalDateTime +
+        "\n" +
+        "Cabin: " +
+        retSeats[0].seatClass +
+        "\n" +
+        "Seats: " +
+        seatsRet +
+        "\n" +
+        "Price: " +
+        seatsRetPrice,
+    };
+    transporter.sendMail(options, (err, info) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log(info);
+    });
+    res.status(200).json(userData);
+  } catch (err) {
+    res.status(400).send(`${err}`);
+  }
+};
+const createReservation = async (req, res) => {
+  try {
+    // console.log("ReservationNumber is:", req.body.reservationNumber);
     const seats = req.body.seats;
-    console.log("Seats are:", seats);
+    //console.log("Seats are:", seats);
     const reservation = await new Reservation({
       reservationNumber: req.body.reservationNumber,
       user: req.body.user,
       flight: req.body.flight,
       seats: seats,
     });
-    console.log("Seat IDs:", seats);
+    //console.log("Seat IDs:", seats);
     for (var i = 0; i < seats.length; i++) {
       const result = await Seat.find({
         _id: seats[i],
       });
-      console.log("seat result is:", seats[i]);
+      //console.log("seat result is:", seats[i]);
 
       if (result[0].seatStatus == true) {
         await Seat.updateOne(
@@ -50,71 +148,7 @@ const createReservation = async (req, res) => {
       }
     }
     reservation.save();
-    const transporter = nodemailer.createTransport({
-      service: "hotmail",
-      port: 587,
-      secure: false, // upgrade later with STARTTLS
-      auth: {
-        user: "flights1000@outlook.com",
-        pass: config.emailPassword,
-      },
-    });
-    const options = {
-      from: "flights1000@outlook.com",
-      to: userEmail,
-      subject: "You have successfully made an account!",
-      text:
-        "Reservation Number:" +
-        departureData.reservationNumber +
-        "\n" +
-        "Departure Trip:" +
-        departureData.flight.departureAirport +
-        "to" +
-        departureData.flight.arrivalAirport +
-        "\n" +
-        "Leaves:" +
-        departureData.flight.departureDateTime +
-        "\n" +
-        "Arrives:" +
-        departureData.flight.arrivalDateTime +
-        "\n" +
-        "Cabin:" +
-        departureData.seats.seatClass[0] +
-        "\n" +
-        "Seats:" +
-        seatsDep +
-        "\n" +
-        "Price: " +
-        departureData.departurePrice +
-        "\n" +
-        "--------------------------------------" +
-        "\n" +
-        "Return Trip:" +
-        returnData.flight.departureAirport +
-        "to" +
-        returnData.flight.arrivalAirport +
-        "\n" +
-        "Leaves:" +
-        returnData.flight.departureDateTime +
-        "\n" +
-        "Arrives:" +
-        returnData.flight.arrivalDateTime +
-        "\n" +
-        "Cabin:" +
-        returnData.seats.seatClass[0] +
-        "\n" +
-        "Seats:" +
-        seatsArr +
-        "\n" +
-        "Price: " +
-        returnData.departurePrice,
-    };
-    transporter.sendMail(options, (err, info) => {
-      if (err) {
-        console.log(err);
-      }
-      console.log(info);
-    });
+
     res.status(200).json(reservation);
   } catch (err) {
     res.status(400).send(`${err}`);
@@ -222,4 +256,5 @@ module.exports = {
   getUserReservations,
   deleteReservation,
   getReservation,
+  emailReservation,
 };
