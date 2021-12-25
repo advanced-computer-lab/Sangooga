@@ -29,7 +29,7 @@ const ViewAirPlaneSeats = ({
     window.localStorage.getItem("editReservation")
   );
   const navigate = useNavigate();
-  console.log(economySeats);
+  console.log(currentFlight);
   useEffect(() => {
     setNumberOfSeatsReserved(numberOfSeats);
     setEconomySeats(

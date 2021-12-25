@@ -65,9 +65,6 @@ const Search = ({ isAdmin }) => {
         }
       );
 
-      console.log("flights in search are:", flights);
-      console.log(flights);
-
       flights.data = flights.data.filter(
         (flight) =>
           flight.seats.filter(
@@ -82,9 +79,6 @@ const Search = ({ isAdmin }) => {
           ).length >= numberOfSeats
       );
 
-      console.log("departureFlights", flights);
-      console.log("returnFlights", returnFlights);
-
       !isAdmin
         ? navigate("/flights", {
             state: [
@@ -98,7 +92,6 @@ const Search = ({ isAdmin }) => {
     } catch (err) {
       console.log(err);
     }
-    console.log("selectedClass", selectedClass);
   };
   return (
     <div className="container">

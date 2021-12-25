@@ -27,10 +27,8 @@ const MyReservations = () => {
       }
     );
 
-    console.log("reservation result:", results.data);
     setReservations(results.data);
     setRes(results.data);
-    console.log("Reservation  are:", Reservations);
   };
 
   const getPrice = (reservation) => {

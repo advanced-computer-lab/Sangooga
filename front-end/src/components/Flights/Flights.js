@@ -26,6 +26,7 @@ const Flights = ({ isAdmin }) => {
   let returnFlights = [];
 
   const location = useLocation();
+
   if (reservation) {
     flights = location.state;
   } else {
@@ -34,7 +35,6 @@ const Flights = ({ isAdmin }) => {
     selectedClass = location.state[2];
     returnFlights = location.state[3];
   }
-  console.log(flights);
   if (flights === null) {
     flights = [];
   }
@@ -139,7 +139,14 @@ const Flights = ({ isAdmin }) => {
               Departure Flights
             </Typography>
           ) : (
-            <div>Edit Reservation</div>
+            <Typography
+              className="sub-header"
+              gutterBottom
+              variant="h5"
+              component="div"
+            >
+              Edit Reservation
+            </Typography>
           )}
 
           <Grid
