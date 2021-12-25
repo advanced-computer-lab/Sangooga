@@ -28,16 +28,16 @@ const Home = () => {
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                Italy
+                Venice
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Italy, a European country with a long Mediterranean coastline,
-                has left a powerful mark on Western culture and cuisine. Its
-                capital, Rome, is home to the Vatican as well as landmark art
-                and ancient ruins. Other major cities include Florence, with
-                Renaissance masterpieces such as Michelangelo’s "David" and
-                Brunelleschi's Duomo; Venice, the city of canals; and Milan,
-                Italy’s fashion capital.
+                Venice, the capital of northern Italy’s Veneto region, is built
+                on more than 100 small islands in a lagoon in the Adriatic Sea.
+                It has no roads, just canals – including the Grand Canal
+                thoroughfare – lined with Renaissance and Gothic palaces. The
+                central square, Piazza San Marco, contains St. Mark’s Basilica,
+                which is tiled with Byzantine mosaics, and the Campanile bell
+                tower offering views of the city’s red roofs.
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -186,10 +186,39 @@ const Home = () => {
                 Tokyo
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Special wards are a special form of municipalities in Japan
-                under the 1947 Local Autonomy Law. They are city-level wards:
-                primary subdivisions of a prefecture with municipal autonomy
-                largely comparable to other forms of municipalities
+                Tokyo, Japan’s busy capital, mixes the ultramodern and the
+                traditional, from neon-lit skyscrapers to historic temples. The
+                opulent Meiji Shinto Shrine is known for its towering gate and
+                surrounding woods. The Imperial Palace sits amid large public
+                gardens. The city's many museums offer exhibits ranging from
+                classical art (in the Tokyo National Museum) to a reconstructed
+                kabuki theater (in the Edo-Tokyo Museum).
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      </Grid>
+      <Grid item xs={6}>
+        <Card sx={{ maxWidth: 345 }}>
+          <CardActionArea>
+            <CardMedia
+              component="img"
+              height="140"
+              image="https://nypost.com/wp-content/uploads/sites/2/2018/08/ny-least-free-state.jpg?quality=90&strip=all"
+              alt="green iguana"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                New York
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                New York City comprises 5 boroughs sitting where the Hudson
+                River meets the Atlantic Ocean. At its core is Manhattan, a
+                densely populated borough that’s among the world’s major
+                commercial, financial and cultural centers. Its iconic sites
+                include skyscrapers such as the Empire State Building and
+                sprawling Central Park. Broadway theater is staged in neon-lit
+                Times Square.
               </Typography>
             </CardContent>
           </CardActionArea>
