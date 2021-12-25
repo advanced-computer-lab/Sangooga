@@ -3,11 +3,39 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import { unstable_composeClasses } from "@mui/material";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 const PaymentSuccess = () => {
-  const [departureData, setDepartureData] = useState({});
-  const [returnData, setReturnData] = useState({});
+  // const location = useLocation();
+  // console.log("location", location);
+  // const departureData = location.state[0];
+  // const returnData = location.state[1];
+  const departureData = JSON.parse(
+    window.localStorage.getItem("departureDataString")
+  );
+  const returnData = JSON.parse(
+    window.localStorage.getItem("returnDataString")
+  );
+  // const [departureData, setDepartureData] = useState({});
+  // const [returnData, setReturnData] = useState({});
   const book = async () => {
+    console.log(
+      "dep string",
+      window.localStorage.getItem("departureDataString")
+    );
+    console.log(
+      "return string",
+      window.localStorage.getItem("returnDataString")
+    );
+
+    console.log(
+      "dep object",
+      JSON.parse(window.localStorage.getItem("departureDataString"))
+    );
+    console.log(
+      "return obj",
+      JSON.parse(window.localStorage.getItem("returnDataString"))
+    );
     const departureReservationNumber = departureData.reservationNumber;
     const departureSeats = departureData.seats;
     const departureFlight = departureData.flight;
@@ -40,9 +68,16 @@ const PaymentSuccess = () => {
       }
     );
   };
-  useEffect(() => {
-    setDepartureData(window.localStorage.getItem("departureData")); //TODO: not working need to find out another way
-    setReturnData(window.localStorage.getItem("returnData"));
+  // const setStates = async () => {
+  //   setDepartureData(
+  //     JSON.parse(window.localStorage.getItem("departureDataString"))
+  //   );
+  //   setReturnData(JSON.parse(window.localStorage.getItem("returnDataString")));
+  // };
+  useEffect(async () => {
+    // await setStates();
+    console.log("dep state", departureData);
+    console.log("ret state", returnData);
     book();
     window.localStorage.removeItem("departureData");
     window.localStorage.removeItem("returnData");
