@@ -41,7 +41,7 @@ app.put("/chooseSeat", async (req, res) => {
     const result = await Seat.find({
       _id: seatIDs[i],
     });
-    console.log("seat result is:", seatIDs[i]);
+    //console.log("seat result is:", seatIDs[i]);
 
     if (result[0].seatStatus == true) {
       await Seat.updateOne(

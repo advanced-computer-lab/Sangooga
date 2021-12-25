@@ -9,16 +9,16 @@
   color: white;
   border-radius: 8px;
   border: 1px solid rgb(122, 122, 122);
-  width: 70vw;
+  /* width: 70vw; */
 }
 .container {
   width: 100%;
 }
-.date-range {
+/* .date-range {
   display: grid;
   grid-auto-flow: column;
   column-gap: 0.5rem;
-}
+} */
 
 .date-range div {
   background-color: white;
