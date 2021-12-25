@@ -75,7 +75,6 @@ const createFlight = async (req, res) => {
 
     if (economySeats || businessSeats || firstClassSeats) {
       for (let i = economySeats; i > 0; i--) {
-        console.log("ec", i);
         const flightSeat = await new Seat({
           seatNumber: i + 1,
           seatClass: "economy_class",
@@ -86,7 +85,6 @@ const createFlight = async (req, res) => {
       }
 
       for (let i = businessSeats; i > 0; i--) {
-        console.log("b", i);
         const flightSeat = await new Seat({
           seatNumber: i + 1,
           seatClass: "business_class",
@@ -96,7 +94,6 @@ const createFlight = async (req, res) => {
         seatIds.push(flightSeat._id);
       }
       for (let i = firstClassSeats; i > 0; i--) {
-        console.log("f", i);
         const flightSeat = await new Seat({
           seatNumber: i + 1,
           seatClass: "first_class",
@@ -106,7 +103,6 @@ const createFlight = async (req, res) => {
         seatIds.push(flightSeat._id);
       }
     }
-    console.log(req.body);
     const flight = await new Flight({
       flightNumber: parseInt(req.body.flightNumber),
       departureAirport: req.body.departureAirport,
