@@ -37,49 +37,36 @@ const Navbar = ({ authenticated, setAuthenticated, setUserData }) => {
               Flights
             </Typography>
             {authenticated && isAdmin && (
-              <NavLink
-                to="/adminflights"
-                activeStyle={{ textDecoration: "underline", color: "red" }}
-              >
+              <NavLink to="/adminFlights">
                 <Button color="inherit">Admin Flights</Button>
               </NavLink>
             )}
             <NavLink
               to="/"
-              activeStyle={{ textDecoration: "underline", color: "red" }}
+              onClick={() => {
+                window.localStorage.removeItem("editReservation");
+              }}
             >
               <Button color="inherit">Flights</Button>
             </NavLink>
             {authenticated && (
-              <NavLink
-                to="/profile"
-                activeStyle={{ textDecoration: "underline", color: "red" }}
-              >
+              <NavLink to="/profile">
                 <Button color="inherit">Profile</Button>
               </NavLink>
             )}
             {authenticated && !isAdmin && (
-              <NavLink
-                to="/myreservations"
-                activeStyle={{ textDecoration: "underline", color: "red" }}
-              >
+              <NavLink to="/myreservations">
                 <Button color="inherit">My Reservations</Button>
               </NavLink>
             )}
             {authenticated ? ( //change link from "/login" to "/" once flights page is replaced with home page
-              <NavLink
-                to="/login"
-                activeStyle={{ textDecoration: "underline", color: "red" }}
-              >
+              <NavLink to="/login">
                 <Button color="inherit" onClick={logout}>
                   Logout
                 </Button>
               </NavLink>
             ) : (
-              <NavLink
-                to="/login"
-                activeStyle={{ textDecoration: "underline", color: "red" }}
-              >
+              <NavLink to="/login">
                 <Button color="inherit">Login</Button>
               </NavLink>
             )}

@@ -119,7 +119,7 @@ const filterFlights = async (req, res) => {
     numberOfSeats,
     selectedClass,
   } = req.body;
-
+  console.log(req.body);
   const isNullorEmpty = (thing) => {
     if (thing == null || thing == "") return true;
 

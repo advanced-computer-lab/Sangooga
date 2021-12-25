@@ -8,9 +8,11 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import CancelReservationPopUpButton from "../CancelReservationPopupButton/CancelReservationPopupButton";
+import { useNavigate } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 
 const MyReservations = () => {
+  const navigate = useNavigate();
   const [Reservations, setReservations] = useState([]);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [res, setRes] = useState([]);
@@ -25,10 +27,8 @@ const MyReservations = () => {
       }
     );
 
-    console.log("reservation result:", results.data);
     setReservations(results.data);
     setRes(results.data);
-    console.log("Reservation  are:", Reservations);
   };
 
   const getPrice = (reservation) => {
@@ -42,17 +42,24 @@ const MyReservations = () => {
   useEffect(() => {
     fetchReservations();
   }, []);
-
-  const cancelReservation = async (reservation) => {
-    const deletedReservation = await axios.delete(
-      `http://localhost:5000/reservation/${reservation._id}`,
+  const editReservation = async (reservation) => {
+    console.log(reservation);
+    window.localStorage.setItem("editReservation", JSON.stringify(reservation));
+    let flights = await axios.post(
+      "http://localhost:5000/flight/filter",
       {
-        headers: { Authorization: window.localStorage.getItem("token") },
+        departureAirport: reservation.flight.departureAirport,
+        arrivalAirport: reservation.flight.arrivalAirport,
+      },
+      {
+        headers: {
+          Authorization: window.localStorage.getItem("token"),
+        },
       }
     );
-    setReservations(
-      Reservations.filter((reservation) => reservation != deletedReservation)
-    );
+    console.log(reservation.flight.departureAirport);
+    console.log(flights.data);
+    navigate("/flights", { state: flights.data });
   };
 
   const showCancelPopup = () => {
@@ -110,7 +117,13 @@ const MyReservations = () => {
               </Button> */}
 
                 <CancelReservationPopUpButton reservationId={reservation._id} />
-                <Button>Edit Rerservation</Button>
+                <Button
+                  onClick={() => {
+                    editReservation(reservation);
+                  }}
+                >
+                  Edit Rerservation
+                </Button>
               </CardActions>
             </Card>
           ))}

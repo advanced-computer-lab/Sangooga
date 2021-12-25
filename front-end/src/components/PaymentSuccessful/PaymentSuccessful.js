@@ -45,6 +45,7 @@ const PaymentSuccessful = () => {
     const departureSeats = departureData.seats;
     const departureFlight = departureData.flight;
     const user = departureData.user;
+
     const departureReservation = await axios.post(
       "http://localhost:5000/reservation/",
       {
@@ -72,6 +73,21 @@ const PaymentSuccessful = () => {
         headers: { Authorization: window.localStorage.getItem("token") },
       }
     );
+    const emailReservation = await axios.post(
+      "http://localhost:5000/reservation/email",
+      {
+        user: user,
+        depReservationNumber: departureReservationNumber,
+        depFlight: departureFlight,
+        depSeats: departureSeats,
+        retReservationNumber: returnReservationNumber,
+        retFlight: returnFlight,
+        retSeats: returnSeats,
+      },
+      {
+        headers: { Authorization: window.localStorage.getItem("token") },
+      }
+    );
   };
   // const setStates = async () => {
   //   setDepartureData(
@@ -79,6 +95,7 @@ const PaymentSuccessful = () => {
   //   );
   //   setReturnData(JSON.parse(window.localStorage.getItem("returnDataString")));
   // };
+
   useEffect(async () => {
     // await setStates();
     console.log("dep state", departureData);

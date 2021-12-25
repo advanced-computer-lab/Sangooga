@@ -19,8 +19,8 @@ const createCheckoutSession = async (req, res) => {
   const returnData = req.body.returnData;
   const depPrice = req.body.departureData.departurePrice * 100;
   const retPrice = req.body.returnData.returnPrice * 100;
-  console.log("dep", depPrice);
-  console.log("ret", retPrice);
+  //console.log("dep", depPrice);
+  //console.log("ret", retPrice);
   const checoutSession = await stripe.checkout.sessions.create({
     success_url: "http://localhost:3000/paymentSuccess",
     cancel_url: "http://localhost:3000/",

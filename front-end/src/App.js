@@ -53,7 +53,6 @@ const App = () => {
 
   const [userData, setUserData] = useState([]);
 
-  console.log(userData);
   return (
     <>
       <div className="pageWrapper">
