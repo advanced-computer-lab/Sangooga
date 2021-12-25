@@ -11,9 +11,10 @@ import {
 } from "@mui/material";
 import Button from "@mui/material/Button";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ReservationItinerary = ({}) => {
+  const navigate = useNavigate();
   const [departurePrice, setDeparturePrice] = useState(0);
   const [returnPrice, setReturnPrice] = useState(0);
   const [departureCabin, setDepartureCabin] = useState(0);
@@ -54,24 +55,15 @@ const ReservationItinerary = ({}) => {
       }
     );
 
-    window.localStorage.setItem("departureData", departureData);
-    window.localStorage.setItem("returnData", returnData);
+    const departureDataString = JSON.stringify(departureData);
+    const returnDataString = JSON.stringify(returnData);
+    window.localStorage.setItem("departureDataString", departureDataString);
+    window.localStorage.setItem("returnDataString", returnDataString);
+    // navigate(checkoutSession.data.url, {
+    //   state: [departureData, returnData],
+    //   replace: true,
+    // });
     window.location = checkoutSession.data.url;
-    //all below will be removed to after checkout is confirmed
-    // const departureReservation = await axios.post(
-    //   "http://localhost:5000/reservation/",
-    //   departureData,
-    //   {
-    //     headers: { Authorization: window.localStorage.getItem("token") },
-    //   }
-    // );
-    // const returnReservation = await axios.post(
-    //   "http://localhost:5000/reservation/",
-    //   returnData,
-    //   {
-    //     headers: { Authorization: window.localStorage.getItem("token") },
-    //   }
-    // );
   };
 
   const calculatePrices = () => {
@@ -98,7 +90,7 @@ const ReservationItinerary = ({}) => {
             <Typography variant="h3"> Confirm your Booking:</Typography>
             <Typography variant="h5">Departure Trip:</Typography>
             <Typography variant="h6">
-              {departureFlight.departureAirport} to
+              {departureFlight.departureAirport} to{" "}
               {departureFlight.arrivalAirport}
             </Typography>
             <Typography variant="h7">
