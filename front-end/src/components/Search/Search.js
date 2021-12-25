@@ -26,22 +26,17 @@ const Search = ({ isAdmin }) => {
   const [selectedClass, setSelectedClass] = useState("economy_class");
   const navigate = useNavigate();
 
-  const getTime = (e) => {
-    setArrivalDateTime(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
-    console.log(arrivalDateTime);
-  };
-
   const filterFlights = async () => {
     try {
       const searchParams = {
-        arrivalAirport,
-        departureAirport,
+        arrivalAirport: arrivalAirport.toUpperCase(),
+        departureAirport: departureAirport.toUpperCase(),
         departureDateTime,
         arrivalDateTime,
         numberOfSeats,
         selectedClass,
       };
-      const flights = await axios.post(
+      let flights = await axios.post(
         "http://localhost:5000/flight/filter",
         searchParams,
         {
@@ -50,6 +45,16 @@ const Search = ({ isAdmin }) => {
           },
         }
       );
+
+      console.log(flights);
+
+      flights.data = flights.data.filter(
+        (flight) =>
+          flight.seats.filter(
+            (seat) => seat.seatClass === selectedClass && !seat.seatTaken
+          ).length >= numberOfSeats
+      );
+
       !isAdmin
         ? navigate("/flights", { state: flights.data })
         : navigate("/adminFlights", { state: flights.data });
