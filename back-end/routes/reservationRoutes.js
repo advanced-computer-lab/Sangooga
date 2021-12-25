@@ -10,6 +10,7 @@ router
   .get(reservationServices.getAllReservations);
 
 router.route("/user/:id").get(reservationServices.getUserReservations);
+router.route("/email").post(reservationServices.emailReservation);
 
 router
   .route("/:reservationId")
