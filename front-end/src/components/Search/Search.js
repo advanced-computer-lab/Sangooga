@@ -161,9 +161,11 @@ const Search = ({ isAdmin }) => {
             <DatePicker
               label="Departing"
               value={departureDateTime}
-              onChange={(e) =>
-                setDepartureDateTime(e.format("YYYY-MM-DD[T00:00:00.000Z]"))
-              }
+              onChange={(e) => {
+                if (e != null)
+                  setDepartureDateTime(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
+                else setDepartureDateTime(null);
+              }}
               renderInput={(params) => <TextField {...params} />}
             />
           </div>
@@ -171,9 +173,11 @@ const Search = ({ isAdmin }) => {
             <DatePicker
               label="Returning"
               value={arrivalDateTime}
-              onChange={(e) =>
-                setArrivalDateTime(e.format("YYYY-MM-DD[T00:00:00.000Z]"))
-              }
+              onChange={(e) => {
+                if (e != null)
+                  setArrivalDateTime(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
+                else setArrivalDateTime(null);
+              }}
               renderInput={(params) => <TextField {...params} />}
             />
           </div>
