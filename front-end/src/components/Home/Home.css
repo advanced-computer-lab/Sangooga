@@ -1,0 +1,25 @@
+.search-container {
+  margin-bottom: 100px;
+}
+.cardGrid {
+  margin: auto;
+}
+.home-page{
+  display: grid;
+  grid-template-columns: repeat( 4, 250px);
+  width:80%;
+  margin: 2rem auto 4rem auto;
+  justify-items: center;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.home-page .css-ayy8wd-MuiGrid-root{
+  max-width:100%
+}
+
+@media only screen and (max-width: 1150px) {
+  .home-page{
+  grid-template-columns: repeat( auto-fit, 250px);
+}
+}

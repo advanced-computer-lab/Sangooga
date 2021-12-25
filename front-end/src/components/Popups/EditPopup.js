@@ -5,11 +5,13 @@ import { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { useNavigate } from "react-router-dom";
 
-const EditPopUp = ({ flight, setOriginalFlights, popupText }) => {
+const EditPopUp = ({ flight, popupText }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const navigate = useNavigate();
 
   const [flightNumber, setFlightNumber] = useState(flight.flightNumber);
   const [departureAirPort, setDepartureAirPort] = useState(
@@ -31,15 +33,6 @@ const EditPopUp = ({ flight, setOriginalFlights, popupText }) => {
     flight.firstClassPrice
   );
 
-  const fetchFlights = async () => {
-    const result = await axios("http://localhost:5000/flight", {
-      headers: {
-        Authorization: window.localStorage.getItem("token"),
-      },
-    });
-    setOriginalFlights(result.data);
-  };
-
   const onEdit = async (id) => {
     const newData = {
       flightNumber: flightNumber,
@@ -54,14 +47,13 @@ const EditPopUp = ({ flight, setOriginalFlights, popupText }) => {
       firstClassSeats: firstClassSeats,
       firstClassPrice: firstClassPrice,
     };
-
     await axios.put(`http://localhost:5000/flight/${id}`, newData, {
       headers: {
         Authorization: window.localStorage.getItem("token"),
       },
     });
     handleClose();
-    fetchFlights();
+    navigate("/adminFlights");
   };
 
   return (

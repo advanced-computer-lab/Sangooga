@@ -13,38 +13,32 @@ import SendIcon from "@mui/icons-material/Send";
 import axios from "axios";
 import Profile from "./Profile";
 
-const ProfileEdit = () => {
+const ProfileEdit = ({ userData }) => {
   const navigate = useNavigate();
-  const userId = window.localStorage.getItem("userId");
-
-  const [userData, setUserData] = useState([]);
-
-  const getUserData = async () => {
-    const result = await axios.get(`http://localhost:5000/user/${userId}`, {
-      headers: {
-        Authorization: window.localStorage.getItem("token"),
-      },
-    });
-
-    setUserData(result.data);
-  };
-  useEffect(() => {
-    getUserData();
-  }, []);
-  console.log(userData);
   const [profileData, setProfileData] = useState({
     firstname: userData.firstname,
     lastname: userData.lastname,
     email: userData.email,
     passport: userData.passport,
+    phone: userData.phone,
+    address: userData.address,
+    countryCode: userData.countryCode,
   });
-  const updateProfile = async () => {
-    await axios.patch(`http://localhost:5000/user/${userData._id}`, {
-      firstname: profileData.firstname,
-      lastname: profileData.lastname,
-      email: profileData.email,
-      passport: profileData.passport,
-    });
+  console.log(profileData);
+  const updateProfile = async (e) => {
+    try {
+      e.preventDefault();
+      await axios.patch(`http://localhost:5000/user/${userData._id}`, {
+        firstname: profileData.firstname,
+        lastname: profileData.lastname,
+        email: profileData.email,
+        passport: profileData.passport,
+        phone: profileData.phone,
+        address: profileData.address,
+        countryCode: profileData.countryCode,
+      });
+      navigate("/profile");
+    } catch (error) {}
   };
   return (
     <Paper
@@ -54,78 +48,116 @@ const ProfileEdit = () => {
         width: "50%",
         height: "100%",
         mx: "auto",
+        mb: 5,
       }}
     >
-      <form>
+      <form onSubmit={updateProfile}>
         <Typography sx={{ fontWeight: "bold", mb: 2 }} variant="h3">
           {userData.username}
         </Typography>
-        <Typography sx={{ fontWeight: "bold", mb: 1 }} variant="h6">
-          First name:
-        </Typography>
-        <TextField
-          sx={{ mb: 1 }}
-          name="firstname"
-          label="firstname"
-          fullWidth
-          value={profileData.firstname}
-          onChange={(e) => {
-            setProfileData({ ...profileData, firstname: e.target.value });
-          }}
-        />
-        <Divider sx={{ mb: 2 }} variant="fullwidth" />
-        <Typography sx={{ fontWeight: "bold", mb: 1 }} variant="h6">
-          Last name:
-        </Typography>
-        <TextField
-          sx={{ mb: 1 }}
-          name="lastname"
-          label="lastname"
-          fullWidth
-          value={profileData.lastname}
-          onChange={(e) => {
-            setProfileData({ ...profileData, lastname: e.target.value });
-          }}
-        />
-        <Divider sx={{ mb: 2 }} variant="fullwidth" />
+        <Grid container spacing={2}>
+          <Grid item xs={6} sm={6}>
+            <Typography sx={{ fontWeight: "bold", mb: 1 }} variant="h6">
+              First name:
+            </Typography>
+            <TextField
+              sx={{ mb: 1 }}
+              name="firstname"
+              fullWidth
+              value={profileData.firstname}
+              onChange={(e) => {
+                setProfileData({ ...profileData, firstname: e.target.value });
+              }}
+            />
+          </Grid>
+          <Grid item xs={6} sm={6}>
+            <Typography sx={{ fontWeight: "bold", mb: 1 }} variant="h6">
+              Last name:
+            </Typography>
+            <TextField
+              sx={{ mb: 1 }}
+              name="lastname"
+              fullWidth
+              value={profileData.lastname}
+              onChange={(e) => {
+                setProfileData({ ...profileData, lastname: e.target.value });
+              }}
+            />
+          </Grid>
+        </Grid>
         <Typography sx={{ fontWeight: "bold", mb: 1 }} variant="h6">
           Email:
         </Typography>
         <TextField
           sx={{ mb: 1 }}
           name="email"
-          label="email"
           fullWidth
           value={profileData.email}
           onChange={(e) => {
             setProfileData({ ...profileData, email: e.target.value });
           }}
         />
-        <Divider sx={{ mb: 2 }} variant="fullwidth" />
+
         <Typography sx={{ fontWeight: "bold", mb: 1 }} variant="h6">
           passport:
         </Typography>
         <TextField
           sx={{ mb: 1 }}
           name="passport"
-          label="passport"
           fullWidth
           value={profileData.passport}
           onChange={(e) => {
             setProfileData({ ...profileData, passport: e.target.value });
           }}
         />
-        <Link to="/profile">
-          <Button
-            sx={{ mt: 2 }}
-            variant="contained"
-            fullWidth
-            onClick={updateProfile()}
-            color="success"
-          >
-            Confirm <SendIcon sx={{ ml: 1, fontSize: "medium" }} />
-          </Button>
-        </Link>
+        <Typography sx={{ fontWeight: "bold", mb: 1 }} variant="h6">
+          Phone Number:
+        </Typography>
+        <TextField
+          sx={{ mb: 1 }}
+          name="phone"
+          fullWidth
+          value={profileData.phone}
+          onChange={(e) => {
+            setProfileData({ ...profileData, phone: e.target.value });
+          }}
+        />
+        <Grid container spacing={2}>
+          <Grid item xs={6} sm={6}>
+            <Typography sx={{ fontWeight: "bold", mb: 1 }} variant="h6">
+              Address:
+            </Typography>
+            <TextField
+              sx={{ mb: 1 }}
+              name="address"
+              fullWidth
+              value={profileData.address}
+              onChange={(e) => {
+                setProfileData({ ...profileData, address: e.target.value });
+              }}
+            />
+          </Grid>
+          <Grid item xs={6} sm={6}>
+            <Typography sx={{ fontWeight: "bold", mb: 1 }} variant="h6">
+              Country Code:
+            </Typography>
+            <TextField
+              sx={{ mb: 1 }}
+              name="countryCode"
+              fullWidth
+              value={profileData.countryCode}
+              onChange={(e) => {
+                setProfileData({ ...profileData, countryCode: e.target.value });
+              }}
+            />
+          </Grid>
+        </Grid>
+
+        {/* <Link to="/profile"> */}
+        <Button sx={{ mt: 2 }} variant="contained" fullWidth type="submit">
+          Confirm <SendIcon sx={{ ml: 1, fontSize: "medium" }} />
+        </Button>
+        {/* </Link> */}
       </form>
     </Paper>
   );

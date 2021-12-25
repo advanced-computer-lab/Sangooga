@@ -4,8 +4,10 @@ import { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const Popup = ({ flight, setOriginalFlights, popupText }) => {
+const DeletePopup = ({ flight, popupText }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -29,23 +31,14 @@ const Popup = ({ flight, setOriginalFlights, popupText }) => {
   const [firstClassPrice, setFirstClassPrice] = useState(
     flight.firstClassPrice
   );
-
-  const fetchFlights = async () => {
-    const result = await axios("http://localhost:5000/flight", {
-      headers: {
-        Authorization: window.localStorage.getItem("token"),
-      },
-    });
-    setOriginalFlights(result.data);
-  };
-
+  const navigate = useNavigate();
   const onDelete = async (id) => {
     await axios.delete(`http://localhost:5000/flight/${id}`, {
       headers: {
         Authorization: window.localStorage.getItem("token"),
       },
     });
-    fetchFlights();
+    navigate("/adminFlights");
   };
 
   return (
@@ -145,4 +138,4 @@ const Popup = ({ flight, setOriginalFlights, popupText }) => {
   );
 };
 
-export default Popup;
+export default DeletePopup;

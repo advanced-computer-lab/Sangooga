@@ -8,19 +8,27 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import CancelReservationPopUpButton from "../CancelReservationPopupButton/CancelReservationPopupButton";
+import { useNavigate } from "react-router-dom";
+import Paper from "@mui/material/Paper";
 
 const MyReservations = () => {
+  const navigate = useNavigate();
   const [Reservations, setReservations] = useState([]);
-  //   const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [res, setRes] = useState([]);
+
   const fetchReservations = async () => {
     const currentUserId = window.localStorage.getItem("userId");
+
     const results = await axios.get(
       `http://localhost:5000/reservation/user/${currentUserId}`,
       {
         headers: { Authorization: window.localStorage.getItem("token") },
       }
     );
+
     setReservations(results.data);
+    setRes(results.data);
   };
 
   const getPrice = (reservation) => {
@@ -31,67 +39,96 @@ const MyReservations = () => {
     return "$" + price;
   };
 
-  //   const cancelReservation = async (reservation) => {
-  //     const deletedReservation = await axios.delete(
-  //       `http://localhost:5000/reservation/${reservation._id}`,
-  //       {
-  //         headers: { Authorization: window.localStorage.getItem("token") },
-  //       }
-  //     );
-  //     setReservations(
-  //       Reservations.filter((reservation) => reservation != deletedReservation)
-  //     );
-  //   };
-
-  //   const showCancelPopup = () => {
-  //     setShowDeletePopup(true);
-  //   };
-
   useEffect(() => {
     fetchReservations();
   }, []);
+  const editReservation = async (reservation) => {
+    console.log(reservation);
+    window.localStorage.setItem("editReservation", JSON.stringify(reservation));
+    let flights = await axios.post(
+      "http://localhost:5000/flight/filter",
+      {
+        departureAirport: reservation.flight.departureAirport,
+        arrivalAirport: reservation.flight.arrivalAirport,
+      },
+      {
+        headers: {
+          Authorization: window.localStorage.getItem("token"),
+        },
+      }
+    );
+    console.log(reservation.flight.departureAirport);
+    console.log(flights.data);
+    navigate("/flights", { state: flights.data });
+  };
+
+  const showCancelPopup = () => {
+    setShowDeletePopup(true);
+  };
 
   return (
     <div>
-      <Stack spacing={1}>
-        {Reservations.map((reservation) => (
-          <Card key={reservation._id}>
-            <CardContent>
-              <Typography variant="h6">
-                {reservation.flight.flightNumber}
-              </Typography>
-              <Typography variant="h5">
-                {reservation.flight.departureAirport} to{" "}
-                {reservation.flight.arrivalAirport}
-              </Typography>
-              <Typography variant="h6">
-                {reservation.flight.departureDateTime}
-              </Typography>
-              <Typography variant="h7">
-                <Stack direction="row" spacing={1}>
-                  Reserved Seat(s):
-                  {reservation.seats.map((seat) => (
-                    <Typography variant="h7">{seat.seatNumber}</Typography>
-                  ))}
-                </Stack>
-              </Typography>
-              <Typography variant="h6">
-                Price: {getPrice(reservation)}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              {/* <Button
+      <Paper
+        elevation={0}
+        sx={{
+          p: 6,
+          width: "50%",
+          height: "100%",
+          mx: "auto",
+          mb: 5,
+        }}
+      >
+        <Stack spacing={1}>
+          {Reservations.map((reservation) => (
+            <Card key={reservation._id}>
+              <CardContent>
+                <Typography variant="h6">
+                  {reservation.flight.flightNumber}
+                </Typography>
+                <Typography variant="h5">
+                  {reservation.flight.departureAirport} to{" "}
+                  {reservation.flight.arrivalAirport}
+                </Typography>
+                <Typography variant="h6">
+                  {`Leaves: ${reservation.flight.departureDateTime}`}
+                </Typography>
+                <Typography variant="h6">
+                  {`Arrives: ${reservation.flight.arrivalDateTime}`}
+                </Typography>
+                <Typography variant="h7">
+                  <Stack direction="row" spacing={1}>
+                    Reserved Seat(s):
+                    {reservation.seats.map((seat) => (
+                      <Typography variant="h7">{seat.seatNumber}</Typography>
+                    ))}
+                  </Stack>
+                </Typography>
+                <Typography variant="h6">
+                  Price: {getPrice(reservation)}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                {/* <Button
                 variant="outlined"
                 color="error"
                 onClick={showCancelPopup}
               >
                 Cancel Reservation
               </Button> */}
-              <CancelReservationPopUpButton reservationId={reservation._id} />
-            </CardActions>
-          </Card>
-        ))}
-      </Stack>
+
+                <CancelReservationPopUpButton reservationId={reservation._id} />
+                <Button
+                  onClick={() => {
+                    editReservation(reservation);
+                  }}
+                >
+                  Edit Rerservation
+                </Button>
+              </CardActions>
+            </Card>
+          ))}
+        </Stack>
+      </Paper>
     </div>
   );
 };

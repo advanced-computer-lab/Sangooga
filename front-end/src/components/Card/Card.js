@@ -1,8 +1,9 @@
 import React from "react";
 import "./Card.css";
 import AirplanemodeActiveIcon from "@mui/icons-material/AirplanemodeActive";
-import EditPopUp from "../../components/Popups/EditPopUp";
-import Popup from "../../components/Popups/DeletePopUp";
+import EditPopup from "../Popups/EditPopup";
+import DeletePopup from "../Popups/DeletePopup";
+import moment from "moment";
 
 const Card = ({
   depTime,
@@ -26,12 +27,14 @@ const Card = ({
             alt="airarabia"
           />
           <div className="airportNtime">
-            <span className="time">{depTime} </span>
+            <span className="time">
+              {moment(depTime).format("DD/MM/YYYY")}{" "}
+            </span>
             <span className="airport gray">{depAirport}</span>
           </div>
 
           <div className="line-duration">
-            <span className="duration gray">{duration}</span>
+            <span className="duration gray">{duration + " hr"} </span>
 
             <div className="connectContainer">
               <div className="connectLine gray-bg"></div>
@@ -40,7 +43,7 @@ const Card = ({
           </div>
 
           <div className="airportNtime">
-            <span className="time">{arrTime}</span>
+            <span className="time">{moment(arrTime).format("DD/MM/YYYY")}</span>
             <span className="airport gray">{arrAirport}</span>
           </div>
         </div>
@@ -48,16 +51,8 @@ const Card = ({
 
       {isAdmin && (
         <div>
-          <EditPopUp
-            isAdmin={isAdmin}
-            flight={flight}
-            setOriginalFlights={setOriginalFlights}
-          />{" "}
-          <Popup
-            isAdmin={isAdmin}
-            flight={flight}
-            setOriginalFlights={setOriginalFlights}
-          />
+          <EditPopup isAdmin={isAdmin} flight={flight} />
+          <DeletePopup isAdmin={isAdmin} flight={flight} />
         </div>
       )}
     </div>

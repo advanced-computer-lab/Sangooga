@@ -18,7 +18,8 @@ const Login = ({ setAuthenticated }) => {
         username: username,
         password: password,
       });
-      window.localStorage.setItem(`token`, user.data.token);
+      window.localStorage.setItem("userType", user.data._doc.type);
+      window.localStorage.setItem("token", user.data.token);
       window.localStorage.setItem("userId", user.data._doc._id);
       setAuthenticated(true);
       navigate("/");
@@ -71,7 +72,7 @@ const Login = ({ setAuthenticated }) => {
       </form>
       <br /> <br />
       <Link to="/register">
-        <Button variant="contained">Don't have an account?</Button>
+        <Button sx={{ mb: 2, mt: -2 }}>Don't have an account?</Button>
       </Link>
     </div>
   );

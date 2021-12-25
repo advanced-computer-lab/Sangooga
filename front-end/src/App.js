@@ -5,20 +5,21 @@ import AdminFlights from "./components/AdminFlights/AdminFlights";
 import Login from "./components/Login/Login";
 import Navbar from "./components/Navbar/Navbar";
 import ViewAirPlaneSeats from "./components/ViewAirPlaneSeats/ViewAirPlaneSeats";
-import ViewAirPlaneSeatsForReturnFlights from "./components/ViewAirPlaneSeatsForReturnFlights/ViewAirPlaneSeatsForReturnFlights";
 import Home from "./components/Home/Home";
 import Profile from "./components/Profile/Profile";
 import Register from "./components/Register/Register";
 import ProfileEdit from "./components/Profile/ProfileEdit";
+import ProfileEditPass from "./components/Profile/ProfileEditPass";
+import ProfileSetting from "./components/Profile/ProfileSetting";
 import MyReservations from "./components/MyReservations/MyReservations";
 import "./App.css";
-import Flight from "./components/Flights/Flight";
-import Footer from "./components/Footer/Footer";
+import Flights from "./components/Flights/Flights";
 import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
+import Footer from "./components/Footer/Footer";
 import axios from "axios";
 import ReservationItinerary from "./components/ReservationItinerary/ReservationItinerary";
-
+import Search from "./components/Search/Search";
+import PaymentSuccessful from "./components/PaymentSuccessful/PaymentSuccessful";
 const PrivateRoute = ({ authenticated, loading }) => {
   return authenticated ? (
     <Outlet />
@@ -32,111 +33,192 @@ const PrivateRoute = ({ authenticated, loading }) => {
 const App = () => {
   const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+
   useEffect(async () => {
-    const checkAuth = await axios.get("http://localhost:5000/verifyToken", {
-      headers: {
-        Authorization: window.localStorage.getItem("token"),
-      },
-    });
-    setAuthenticated(checkAuth);
+    await axios
+      .get("http://localhost:5000/verifyToken", {
+        headers: {
+          Authorization: window.localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        setAuthenticated(true);
+      })
+      .catch((res) => {
+        setAuthenticated(false);
+        window.localStorage.clear();
+      });
     setLoading(false);
   }, []);
+
+  const [userData, setUserData] = useState([]);
+
   return (
     <>
-      <Navbar
-        authenticated={authenticated}
-        setAuthenticated={setAuthenticated}
-      />
-      <div className="content">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/flight" element={<Flight />} />
-          <Route
-            path="/login"
-            element={<Login setAuthenticated={setAuthenticated} />}
-          />
-
-          <Route
-            path="/adminFlights"
-            element={
-              <PrivateRoute loading={loading} authenticated={authenticated} />
-            }
-          >
-            <Route path="/adminFlights" element={<AdminFlights />} />
-          </Route>
-
-          <Route
-            path="/createFlight"
-            element={
-              <PrivateRoute loading={loading} authenticated={authenticated} />
-            }
-          >
-            <Route path="/createFlight" element={<CreateFlight />} />
-          </Route>
-
-          <Route
-            path="/ViewAirPlaneSeats"
-            element={
-              <PrivateRoute loading={loading} authenticated={authenticated} />
-            }
-          >
-            <Route path="/ViewAirPlaneSeats" element={<ViewAirPlaneSeats />} />
-          </Route>
-
-          <Route
-            path="/ViewAirPlaneSeatsForReturnFlights"
-            element={
-              <PrivateRoute loading={loading} authenticated={authenticated} />
-            }
-          >
+      <div className="pageWrapper">
+        <Navbar
+          authenticated={authenticated}
+          setAuthenticated={setAuthenticated}
+          setUserData={setUserData}
+        />
+        <div className="contentWrapper">
+          <Routes>
             <Route
-              path="/ViewAirPlaneSeatsForReturnFlights"
-              element={<ViewAirPlaneSeatsForReturnFlights />}
-            />
-          </Route>
+              path="/"
+              element={
+                <>
+                  <Search isAdmin={false} />
 
-          <Route
-            path="/myreservations"
-            element={
-              <PrivateRoute loading={loading} authenticated={authenticated} />
-            }
-          >
-            <Route path="/myreservations" element={<MyReservations />} />
-          </Route>
-          <Route
-            path="/reservationItinerary"
-            element={
-              <PrivateRoute loading={loading} authenticated={authenticated} />
-            }
-          >
+                  <Home />
+                </>
+              }
+            />
+            <Route
+              path="/flights"
+              element={
+                <>
+                  <Search isAdmin={false} />
+
+                  <Flights />
+                </>
+              }
+            />
+            <Route
+              path="/login"
+              element={<Login setAuthenticated={setAuthenticated} />}
+            />
+
+            <Route
+              path="/adminFlights"
+              element={
+                <PrivateRoute loading={loading} authenticated={authenticated} />
+              }
+            >
+              <Route
+                path="/adminFlights"
+                element={
+                  <>
+                    <Search isAdmin={true} />
+                    <AdminFlights />
+                  </>
+                }
+              />
+            </Route>
+
+            <Route
+              path="/createFlight"
+              element={
+                <PrivateRoute loading={loading} authenticated={authenticated} />
+              }
+            >
+              <Route path="/createFlight" element={<CreateFlight />} />
+            </Route>
+
+            <Route
+              path="/ViewAirPlaneSeats"
+              element={
+                <PrivateRoute loading={loading} authenticated={authenticated} />
+              }
+            >
+              <Route
+                path="/ViewAirPlaneSeats"
+                element={<ViewAirPlaneSeats />}
+              />
+            </Route>
+
+            <Route
+              path="/myreservations"
+              element={
+                <PrivateRoute loading={loading} authenticated={authenticated} />
+              }
+            >
+              <Route path="/myreservations" element={<MyReservations />} />
+            </Route>
             <Route
               path="/reservationItinerary"
-              element={<ReservationItinerary />}
+              element={
+                <PrivateRoute loading={loading} authenticated={authenticated} />
+              }
+            >
+              <Route
+                path="/reservationItinerary"
+                element={<ReservationItinerary />}
+              />
+            </Route>
+            <Route
+              path="/paymentSuccess"
+              element={
+                <PrivateRoute loading={loading} authenticated={authenticated} />
+              }
+            >
+              <Route path="/paymentSuccess" element={<PaymentSuccessful />} />
+            </Route>
+            <Route
+              path="/profile"
+              element={
+                <PrivateRoute
+                  loading={loading}
+                  authenticated={authenticated}
+                  userData={userData}
+                  setUserData={setUserData}
+                />
+              }
+            >
+              <Route
+                path="/profile"
+                element={
+                  <Profile userData={userData} setUserData={setUserData} />
+                }
+              />
+            </Route>
+            <Route
+              path="/profileEdit"
+              element={
+                <PrivateRoute
+                  loading={loading}
+                  authenticated={authenticated}
+                  userData={userData}
+                  setUserData={setUserData}
+                />
+              }
+            >
+              <Route
+                path="/profileEdit"
+                element={
+                  <ProfileEdit userData={userData} setUserData={setUserData} />
+                }
+              />
+            </Route>
+            <Route
+              path="/profileEditPass"
+              element={
+                <PrivateRoute loading={loading} authenticated={authenticated} />
+              }
+            >
+              <Route
+                path="/profileEditPass"
+                element={<ProfileEditPass userData={userData} />}
+              />
+            </Route>
+            <Route
+              path="/profileSetting"
+              element={
+                <PrivateRoute loading={loading} authenticated={authenticated} />
+              }
+            >
+              <Route
+                path="/profileSetting"
+                element={<ProfileSetting userData={userData} />}
+              />
+            </Route>
+            <Route
+              path="/register"
+              element={<Register setAuthenticated={setAuthenticated} />}
             />
-          </Route>
-          <Route
-            path="/profile"
-            element={
-              <PrivateRoute loading={loading} authenticated={authenticated} />
-            }
-          >
-            <Route path="/profile" element={<Profile />} />
-          </Route>
-          <Route
-            path="/profileEdit"
-            element={
-              <PrivateRoute loading={loading} authenticated={authenticated} />
-            }
-          >
-            <Route path="/profileEdit" element={<ProfileEdit />} />
-          </Route>
-          <Route
-            path="/register"
-            element={<Register setAuthenticated={setAuthenticated} />}
-          />
-        </Routes>
+          </Routes>
+        </div>
+        <Footer />
       </div>
-      <Footer />
     </>
   );
 };

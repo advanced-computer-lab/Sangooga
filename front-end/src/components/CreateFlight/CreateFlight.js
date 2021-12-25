@@ -9,6 +9,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { Button } from "@mui/material";
 import axios from "axios";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
+import LuggageIcon from "@mui/icons-material/Luggage";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 
 const CreateFlight = () => {
   const [flightNumber, setflightNumber] = useState(0);
@@ -22,66 +24,10 @@ const CreateFlight = () => {
   const [businessPrice, setbusinessPrice] = useState(0);
   const [firstClassSeats, setfirstClassSeats] = useState(0);
   const [firstClassPrice, setfirstClassPrice] = useState(0);
+  const [baggageAllowance, setBaggageAllowance] = useState(0);
   const [validFlight, setValidFlight] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-
-  const seats = useState([
-    {
-      seatNumber: 1,
-      seatClass: "economy",
-      seatPrice: 10,
-      seatStatus: true,
-    },
-    {
-      seatNumber: 2,
-      seatClass: "economy",
-      seatPrice: 10,
-      seatStatus: true,
-    },
-    {
-      seatNumber: 3,
-      seatClass: "economy",
-      seatPrice: 10,
-      seatStatus: true,
-    },
-    {
-      seatNumber: 4,
-      seatClass: "business",
-      seatPrice: 20,
-      seatStatus: true,
-    },
-    {
-      seatNumber: 5,
-      seatClass: "business",
-      seatPrice: 20,
-      seatStatus: true,
-    },
-    {
-      seatNumber: 6,
-      seatClass: "business",
-      seatPrice: 20,
-      seatStatus: true,
-    },
-    {
-      seatNumber: 7,
-      seatClass: "first class",
-      seatPrice: 30,
-      seatStatus: true,
-    },
-    {
-      seatNumber: 8,
-      seatClass: "first class",
-      seatPrice: 30,
-      seatStatus: true,
-    },
-    {
-      seatNumber: 9,
-      seatClass: "first class",
-      seatPrice: 30,
-      seatStatus: true,
-    },
-  ]);
 
   // const validateFlight = () => {
   //   if (
@@ -142,14 +88,21 @@ const CreateFlight = () => {
       businessSeats < 0 ||
       businessPrice < 0 ||
       firstClassSeats < 0 ||
-      firstClassPrice < 0
+      firstClassPrice < 0 ||
+      baggageAllowance < 0
     ) {
       setValidFlight(false);
-      setErrorMessage("Seat numbers and prices have to be positive");
+      setErrorMessage(
+        "Seat numbers, seat prices, and baggage allowance have to be positive"
+      );
       console.log(errorMessage);
       return;
     }
     if (validFlight) {
+      const duration = Math.ceil(
+        (arrivalDateTime - departureDateTime) / 1000 / 60 / 60
+      );
+      console.log(duration);
       const newFlight = {
         flightNumber: flightNumber,
         departureAirport: departureAirport,
@@ -162,7 +115,8 @@ const CreateFlight = () => {
         businessPrice: businessPrice,
         firstClassSeats: firstClassSeats,
         firstClassPrice: firstClassPrice,
-        seats: seats,
+        baggageAllowance: baggageAllowance,
+        duration: duration,
       };
       await axios.post("http://localhost:5000/flight", newFlight, {
         headers: {
@@ -231,7 +185,9 @@ const CreateFlight = () => {
                 onChange={(e) => seteconomyPrice(e.target.value)}
                 InputProps={{
                   startAdornment: (
-                    <InputAdornment position="start">$</InputAdornment>
+                    <InputAdornment position="start">
+                      <AttachMoneyIcon></AttachMoneyIcon>
+                    </InputAdornment>
                   ),
                 }}
               ></TextField>
@@ -250,7 +206,9 @@ const CreateFlight = () => {
                 onChange={(e) => setbusinessPrice(e.target.value)}
                 InputProps={{
                   startAdornment: (
-                    <InputAdornment position="start">$</InputAdornment>
+                    <InputAdornment position="start">
+                      <AttachMoneyIcon></AttachMoneyIcon>
+                    </InputAdornment>
                   ),
                 }}
               ></TextField>
@@ -269,11 +227,30 @@ const CreateFlight = () => {
                 onChange={(e) => setfirstClassPrice(e.target.value)}
                 InputProps={{
                   startAdornment: (
-                    <InputAdornment position="start">$</InputAdornment>
+                    <InputAdornment position="start">
+                      <AttachMoneyIcon></AttachMoneyIcon>
+                    </InputAdornment>
                   ),
                 }}
               ></TextField>
             </Stack>
+            <TextField
+              label="Baggage Allowance"
+              type="number"
+              value={baggageAllowance}
+              onChange={(e) => setBaggageAllowance(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LuggageIcon></LuggageIcon>
+                  </InputAdornment>
+                ),
+
+                endAdornment: (
+                  <InputAdornment position="end">kg</InputAdornment>
+                ),
+              }}
+            ></TextField>
           </Stack>
           <Button type="submit">Create Flight</Button>
         </Stack>
