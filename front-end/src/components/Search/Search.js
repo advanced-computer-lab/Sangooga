@@ -151,7 +151,14 @@ const Search = ({ isAdmin }) => {
 
       <div className="searchBar">
         <SearchIcon fontSize="large" />
-        <Grid container spacing={2} columns={20}>
+        <Grid
+          container
+          spacing={2}
+          columns={20}
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+        >
           {isAdmin && (
             <Grid item xs={20} sm={10} md={4} l={4}>
               <TextField
@@ -247,9 +254,7 @@ const Search = ({ isAdmin }) => {
             {isAdmin ? (
               <Button
                 sx={{ py: 2 }}
-                justify="center"
                 fullWidth
-                alignItems="center"
                 variant="contained"
                 className="newFlightButton"
                 onClick={filterFlights}
