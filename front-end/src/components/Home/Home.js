@@ -212,13 +212,13 @@ const Home = () => {
                 New York
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                New York City comprises 5 boroughs sitting where the Hudson
-                River meets the Atlantic Ocean. At its core is Manhattan, a
-                densely populated borough that’s among the world’s major
-                commercial, financial and cultural centers. Its iconic sites
-                include skyscrapers such as the Empire State Building and
-                sprawling Central Park. Broadway theater is staged in neon-lit
-                Times Square.
+                In New York (ayy, ah-ha) (uh, yeah) Concrete jungle (yeah) where
+                dreams are made of There's nothin' you can't do (yeah) (okay)
+                Now you're in New York (ah-ha, ah-ha, ah-ha) (uh, yeah) These
+                streets will make you feel brand new (new) Big lights will
+                inspire you (come on) (okay) Let's hear it for New York (you're
+                welcome, OG) (come on) New York (yeah), New York (uh) (I made
+                you hot)
               </Typography>
             </CardContent>
           </CardActionArea>
