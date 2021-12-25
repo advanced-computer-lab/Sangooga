@@ -23,13 +23,13 @@ const ViewAirPlaneSeats = ({
   const [economySeats, setEconomySeats] = useState([]);
   const [businessSeats, setBusinessSeats] = useState([]);
   const [firstClassSeats, setFirstClassSeats] = useState([]);
-  const [cabin, setCabin] = useState("FirstClassSeat");
-  const [numberOfSeatsReserved, setNumberOfSeatsReserved] = useState(3);
+  const [numberOfSeatsReserved, setNumberOfSeatsReserved] = useState();
   const reservation = JSON.parse(
     window.localStorage.getItem("editReservation")
   );
+
   const navigate = useNavigate();
-  console.log(currentFlight);
+
   useEffect(() => {
     setNumberOfSeatsReserved(numberOfSeats);
     setEconomySeats(
@@ -52,6 +52,9 @@ const ViewAirPlaneSeats = ({
   }, []);
 
   const onPickSeat = (seat) => {
+    console.log(chosenDepartureSeats);
+    console.log(chosenReturnSeats);
+
     if (numberOfSeatsReserved > 0) {
       console.log("chosen seats:", chosenDepartureSeats);
       if (!isReturnFlights) {
@@ -69,7 +72,6 @@ const ViewAirPlaneSeats = ({
     }
   };
   const editReservation = async () => {
-    console.log(currentFlight);
     const edited = await axios.put(
       `http://localhost:5000/reservation/${reservation._id}`,
       { flight: currentFlight, seats: chosenDepartureSeats },
@@ -117,7 +119,7 @@ const ViewAirPlaneSeats = ({
       <Button size="small" onClick={() => setOpen(false)}>
         Go back
       </Button>
-      {selectedClass == "economy_class" && (
+      {(selectedClass == "economy_class" || reservation) && (
         <div>
           {economySeats.map((economySeat) => {
             return (
@@ -139,7 +141,7 @@ const ViewAirPlaneSeats = ({
           })}
         </div>
       )}
-      {selectedClass == "business_class" && (
+      {(selectedClass == "business_class" || reservation) && (
         <div>
           {businessSeats.map((businessSeat) => {
             return (
@@ -161,7 +163,7 @@ const ViewAirPlaneSeats = ({
           })}
         </div>
       )}
-      {selectedClass == "first_class" && (
+      {(selectedClass == "first_class" || reservation) && (
         <div>
           {firstClassSeats.map((firstClassSeat) => {
             return (

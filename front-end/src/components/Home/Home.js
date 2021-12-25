@@ -31,8 +31,13 @@ const Home = () => {
                 Italy
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
+                Italy, a European country with a long Mediterranean coastline,
+                has left a powerful mark on Western culture and cuisine. Its
+                capital, Rome, is home to the Vatican as well as landmark art
+                and ancient ruins. Other major cities include Florence, with
+                Renaissance masterpieces such as Michelangelo’s "David" and
+                Brunelleschi's Duomo; Venice, the city of canals; and Milan,
+                Italy’s fashion capital.
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -44,16 +49,21 @@ const Home = () => {
             <CardMedia
               component="img"
               height="140"
-              image="https://www.gannett-cdn.com/presto/2021/07/07/USAT/ff8de4c6-f511-4a14-99a7-78dbe6869c74-GettyImages-1131890997.jpg?width=660&height=277&fit=crop&format=pjpg&auto=webp"
+              image="https://lp-cms-production.imgix.net/2021-08/shutterstockRF_108818438.jpg?auto=format&fit=crop&sharp=10&vib=20&ixlib=react-8.6.4&w=850"
               alt="green iguana"
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                Italy
+                Paris
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
+                Paris, France's capital, is a major European city and a global
+                center for art, fashion, gastronomy and culture. Its
+                19th-century cityscape is crisscrossed by wide boulevards and
+                the River Seine. Beyond such landmarks as the Eiffel Tower and
+                the 12th-century, Gothic Notre-Dame cathedral, the city is known
+                for its cafe culture and designer boutiques along the Rue du
+                Faubourg Saint-Honoré.
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -65,16 +75,21 @@ const Home = () => {
             <CardMedia
               component="img"
               height="140"
-              image="https://www.gannett-cdn.com/presto/2021/07/07/USAT/ff8de4c6-f511-4a14-99a7-78dbe6869c74-GettyImages-1131890997.jpg?width=660&height=277&fit=crop&format=pjpg&auto=webp"
+              image="https://ychef.files.bbci.co.uk/976x549/p07zy3y6.jpg"
               alt="green iguana"
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                Italy
+                Cairo
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
+                Cairo, Egypt’s sprawling capital, is set on the Nile River. At
+                its heart is Tahrir Square and the vast Egyptian Museum, a trove
+                of antiquities including royal mummies and gilded King
+                Tutankhamun artifacts. Nearby, Giza is the site of the iconic
+                pyramids and Great Sphinx, dating to the 26th century BC. In
+                Gezira Island’s leafy Zamalek district, 187m Cairo Tower affords
+                panoramic city views.
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -86,16 +101,21 @@ const Home = () => {
             <CardMedia
               component="img"
               height="140"
-              image="https://www.gannett-cdn.com/presto/2021/07/07/USAT/ff8de4c6-f511-4a14-99a7-78dbe6869c74-GettyImages-1131890997.jpg?width=660&height=277&fit=crop&format=pjpg&auto=webp"
+              image="https://www.history.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTYyNDg1MjE3MTI1Mjc5Mzk4/topic-london-gettyimages-760251843-promo.jpg"
               alt="green iguana"
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                Italy
+                London
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
+                London, the capital of England and the United Kingdom, is a
+                21st-century city with history stretching back to Roman times.
+                At its centre stand the imposing Houses of Parliament, the
+                iconic ‘Big Ben’ clock tower and Westminster Abbey, site of
+                British monarch coronations. Across the Thames River, the London
+                Eye observation wheel provides panoramic views of the South Bank
+                cultural complex, and the entire city.
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -107,16 +127,21 @@ const Home = () => {
             <CardMedia
               component="img"
               height="140"
-              image="https://www.gannett-cdn.com/presto/2021/07/07/USAT/ff8de4c6-f511-4a14-99a7-78dbe6869c74-GettyImages-1131890997.jpg?width=660&height=277&fit=crop&format=pjpg&auto=webp"
+              image="http://cdn.mos.cms.futurecdn.net/s4wH4PzdvnsQYb6b57YN7f.jpg"
               alt="green iguana"
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                Italy
+                Istanbul
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
+                Istanbul is a major city in Turkey that straddles Europe and
+                Asia across the Bosphorus Strait. Its Old City reflects cultural
+                influences of the many empires that once ruled here. In the
+                Sultanahmet district, the open-air, Roman-era Hippodrome was for
+                centuries the site of chariot races, and Egyptian obelisks also
+                remain. The iconic Byzantine Hagia Sophia features a soaring
+                6th-century dome and rare Christian mosaics.
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -128,16 +153,20 @@ const Home = () => {
             <CardMedia
               component="img"
               height="140"
-              image="https://www.gannett-cdn.com/presto/2021/07/07/USAT/ff8de4c6-f511-4a14-99a7-78dbe6869c74-GettyImages-1131890997.jpg?width=660&height=277&fit=crop&format=pjpg&auto=webp"
+              image="https://img.static-af.com/images/meta/IDname/CITY-BCN-1?aspect_ratio=1:1&max_width=1280"
               alt="green iguana"
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                Italy
+                Barcelona
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
+                Barcelona, the cosmopolitan capital of Spain’s Catalonia region,
+                is known for its art and architecture. The fantastical Sagrada
+                Família church and other modernist landmarks designed by Antoni
+                Gaudí dot the city. Museu Picasso and Fundació Joan Miró feature
+                modern art by their namesakes. City history museum MUHBA,
+                includes several Roman archaeological sites.
               </Typography>
             </CardContent>
           </CardActionArea>
@@ -149,16 +178,18 @@ const Home = () => {
             <CardMedia
               component="img"
               height="140"
-              image="https://www.gannett-cdn.com/presto/2021/07/07/USAT/ff8de4c6-f511-4a14-99a7-78dbe6869c74-GettyImages-1131890997.jpg?width=660&height=277&fit=crop&format=pjpg&auto=webp"
+              image="https://media.istockphoto.com/photos/aerial-view-of-tokyo-cityscape-with-fuji-mountain-in-japan-picture-id1131743616?k=20&m=1131743616&s=612x612&w=0&h=5IzvPM791pd7-TFIB16zl1-CHgcqOBFLbQ9U1d6cUw8="
               alt="green iguana"
             />
             <CardContent>
               <Typography gutterBottom variant="h5" component="div">
-                Italy
+                Tokyo
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Lizards are a widespread group of squamate reptiles, with over
-                6,000 species, ranging across all continents except Antarctica
+                Special wards are a special form of municipalities in Japan
+                under the 1947 Local Autonomy Law. They are city-level wards:
+                primary subdivisions of a prefecture with municipal autonomy
+                largely comparable to other forms of municipalities
               </Typography>
             </CardContent>
           </CardActionArea>

@@ -20,6 +20,7 @@ const Flights = ({ isAdmin }) => {
   const reservation = JSON.parse(
     window.localStorage.getItem("editReservation")
   );
+
   let flights = [];
   let numberOfSeats = 0;
   let selectedClass = "";
@@ -29,11 +30,20 @@ const Flights = ({ isAdmin }) => {
 
   if (reservation) {
     flights = location.state;
+    numberOfSeats = reservation.seats.length;
   } else {
-    flights = location.state[0];
-    numberOfSeats = location.state[1];
-    selectedClass = location.state[2];
-    returnFlights = location.state[3];
+    if (location.state === null) {
+      console.log("lol");
+      flights = [];
+      numberOfSeats = 0;
+      selectedClass = "";
+      returnFlights = [];
+    } else {
+      flights = location.state[0];
+      numberOfSeats = location.state[1];
+      selectedClass = location.state[2];
+      returnFlights = location.state[3];
+    }
   }
   if (flights === null) {
     flights = [];
@@ -149,6 +159,80 @@ const Flights = ({ isAdmin }) => {
             </Typography>
           )}
 
+          <Grid
+            container
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Grid item xs={12}>
+              {flights.map((flight) => (
+                <Button
+                  key={flight.id}
+                  onClick={() => {
+                    if (!isAdmin) {
+                      setCurrentFlight(flight);
+                      setOpen(true);
+                    }
+                  }}
+                >
+                  <Card
+                    key={flight.id}
+                    depTime={flight.departureDateTime}
+                    arrTime={flight.arrivalDateTime}
+                    duration={flight.duration}
+                    depAirport={flight.departureAirport}
+                    arrAirport={flight.arrivalAirport}
+                    isAdmin={isAdmin}
+                    flight={flight}
+                  />
+                </Button>
+              ))}
+            </Grid>
+          </Grid>
+          <Modal
+            open={open}
+            onClose={() => {
+              setOpen(false);
+            }}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+          >
+            <Box
+              sx={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                width: 400,
+                bgcolor: "background.paper",
+                border: "2px solid #000",
+                boxShadow: 24,
+                p: 4,
+              }}
+            >
+              <Box>
+                <ViewAirPlaneSeats
+                  currentFlight={currentFlight}
+                  isReturnFlights={isReturnFlights}
+                  setOpen={setOpen}
+                  setIsReturnFlights={setIsReturnFlights}
+                  setChosenDepartureSeats={setChosenDepartureSeats}
+                  chosenDepartureSeats={chosenDepartureSeats}
+                  chosenReturnSeats={chosenReturnSeats}
+                  setChosenReturnSeats={setChosenReturnSeats}
+                  chosenDepartureFlight={chosenDepartureFlight}
+                  setChosenDepartureFlight={setChosenDepartureFlight}
+                  numberOfSeats={numberOfSeats}
+                  selectedClass={selectedClass}
+                />
+              </Box>
+            </Box>
+          </Modal>
+        </div>
+      )}
+      {isAdmin && (
+        <div>
           <Grid
             container
             direction="column"

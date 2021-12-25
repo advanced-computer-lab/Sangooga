@@ -9,10 +9,10 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import CancelReservationPopUpButton from "../CancelReservationPopupButton/CancelReservationPopupButton";
 import { useNavigate } from "react-router-dom";
+import Paper from "@mui/material/Paper";
 
 const MyReservations = () => {
   const navigate = useNavigate();
-
   const [Reservations, setReservations] = useState([]);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [res, setRes] = useState([]);
@@ -48,8 +48,8 @@ const MyReservations = () => {
     let flights = await axios.post(
       "http://localhost:5000/flight/filter",
       {
-        departureAirpot: reservation.flight.departureAirport,
-        arrivalAirpot: reservation.flight.arrivalAirport,
+        departureAirport: reservation.flight.departureAirport,
+        arrivalAirport: reservation.flight.arrivalAirport,
       },
       {
         headers: {
@@ -68,34 +68,47 @@ const MyReservations = () => {
 
   return (
     <div>
-      <Stack spacing={1}>
-        {Reservations.map((reservation) => (
-          <Card key={reservation._id}>
-            <CardContent>
-              <Typography variant="h6">
-                {reservation.flight.flightNumber}
-              </Typography>
-              <Typography variant="h5">
-                {reservation.flight.departureAirport} to{" "}
-                {reservation.flight.arrivalAirport}
-              </Typography>
-              <Typography variant="h6">
-                {reservation.flight.departureDateTime}
-              </Typography>
-              <Typography variant="h7">
-                <Stack direction="row" spacing={1}>
-                  Reserved Seat(s):
-                  {reservation.seats.map((seat) => (
-                    <Typography variant="h7">{seat.seatNumber}</Typography>
-                  ))}
-                </Stack>
-              </Typography>
-              <Typography variant="h6">
-                Price: {getPrice(reservation)}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              {/* <Button
+      <Paper
+        elevation={0}
+        sx={{
+          p: 6,
+          width: "50%",
+          height: "100%",
+          mx: "auto",
+          mb: 5,
+        }}
+      >
+        <Stack spacing={1}>
+          {Reservations.map((reservation) => (
+            <Card key={reservation._id}>
+              <CardContent>
+                <Typography variant="h6">
+                  {reservation.flight.flightNumber}
+                </Typography>
+                <Typography variant="h5">
+                  {reservation.flight.departureAirport} to{" "}
+                  {reservation.flight.arrivalAirport}
+                </Typography>
+                <Typography variant="h6">
+                  {`Leaves: ${reservation.flight.departureDateTime}`}
+                </Typography>
+                <Typography variant="h6">
+                  {`Arrives: ${reservation.flight.arrivalDateTime}`}
+                </Typography>
+                <Typography variant="h7">
+                  <Stack direction="row" spacing={1}>
+                    Reserved Seat(s):
+                    {reservation.seats.map((seat) => (
+                      <Typography variant="h7">{seat.seatNumber}</Typography>
+                    ))}
+                  </Stack>
+                </Typography>
+                <Typography variant="h6">
+                  Price: {getPrice(reservation)}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                {/* <Button
                 variant="outlined"
                 color="error"
                 onClick={showCancelPopup}
@@ -103,18 +116,19 @@ const MyReservations = () => {
                 Cancel Reservation
               </Button> */}
 
-              <CancelReservationPopUpButton reservationId={reservation._id} />
-              <Button
-                onClick={() => {
-                  editReservation(reservation);
-                }}
-              >
-                Edit Rerservation
-              </Button>
-            </CardActions>
-          </Card>
-        ))}
-      </Stack>
+                <CancelReservationPopUpButton reservationId={reservation._id} />
+                <Button
+                  onClick={() => {
+                    editReservation(reservation);
+                  }}
+                >
+                  Edit Rerservation
+                </Button>
+              </CardActions>
+            </Card>
+          ))}
+        </Stack>
+      </Paper>
     </div>
   );
 };

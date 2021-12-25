@@ -27,6 +27,7 @@ const Search = ({ isAdmin }) => {
   const navigate = useNavigate();
 
   const filterFlights = async () => {
+    window.localStorage.removeItem("editReservation");
     try {
       const searchParams = {
         arrivalAirport: arrivalAirport.toUpperCase(),
@@ -88,7 +89,14 @@ const Search = ({ isAdmin }) => {
               returnFlights.data,
             ],
           })
-        : navigate("/adminFlights", { state: flights.data });
+        : navigate("/adminFlights", {
+            state: [
+              flights.data,
+              numberOfSeats,
+              selectedClass,
+              returnFlights.data,
+            ],
+          });
     } catch (err) {
       console.log(err);
     }

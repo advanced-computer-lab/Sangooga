@@ -91,8 +91,7 @@ const ReservationItinerary = ({}) => {
             <Typography variant="h3"> Confirm your Booking:</Typography>
             <Typography variant="h5">Departure Trip:</Typography>
             <Typography variant="h6">
-              {departureFlight.departureAirport} to{" "}
-              {departureFlight.arrivalAirport}
+              {`${departureFlight.departureAirport} to ${departureFlight.arrivalAirport}`}
             </Typography>
             <Typography variant="h7">
               Leaves: {departureFlight.departureDateTime}
@@ -114,8 +113,7 @@ const ReservationItinerary = ({}) => {
             <Divider />
             <Typography variant="h5">Return Trip:</Typography>
             <Typography variant="h6">
-              {returnFlight.departureAirport} to
-              {returnFlight.arrivalAirport}
+              {`${returnFlight.departureAirport} to ${returnFlight.arrivalAirport}`}
             </Typography>
             <Typography variant="h7">
               Leaves: {returnFlight.departureDateTime}
