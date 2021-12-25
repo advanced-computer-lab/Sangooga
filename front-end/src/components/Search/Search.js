@@ -47,8 +47,8 @@ const Search = ({ isAdmin }) => {
       );
 
       const returnSearchParams = {
-        arrivalAirport: arrivalAirport.toUpperCase(),
-        departureAirport: departureAirport.toUpperCase(),
+        arrivalAirport: departureAirport.toUpperCase(),
+        departureAirport: arrivalAirport.toUpperCase(),
         departureDateTime,
         arrivalDateTime,
         numberOfSeats,
@@ -70,7 +70,6 @@ const Search = ({ isAdmin }) => {
 
       flights.data = flights.data.filter(
         (flight) =>
-          flight.departureAirport === departureAirport &&
           flight.seats.filter(
             (seat) => seat.seatClass === selectedClass && !seat.seatTaken
           ).length >= numberOfSeats
@@ -78,7 +77,6 @@ const Search = ({ isAdmin }) => {
 
       returnFlights.data = returnFlights.data.filter(
         (flight) =>
-          flight.departureAirport === arrivalAirport &&
           flight.seats.filter(
             (seat) => seat.seatClass === selectedClass && !seat.seatTaken
           ).length >= numberOfSeats
