@@ -16,15 +16,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Search.css";
 
-const Search = ({
-  isAdmin,
-  arrAirport,
-  depAirport,
-  depDateTime,
-  arrDateTime,
-  numfSeats,
-  selClass,
-}) => {
+const Search = ({ isAdmin }) => {
   const [flightNumber, setFlightNumber] = useState();
   const [arrivalAirport, setArrivalAirport] = useState("");
   const [departureAirport, setDepartureAirport] = useState("");
@@ -34,30 +26,38 @@ const Search = ({
   const [selectedClass, setSelectedClass] = useState("economy_class");
   const navigate = useNavigate();
 
-  const getTime = (e) => {
-    setArrivalDateTime(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
-    console.log(arrivalDateTime);
-  };
-
   const filterFlights = async () => {
     try {
-      const flights = await axios.post(
+      const searchParams = {
+        arrivalAirport: arrivalAirport.toUpperCase(),
+        departureAirport: departureAirport.toUpperCase(),
+        departureDateTime,
+        arrivalDateTime,
+        numberOfSeats,
+        selectedClass,
+      };
+      let flights = await axios.post(
         "http://localhost:5000/flight/filter",
-        {
-          arrivalAirport,
-          departureAirport,
-          departureDateTime,
-          arrivalDateTime,
-          numberOfSeats,
-          selectedClass,
-        },
+        searchParams,
         {
           headers: {
             Authorization: window.localStorage.getItem("token"),
           },
         }
       );
-      navigate("/flights", { state: flights.data });
+
+      console.log(flights);
+
+      flights.data = flights.data.filter(
+        (flight) =>
+          flight.seats.filter(
+            (seat) => seat.seatClass === selectedClass && !seat.seatTaken
+          ).length >= numberOfSeats
+      );
+
+      !isAdmin
+        ? navigate("/flights", { state: flights.data })
+        : navigate("/adminFlights", { state: flights.data });
     } catch (err) {
       console.log(err);
     }
@@ -82,6 +82,10 @@ const Search = ({
             <MenuItem value={4}>4</MenuItem>
             <MenuItem value={5}>5</MenuItem>
             <MenuItem value={6}>6</MenuItem>
+            <MenuItem value={7}>7</MenuItem>
+            <MenuItem value={8}>8</MenuItem>
+            <MenuItem value={9}>9</MenuItem>
+            <MenuItem value={10}>10</MenuItem>
           </Select>
         </div>
 
@@ -162,9 +166,11 @@ const Search = ({
             <DatePicker
               label="Departing"
               value={departureDateTime}
-              onChange={(e) =>
-                setDepartureDateTime(e.format("YYYY-MM-DD[T00:00:00.000Z]"))
-              }
+              onChange={(e) => {
+                if (e != null)
+                  setDepartureDateTime(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
+                else setDepartureDateTime(null);
+              }}
               renderInput={(params) => <TextField {...params} />}
             />
           </div>
@@ -172,7 +178,11 @@ const Search = ({
             <DatePicker
               label="Returning"
               value={arrivalDateTime}
-              onChange={getTime}
+              onChange={(e) => {
+                if (e != null)
+                  setArrivalDateTime(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
+                else setArrivalDateTime(null);
+              }}
               renderInput={(params) => <TextField {...params} />}
             />
           </div>

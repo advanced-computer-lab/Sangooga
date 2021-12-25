@@ -1,8 +1,8 @@
 import React from "react";
 import "./Card.css";
 import AirplanemodeActiveIcon from "@mui/icons-material/AirplanemodeActive";
-import EditPopUp from "../../components/Popups/EditPopUp";
-import Popup from "../../components/Popups/DeletePopUp";
+import EditPopup from "../Popups/EditPopup";
+import DeletePopup from "../Popups/DeletePopup";
 import moment from "moment";
 
 const Card = ({
@@ -15,7 +15,6 @@ const Card = ({
   setOriginalFlights,
   flight,
 }) => {
-  console.log(arrTime);
   return (
     <div>
       <div className="card">
@@ -52,16 +51,8 @@ const Card = ({
 
       {isAdmin && (
         <div>
-          <EditPopUp
-            isAdmin={isAdmin}
-            flight={flight}
-            setOriginalFlights={setOriginalFlights}
-          />{" "}
-          <Popup
-            isAdmin={isAdmin}
-            flight={flight}
-            setOriginalFlights={setOriginalFlights}
-          />
+          <EditPopup isAdmin={isAdmin} flight={flight} />
+          <DeletePopup isAdmin={isAdmin} flight={flight} />
         </div>
       )}
     </div>

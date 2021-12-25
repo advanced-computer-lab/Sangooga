@@ -5,6 +5,7 @@ import { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import ViewAirPlaneSeats from "../ViewAirPlaneSeats/ViewAirPlaneSeats";
+import Typography from "@mui/material/Typography";
 
 const ChooseFlights = ({
   flights,
@@ -17,16 +18,31 @@ const ChooseFlights = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [currentFlight, setCurrentFlight] = useState("");
-  const [chosenDepartureSeatsIDs, setChosenDepartureSeatsIDs] = useState([]);
-  const [chosenReturnSeatsIDs, setChosenReturnSeatsIDs] = useState([]);
+  const [chosenDepartureSeats, setChosenDepartureSeats] = useState([]);
+  const [chosenReturnSeats, setChosenReturnSeats] = useState([]);
   const [chosenDepartureFlight, setChosenDepartureFlight] = useState({});
-
   return (
     <div>
       {isReturnFlights === true && !isAdmin && (
-        <div>Available return flights:</div>
+        <Typography
+          className="sub-header"
+          gutterBottom
+          variant="h5"
+          component="div"
+        >
+          Available return flights
+        </Typography>
       )}
-      {!isReturnFlights && !isAdmin && <div>Departure Flights:</div>}
+      {!isReturnFlights && !isAdmin && (
+        <Typography
+          className="sub-header"
+          gutterBottom
+          variant="h5"
+          component="div"
+        >
+          Departure Flights
+        </Typography>
+      )}
       <Grid
         container
         direction="column"
@@ -86,10 +102,10 @@ const ChooseFlights = ({
               isReturnFlights={isReturnFlights}
               setOpen={setOpen}
               setIsReturnFlights={setIsReturnFlights}
-              setChosenDepartureSeatsIDs={setChosenDepartureSeatsIDs}
-              chosenDepartureSeatsIDs={chosenDepartureSeatsIDs}
-              chosenReturnSeatsIDs={chosenReturnSeatsIDs}
-              setChosenReturnSeatsIDs={setChosenReturnSeatsIDs}
+              setChosenDepartureSeats={setChosenDepartureSeats}
+              chosenDepartureSeats={chosenDepartureSeats}
+              chosenReturnSeats={chosenReturnSeats}
+              setChosenReturnSeats={setChosenReturnSeats}
               chosenDepartureFlight={chosenDepartureFlight}
               setChosenDepartureFlight={setChosenDepartureFlight}
             />

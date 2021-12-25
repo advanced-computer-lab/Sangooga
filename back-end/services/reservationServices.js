@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const User = require("../models/user");
 const nodemailer = require("nodemailer");
 const config = require("../config/index");
+
 const createReservation = async (req, res) => {
   try {
     console.log("ReservationNumber is:", req.body.reservationNumber);
@@ -14,18 +15,17 @@ const createReservation = async (req, res) => {
       flight: req.body.flight,
       seats: seats,
     });
-    seatIDs = req.body.seats;
-    console.log("Seat IDs:", seatIDs);
-    for (var i = 0; i < seatIDs.length; i++) {
+    console.log("Seat IDs:", seats);
+    for (var i = 0; i < seats.length; i++) {
       const result = await Seat.find({
-        _id: seatIDs[i],
+        _id: seats[i],
       });
-      console.log("seat result is:", seatIDs[i]);
+      console.log("seat result is:", seats[i]);
 
       if (result[0].seatStatus == true) {
         await Seat.updateOne(
           {
-            _id: seatIDs[i],
+            _id: seats[i],
           },
           {
             $set: {
