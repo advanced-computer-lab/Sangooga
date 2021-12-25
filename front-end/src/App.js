@@ -19,7 +19,7 @@ import Footer from "./components/Footer/Footer";
 import axios from "axios";
 import ReservationItinerary from "./components/ReservationItinerary/ReservationItinerary";
 import Search from "./components/Search/Search";
-import PaymentSuccess from "./components/PaymentSuccess/PaymentSuccess";
+import PaymentSuccess from "./components/paymentSuccess/paymentSuccess";
 const PrivateRoute = ({ authenticated, loading }) => {
   return authenticated ? (
     <Outlet />
