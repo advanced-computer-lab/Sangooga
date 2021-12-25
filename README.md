@@ -15,6 +15,12 @@ We created Sangooga to simulate working on a large scale web project using MERN 
 - Throughout the project all out variable nams are in camelCase.
 
 ## Screenshots
+![image](https://user-images.githubusercontent.com/61686031/147394315-bb086790-f615-4d6e-b2ca-b99787153029.png)
+![image](https://user-images.githubusercontent.com/61686031/147394325-3a454de0-730e-49e1-a909-1d7afb19fdef.png)
+![image](https://user-images.githubusercontent.com/61686031/147394326-eff0453a-40d5-4d7d-b382-4c1cbce5d7c1.png)
+![image](https://user-images.githubusercontent.com/61686031/147394328-e486ff92-3668-4be4-ad93-9556b591fb82.png)
+
+
 
 ## Tech/Frameworks Used
 
