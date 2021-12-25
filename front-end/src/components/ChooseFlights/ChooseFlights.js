@@ -15,6 +15,8 @@ const ChooseFlights = ({
   isReturnFlights,
   isAdmin,
   setOriginalFlights,
+  //numberOfSelectedSeats,
+  //selectedClass,
 }) => {
   const [open, setOpen] = useState(false);
   const [currentFlight, setCurrentFlight] = useState("");
