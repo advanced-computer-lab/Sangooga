@@ -151,26 +151,26 @@ const Search = ({ isAdmin }) => {
 
       <div className="searchBar">
         <SearchIcon fontSize="large" />
-        {isAdmin && (
-          <div>
-            <TextField
-              sx={{ background: "white", borderRadius: 1 }}
-              id="flight-number-input"
-              label="Flight Number"
-              variant="outlined"
-              value={flightNumber}
-              onChange={(e) => setFlightNumber(e.target.value)}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="start">
-                    <Looks6Icon />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </div>
-        )}
         <Grid container spacing={2} columns={20}>
+          {isAdmin && (
+            <Grid item xs={20} sm={10} md={4} l={4}>
+              <TextField
+                sx={{ background: "white", borderRadius: 1 }}
+                id="flight-number-input"
+                label="Flight Number"
+                variant="outlined"
+                value={flightNumber}
+                onChange={(e) => setFlightNumber(e.target.value)}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="start">
+                      <Looks6Icon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+          )}
           <Grid item xs={20} sm={10} md={4} l={4}>
             <TextField
               sx={{ background: "white", borderRadius: 1 }}
@@ -244,15 +244,29 @@ const Search = ({ isAdmin }) => {
             </Grid>
           </LocalizationProvider>
           <Grid item xs={20} sm={20} md={4} l={4}>
-            <Button
-              sx={{ py: 2 }}
-              fullWidth
-              variant="contained"
-              className="newFlightButton"
-              onClick={filterFlights}
-            >
-              Search Flights
-            </Button>
+            {isAdmin ? (
+              <Button
+                sx={{ py: 2 }}
+                justify="center"
+                fullWidth
+                alignItems="center"
+                variant="contained"
+                className="newFlightButton"
+                onClick={filterFlights}
+              >
+                Search Flights
+              </Button>
+            ) : (
+              <Button
+                sx={{ py: 2 }}
+                fullWidth
+                variant="contained"
+                className="newFlightButton"
+                onClick={filterFlights}
+              >
+                Search Flights
+              </Button>
+            )}
           </Grid>
         </Grid>
       </div>
