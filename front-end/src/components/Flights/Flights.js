@@ -21,10 +21,12 @@ const Flights = ({ isAdmin }) => {
   if (flights === null) {
     flights = [];
   }
-  console.log(flights);
+  const reservation = JSON.parse(
+    window.localStorage.getItem("editReservation")
+  );
   return (
     <div>
-      {isReturnFlights === true && !isAdmin && (
+      {!reservation && isReturnFlights === true && !isAdmin && (
         <Typography
           className="sub-header"
           gutterBottom
@@ -34,7 +36,7 @@ const Flights = ({ isAdmin }) => {
           Available return flights
         </Typography>
       )}
-      {!isReturnFlights && !isAdmin && (
+      {!reservation && !isReturnFlights && !isAdmin && (
         <Typography
           className="sub-header"
           gutterBottom

@@ -82,6 +82,7 @@ const ReservationItinerary = ({}) => {
     setDepartureCabin(departureSeats[0].seatClass.split("_").join(" "));
     setReturnCabin(returnSeats[0].seatClass.split("_").join(" "));
   }, []);
+
   return (
     <div>
       <Card>

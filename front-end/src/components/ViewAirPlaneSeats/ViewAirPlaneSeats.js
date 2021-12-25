@@ -1,7 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
-import { useLocation, Link, useNavigate } from "react-router-dom";
+import { useLocation, Link, useNavigate, Navigate } from "react-router-dom";
+import axios from "axios";
 
 const ViewAirPlaneSeats = ({
   currentFlight,
@@ -22,6 +23,10 @@ const ViewAirPlaneSeats = ({
   const [firstClassSeats, setFirstClassSeats] = useState([]);
   const [cabin, setCabin] = useState("FirstClassSeat");
   const [numberOfSeatsReserved, setNumberOfSeatsReserved] = useState(3);
+  const reservation = JSON.parse(
+    window.localStorage.getItem("editReservation")
+  );
+  const navigate = useNavigate();
 
   useEffect(() => {
     setEconomySeats(
@@ -60,31 +65,50 @@ const ViewAirPlaneSeats = ({
       }
     }
   };
-
+  const editReservation = async () => {
+    console.log(currentFlight);
+    const edited = await axios.put(
+      `http://localhost:5000/reservation/${reservation._id}`,
+      { flight: currentFlight, seats: chosenDepartureSeats },
+      {
+        headers: {
+          Authorization: window.localStorage.getItem("token"),
+        },
+      }
+    );
+    window.localStorage.removeItem("editReservation");
+    navigate("/myreservations");
+  };
   return (
     <div>
-      {!isReturnFlights ? (
-        <Button
-          onClick={() => {
-            setChosenDepartureFlight(currentFlight);
-            setOpen(false);
-            setIsReturnFlights(true);
-          }}
-        >
-          Next
-        </Button>
+      {!reservation ? (
+        !isReturnFlights ? (
+          <Button
+            onClick={() => {
+              setChosenDepartureFlight(currentFlight);
+              setOpen(false);
+              setIsReturnFlights(true);
+            }}
+          >
+            Next
+          </Button>
+        ) : (
+          <Link
+            to="/reservationItinerary"
+            state={[
+              chosenDepartureSeats,
+              chosenReturnSeats,
+              chosenDepartureFlight,
+              currentFlight,
+            ]}
+          >
+            Confirm
+          </Link>
+        )
       ) : (
-        <Link
-          to="/reservationItinerary"
-          state={[
-            chosenDepartureSeats,
-            chosenReturnSeats,
-            chosenDepartureFlight,
-            currentFlight,
-          ]}
-        >
-          Confirm
-        </Link>
+        <Button onClick={() => editReservation()}>
+          Confirm Reservation Edit
+        </Button>
       )}
 
       <Button size="small" onClick={() => setOpen(false)}>

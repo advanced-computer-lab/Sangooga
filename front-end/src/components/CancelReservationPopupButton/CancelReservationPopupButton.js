@@ -6,11 +6,13 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { getSelectUtilityClasses, Stack } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const CancelReservationPopUpButton = ({ reservationId }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const navigate = useNavigate();
 
   const [reservation, setReservation] = useState();
   const [flight, setFlight] = useState();
@@ -55,6 +57,7 @@ const CancelReservationPopUpButton = ({ reservationId }) => {
         Authorization: window.localStorage.getItem("token"),
       },
     });
+    navigate("/myreservations", { state: [] });
   };
 
   return (
