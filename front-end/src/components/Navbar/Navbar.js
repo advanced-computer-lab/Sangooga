@@ -58,7 +58,7 @@ const Navbar = ({ authenticated, setAuthenticated, setUserData }) => {
                 <Button color="inherit">Profile</Button>
               </NavLink>
             )}
-            {authenticated && (
+            {authenticated && !isAdmin && (
               <NavLink
                 to="/myreservations"
                 activeStyle={{ textDecoration: "underline", color: "red" }}
