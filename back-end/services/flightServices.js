@@ -146,8 +146,39 @@ const filterFlights = async (req, res) => {
       const flights = await Flight.find({
         $and: [
           maybeCreateMongoQuery("flightNumber", "$eq", flightNumber),
-          maybeCreateMongoQuery("departureAirport", "$eq", departureAirport),
-          maybeCreateMongoQuery("arrivalAirport", "$eq", arrivalAirport),
+          {
+            $or: [
+              {
+                $and: [
+                  maybeCreateMongoQuery(
+                    "departureAirport",
+                    "$eq",
+                    departureAirport
+                  ),
+                  maybeCreateMongoQuery(
+                    "arrivalAirport",
+                    "$eq",
+                    arrivalAirport
+                  ),
+                ].filter((q) => q !== null),
+              },
+              {
+                $and: [
+                  maybeCreateMongoQuery(
+                    "departureAirport",
+                    "$eq",
+                    arrivalAirport
+                  ),
+                  maybeCreateMongoQuery(
+                    "arrivalAirport",
+                    "$eq",
+                    departureAirport
+                  ),
+                ].filter((q) => q !== null),
+              },
+            ],
+          },
+
           maybeCreateMongoQueryTwoProps(
             "departureDateTime",
             "$gte",
