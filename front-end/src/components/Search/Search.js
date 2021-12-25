@@ -3,7 +3,7 @@ import TextField from "@mui/material/TextField";
 import DatePicker from "@mui/lab/DatePicker";
 import DateAdapter from "@mui/lab/AdapterMoment";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import { InputAdornment } from "@mui/material";
+import { InputAdornment, Grid, Container } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import FlightLandIcon from "@mui/icons-material/FlightLand";
@@ -63,44 +63,47 @@ const Search = ({ isAdmin }) => {
     }
   };
   return (
-    <div className="container">
-      <div className="dropDownsContainer">
-        <div className="dropdown">
-          <InputLabel id="numberSelector">Seats</InputLabel>
-          <Select
-            labelId="numberSelector"
-            id="seatsNo"
-            value={numberOfSeats}
-            label="Age"
-            onChange={(e) => {
-              setNumberOfSeats(e.target.value);
-            }}
-          >
-            <MenuItem value={1}>1</MenuItem>
-            <MenuItem value={2}>2</MenuItem>
-            <MenuItem value={3}>3</MenuItem>
-            <MenuItem value={4}>4</MenuItem>
-            <MenuItem value={5}>5</MenuItem>
-          </Select>
-        </div>
-
-        <div className="dropdown">
-          <InputLabel id="classSelector">Class</InputLabel>
-          <Select
-            labelId="classSelector"
-            id="class"
-            value={selectedClass}
-            label="Age"
-            onChange={(e) => {
-              setSelectedClass(e.target.value);
-            }}
-          >
-            <MenuItem value={"economy_class"}>Economy</MenuItem>
-            <MenuItem value={"business_class"}>Business</MenuItem>
-            <MenuItem value={"first_class"}>First</MenuItem>
-          </Select>
-        </div>
-      </div>
+    <Container sx={{ mb: 5 }}>
+      <Grid container spacing={2} justifyContent="center">
+        <Grid item xs={2} sm={2} md={1}>
+          <div className="dropdown">
+            <InputLabel id="numberSelector">Seats</InputLabel>
+            <Select
+              labelId="numberSelector"
+              id="seatsNo"
+              value={numberOfSeats}
+              label="Age"
+              onChange={(e) => {
+                setNumberOfSeats(e.target.value);
+              }}
+            >
+              <MenuItem value={1}>1</MenuItem>
+              <MenuItem value={2}>2</MenuItem>
+              <MenuItem value={3}>3</MenuItem>
+              <MenuItem value={4}>4</MenuItem>
+              <MenuItem value={5}>5</MenuItem>
+            </Select>
+          </div>
+        </Grid>
+        <Grid item xs={2} sm={2} md={1}>
+          <div className="dropdown">
+            <InputLabel id="classSelector">Class</InputLabel>
+            <Select
+              labelId="classSelector"
+              id="class"
+              value={selectedClass}
+              label="Age"
+              onChange={(e) => {
+                setSelectedClass(e.target.value);
+              }}
+            >
+              <MenuItem value={"economy_class"}>Economy</MenuItem>
+              <MenuItem value={"business_class"}>Business</MenuItem>
+              <MenuItem value={"first_class"}>First</MenuItem>
+            </Select>
+          </div>
+        </Grid>
+      </Grid>
 
       <div className="searchBar">
         <SearchIcon fontSize="large" />
@@ -123,72 +126,85 @@ const Search = ({ isAdmin }) => {
             />
           </div>
         )}
-        <TextField
-          sx={{ background: "white", borderRadius: 1 }}
-          id="departure-input"
-          label="Leaving from"
-          variant="outlined"
-          value={departureAirport}
-          onChange={(e) => setDepartureAirport(e.target.value)}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="start">
-                <FlightTakeoffIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
-        <TextField
-          sx={{ background: "white", borderRadius: 1 }}
-          id="airport-input"
-          label="Going to"
-          variant="outlined"
-          value={arrivalAirport}
-          onChange={(e) => setArrivalAirport(e.target.value)}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="start">
-                <FlightLandIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
-        <LocalizationProvider
-          dateAdapter={DateAdapter}
-          sx={{ background: "white", borderRadius: 1 }}
-        >
-          <div className="date-range">
-            <DatePicker
-              label="Departing"
-              value={departureDateTime}
-              onChange={(e) =>
-                setDepartureDateTime(e.format("YYYY-MM-DD[T00:00:00.000Z]"))
-              }
-              renderInput={(params) => <TextField {...params} />}
+        <Grid container spacing={2} columns={20}>
+          <Grid item xs={20} sm={10} md={4} l={4}>
+            <TextField
+              sx={{ background: "white", borderRadius: 1 }}
+              id="departure-input"
+              label="Leaving from"
+              variant="outlined"
+              value={departureAirport}
+              onChange={(e) => setDepartureAirport(e.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="start">
+                    <FlightTakeoffIcon />
+                  </InputAdornment>
+                ),
+              }}
             />
-          </div>
-          <div className="date-range">
-            <DatePicker
-              label="Returning"
-              value={arrivalDateTime}
-              onChange={(e) =>
-                setArrivalDateTime(e.format("YYYY-MM-DD[T00:00:00.000Z]"))
-              }
-              renderInput={(params) => <TextField {...params} />}
+          </Grid>
+          <Grid item xs={20} sm={10} md={4} l={4}>
+            <TextField
+              sx={{ background: "white", borderRadius: 1 }}
+              id="airport-input"
+              label="Going to"
+              variant="outlined"
+              value={arrivalAirport}
+              onChange={(e) => setArrivalAirport(e.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="start">
+                    <FlightLandIcon />
+                  </InputAdornment>
+                ),
+              }}
             />
-          </div>
-        </LocalizationProvider>
-        {
-          <Button
-            variant="contained"
-            className="newFlightButton"
-            onClick={filterFlights}
+          </Grid>
+          <LocalizationProvider
+            dateAdapter={DateAdapter}
+            sx={{ background: "white", borderRadius: 1 }}
           >
-            Search Flights
-          </Button>
-        }
+            <Grid item xs={20} sm={10} md={4} l={4}>
+              <div className="date-range">
+                <DatePicker
+                  label="Departing"
+                  value={departureDateTime}
+                  onChange={(e) =>
+                    setDepartureDateTime(e.format("YYYY-MM-DD[T00:00:00.000Z]"))
+                  }
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </div>
+            </Grid>
+
+            <Grid item xs={20} sm={10} md={4} l={4}>
+              <div className="date-range">
+                <DatePicker
+                  label="Returning"
+                  value={arrivalDateTime}
+                  onChange={(e) =>
+                    setArrivalDateTime(e.format("YYYY-MM-DD[T00:00:00.000Z]"))
+                  }
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </div>
+            </Grid>
+          </LocalizationProvider>
+          <Grid item xs={20} sm={20} md={4} l={4}>
+            <Button
+              sx={{ py: 2 }}
+              fullWidth
+              variant="contained"
+              className="newFlightButton"
+              onClick={filterFlights}
+            >
+              Search Flights
+            </Button>
+          </Grid>
+        </Grid>
       </div>
-    </div>
+    </Container>
   );
 };
 

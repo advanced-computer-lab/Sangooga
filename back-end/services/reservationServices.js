@@ -6,6 +6,18 @@ const config = require("../config/index");
 
 const createReservation = async (req, res) => {
   try {
+    const { departureData, returnData } = req.body;
+    const userData = await User.findById({ _id: departureData.user });
+    const userEmail = userData.email;
+    var seatsDep = [];
+    var seatsArr = [];
+
+    departureData.seats.forEach((seat) => {
+      seatsDep + seat;
+    });
+    returnData.seats.forEach((seat) => {
+      seatsArr + seat;
+    });
     console.log("ReservationNumber is:", req.body.reservationNumber);
     const seats = req.body.seats;
     console.log("Seats are:", seats);
@@ -38,6 +50,71 @@ const createReservation = async (req, res) => {
       }
     }
     reservation.save();
+    const transporter = nodemailer.createTransport({
+      service: "hotmail",
+      port: 587,
+      secure: false, // upgrade later with STARTTLS
+      auth: {
+        user: "flights1000@outlook.com",
+        pass: config.emailPassword,
+      },
+    });
+    const options = {
+      from: "flights1000@outlook.com",
+      to: userEmail,
+      subject: "You have successfully made an account!",
+      text:
+        "Reservation Number:" +
+        departureData.reservationNumber +
+        "\n" +
+        "Departure Trip:" +
+        departureData.flight.departureAirport +
+        "to" +
+        departureData.flight.arrivalAirport +
+        "\n" +
+        "Leaves:" +
+        departureData.flight.departureDateTime +
+        "\n" +
+        "Arrives:" +
+        departureData.flight.arrivalDateTime +
+        "\n" +
+        "Cabin:" +
+        departureData.seats.seatClass[0] +
+        "\n" +
+        "Seats:" +
+        seatsDep +
+        "\n" +
+        "Price: " +
+        departureData.departurePrice +
+        "\n" +
+        "--------------------------------------" +
+        "\n" +
+        "Return Trip:" +
+        returnData.flight.departureAirport +
+        "to" +
+        returnData.flight.arrivalAirport +
+        "\n" +
+        "Leaves:" +
+        returnData.flight.departureDateTime +
+        "\n" +
+        "Arrives:" +
+        returnData.flight.arrivalDateTime +
+        "\n" +
+        "Cabin:" +
+        returnData.seats.seatClass[0] +
+        "\n" +
+        "Seats:" +
+        seatsArr +
+        "\n" +
+        "Price: " +
+        returnData.departurePrice,
+    };
+    transporter.sendMail(options, (err, info) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log(info);
+    });
     res.status(200).json(reservation);
   } catch (err) {
     res.status(400).send(`${err}`);
