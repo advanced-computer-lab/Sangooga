@@ -10,8 +10,11 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import axios from "axios";
+import Flights from "../Flights/Flights";
 
 const Home = () => {
+  const [firstSearch, setFirstSearch] = useState(false);
+  const [flightsReserved, setFlightReserved] = useState([]);
   return (
     <div className="home-page">
       <Grid item xs={6}>
@@ -161,6 +164,7 @@ const Home = () => {
           </CardActionArea>
         </Card>
       </Grid>
+      {firstSearch && <Flights flightsReserved={flightsReserved} />}
     </div>
   );
 };

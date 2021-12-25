@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
-import { useLocation, Link, useNavigate, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const ViewAirPlaneSeats = ({
@@ -17,6 +17,8 @@ const ViewAirPlaneSeats = ({
   chosenDepartureSeats,
   setChosenDepartureFlight,
   chosenDepartureFlight,
+  numberOfSeats,
+  selectedClass,
 }) => {
   const [economySeats, setEconomySeats] = useState([]);
   const [businessSeats, setBusinessSeats] = useState([]);
@@ -27,8 +29,9 @@ const ViewAirPlaneSeats = ({
     window.localStorage.getItem("editReservation")
   );
   const navigate = useNavigate();
-
+  console.log(economySeats);
   useEffect(() => {
+    setNumberOfSeatsReserved(numberOfSeats);
     setEconomySeats(
       currentFlight.seats.filter(
         (economySeat) => economySeat.seatClass === "economy_class"
@@ -50,7 +53,7 @@ const ViewAirPlaneSeats = ({
 
   const onPickSeat = (seat) => {
     if (numberOfSeatsReserved > 0) {
-      console.log(chosenDepartureSeats);
+      console.log("chosen seats:", chosenDepartureSeats);
       if (!isReturnFlights) {
         setChosenDepartureSeats([...chosenDepartureSeats, seat]);
         console.log("chosenSeats:", chosenDepartureSeats);
@@ -114,7 +117,7 @@ const ViewAirPlaneSeats = ({
       <Button size="small" onClick={() => setOpen(false)}>
         Go back
       </Button>
-      {cabin == "EconomySeat" && (
+      {selectedClass == "economy_class" && (
         <div>
           {economySeats.map((economySeat) => {
             return (
@@ -136,7 +139,7 @@ const ViewAirPlaneSeats = ({
           })}
         </div>
       )}
-      {cabin == "BusinessSeat" && (
+      {selectedClass == "business_class" && (
         <div>
           {businessSeats.map((businessSeat) => {
             return (
@@ -158,7 +161,7 @@ const ViewAirPlaneSeats = ({
           })}
         </div>
       )}
-      {cabin == "FirstClassSeat" && (
+      {selectedClass == "first_class" && (
         <div>
           {firstClassSeats.map((firstClassSeat) => {
             return (

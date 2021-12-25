@@ -46,21 +46,61 @@ const Search = ({ isAdmin }) => {
         }
       );
 
+      const returnSearchParams = {
+        arrivalAirport: arrivalAirport.toUpperCase(),
+        departureAirport: departureAirport.toUpperCase(),
+        departureDateTime,
+        arrivalDateTime,
+        numberOfSeats,
+        selectedClass,
+      };
+
+      let returnFlights = await axios.post(
+        "http://localhost:5000/flight/filter",
+        returnSearchParams,
+        {
+          headers: {
+            Authorization: window.localStorage.getItem("token"),
+          },
+        }
+      );
+
+      console.log("flights in search are:", flights);
       console.log(flights);
 
       flights.data = flights.data.filter(
         (flight) =>
+          flight.departureAirport === departureAirport &&
           flight.seats.filter(
             (seat) => seat.seatClass === selectedClass && !seat.seatTaken
           ).length >= numberOfSeats
       );
 
+      returnFlights.data = returnFlights.data.filter(
+        (flight) =>
+          flight.departureAirport === arrivalAirport &&
+          flight.seats.filter(
+            (seat) => seat.seatClass === selectedClass && !seat.seatTaken
+          ).length >= numberOfSeats
+      );
+
+      console.log("departureFlights", flights);
+      console.log("returnFlights", returnFlights);
+
       !isAdmin
-        ? navigate("/flights", { state: flights.data })
+        ? navigate("/flights", {
+            state: [
+              flights.data,
+              numberOfSeats,
+              selectedClass,
+              returnFlights.data,
+            ],
+          })
         : navigate("/adminFlights", { state: flights.data });
     } catch (err) {
       console.log(err);
     }
+    console.log("selectedClass", selectedClass);
   };
   return (
     <div className="container">
