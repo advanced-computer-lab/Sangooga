@@ -5,6 +5,7 @@ import { useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import ViewAirPlaneSeats from "../ViewAirPlaneSeats/ViewAirPlaneSeats";
+import Typography from "@mui/material/Typography";
 
 const ChooseFlights = ({
   flights,
@@ -25,9 +26,25 @@ const ChooseFlights = ({
   return (
     <div>
       {isReturnFlights === true && !isAdmin && (
-        <div>Available return flights:</div>
+        <Typography
+          className="sub-header"
+          gutterBottom
+          variant="h5"
+          component="div"
+        >
+          Available return flights
+        </Typography>
       )}
-      {!isReturnFlights && !isAdmin && <div>Departure Flights:</div>}
+      {!isReturnFlights && !isAdmin && (
+        <Typography
+          className="sub-header"
+          gutterBottom
+          variant="h5"
+          component="div"
+        >
+          Departure Flights
+        </Typography>
+      )}
       <Grid
         container
         direction="column"
