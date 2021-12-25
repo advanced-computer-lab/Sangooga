@@ -4,6 +4,9 @@ const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const mongoose = require("mongoose");
 const config = require("../config/index");
+const dotenv = require("dotenv");
+dotenv.config();
+const stripe = require("stripe")(process.env.STRIPE_KEY);
 
 const getUser = async (req, res) => {
   try {
@@ -37,7 +40,33 @@ const updateUser = async (req, res) => {
     res.status(400).send("Could not update user");
   }
 };
+const updatePass = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { oldPassword, newPassword } = req.body;
+    // console.log(oldPassword);
+    // console.log(newPassword);
+    // console.log(id);
+    // if (!(oldPassword && newPassword)) {
+    //   return res.status(400).send("All input is required");
+    // }
+    const user = await User.findOne({ _id: id });
+    // console.log(user);
+    if (!(await bcrypt.compare(oldPassword, user.password)))
+      return res.status(400).send("Incorrect password");
+    if (user && (await bcrypt.compare(oldPassword, user.password))) {
+      hashedPass = await bcrypt.hash(newPassword, 10);
+      const updatedPass = await User.updateOne(
+        { _id: id },
+        { password: hashedPass }
+      );
 
+      res.status(200).json(updatedPass);
+    }
+  } catch (err) {
+    res.status(400).send(`${err}`);
+  }
+};
 const login = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -62,10 +91,32 @@ const login = async (req, res) => {
 
 const register = async (req, res) => {
   try {
-    const { username, password, firstname, lastname, email, passport } =
-      req.body;
-    if (!(username && password && firstname && lastname && email && passport)) {
-      res.status(400).send("Input is missing");
+    const {
+      username,
+      password,
+      firstname,
+      lastname,
+      email,
+      passport,
+      address,
+      countryCode,
+      phone,
+    } = req.body;
+
+    if (
+      !(
+        username &&
+        password &&
+        firstname &&
+        lastname &&
+        email &&
+        passport &&
+        phone &&
+        countryCode &&
+        address
+      )
+    ) {
+      return res.status(400).send("Input is missing");
     }
     const alreadyExists = await User.findOne({ username });
     if (alreadyExists) {
@@ -76,6 +127,17 @@ const register = async (req, res) => {
       return res.status(409).send("Email already has an account.");
     }
     encryptedPassword = await bcrypt.hash(password, 10);
+    let customer = {};
+    try {
+      customer = await stripe.customers.create({
+        email: email,
+        name: firstname + lastname,
+      });
+    } catch (err) {
+      res.status(403).send(`Stripe couldn't create customer: ${err}`);
+    }
+    const stripeid = customer.id;
+    console.log(stripeid);
     const user = await User.create({
       username,
       password: encryptedPassword,
@@ -83,6 +145,10 @@ const register = async (req, res) => {
       lastname,
       email,
       passport,
+      address,
+      countryCode,
+      phone,
+      stripeid,
     });
     const token = jwt.sign(
       { user_id: user._id, username },
@@ -92,27 +158,27 @@ const register = async (req, res) => {
       }
     );
     user.token = token;
-    const transporter = nodemailer.createTransport({
-      service: "hotmail",
-      port: 587,
-      secure: false, // upgrade later with STARTTLS
-      auth: {
-        user: "flights1000@outlook.com",
-        pass: config.emailPassword,
-      },
-    });
-    const options = {
-      from: "flights1000@outlook.com",
-      to: email,
-      subject: "You have successfully made an account!",
-      text: "Thank you for registering!",
-    };
-    transporter.sendMail(options, (err, info) => {
-      if (err) {
-        console.log(err);
-      }
-      console.log(info);
-    });
+    // const transporter = nodemailer.createTransport({
+    //   service: "hotmail",
+    //   port: 587,
+    //   secure: false, // upgrade later with STARTTLS
+    //   auth: {
+    //     user: "flights1000@outlook.com",
+    //     pass: config.emailPassword,
+    //   },
+    // });
+    // const options = {
+    //   from: "flights1000@outlook.com",
+    //   to: email,
+    //   subject: "You have successfully made an account!",
+    //   text: "Thank you for registering!",
+    // };
+    // transporter.sendMail(options, (err, info) => {
+    //   if (err) {
+    //     console.log(err);
+    //   }
+    //   console.log(info);
+    // });
 
     res.status(201).json({ token, ...user });
   } catch (err) {
@@ -137,4 +203,5 @@ module.exports = {
   deleteUser,
   getUser,
   updateUser,
+  updatePass,
 };

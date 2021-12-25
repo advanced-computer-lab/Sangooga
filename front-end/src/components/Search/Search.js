@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
-import DateTimePicker from "@mui/lab/DateTimePicker";
+import DatePicker from "@mui/lab/DatePicker";
 import DateAdapter from "@mui/lab/AdapterMoment";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { InputAdornment } from "@mui/material";
@@ -16,12 +16,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Search.css";
 
-const Search = ({
-  isAdmin,
-  setFirstSearch,
-  firstSearch,
-  setFlightResereved,
-}) => {
+const Search = ({ isAdmin }) => {
   const [flightNumber, setFlightNumber] = useState();
   const [arrivalAirport, setArrivalAirport] = useState("");
   const [departureAirport, setDepartureAirport] = useState("");
@@ -30,38 +25,56 @@ const Search = ({
   const [numberOfSeats, setNumberOfSeats] = useState(1);
   const [selectedClass, setSelectedClass] = useState("economy_class");
   const navigate = useNavigate();
-  console.log(setFirstSearch);
-  console.log(firstSearch);
-  console.log(isAdmin);
+
+  const getTime = (e) => {
+    setArrivalDateTime(e.format("YYYY-MM-DD[T00:00:00.000Z]"));
+    console.log(arrivalDateTime);
+  };
+
   const filterFlights = async () => {
     try {
-      setFirstSearch(true);
-      if (numberOfSeats !== null && selectedClass !== null) {
-        const flights = await axios.post(
-          "http://localhost:5000/flight/filter",
-          {
-            arrivalAirport,
-            departureAirport,
-            departureDateTime,
-            arrivalDateTime,
-            numberOfSeats,
-            selectedClass,
+      const searchParams = {
+        arrivalAirport,
+        departureAirport,
+        departureDateTime,
+        arrivalDateTime,
+        numberOfSeats,
+        selectedClass,
+      };
+      const flights = await axios.post(
+        "http://localhost:5000/flight/filter",
+        searchParams,
+        {
+          headers: {
+            Authorization: window.localStorage.getItem("token"),
           },
-          {
-            headers: {
-              Authorization: window.localStorage.getItem("token"),
-            },
-          }
-        );
-        setFlightResereved(flights.data);
-        console.log("flights.data:", flights.data);
+        }
+      );
 
-        // navigate("/flights", {
-        //   state: flights.data,
-        //   numberOfSeats,
-        //   selectedClass,
-        // });
-      }
+      const returnSearchParams = {
+        arrivalAirport,
+        departureAirport,
+        departureDateTime,
+        arrivalDateTime,
+        numberOfSeats,
+        selectedClass,
+      };
+      const returnFlights = await axios.post(
+        "http://localhost:5000/flight/filter",
+        returnSearchParams,
+        {
+          headers: {
+            Authorization: window.localStorage.getItem("token"),
+          },
+        }
+      );
+
+      console.log("flights in search are:", flights);
+      !isAdmin
+        ? navigate("/flights", {
+            state: [flights.data, numberOfSeats, selectedClass],
+          })
+        : navigate("/adminFlights", { state: flights.data });
     } catch (err) {
       console.log(err);
     }
@@ -163,7 +176,7 @@ const Search = ({
           sx={{ background: "white", borderRadius: 1 }}
         >
           <div className="date-range">
-            <DateTimePicker
+            <DatePicker
               label="Departing"
               value={departureDateTime}
               onChange={(e) =>
@@ -173,7 +186,7 @@ const Search = ({
             />
           </div>
           <div className="date-range">
-            <DateTimePicker
+            <DatePicker
               label="Returning"
               value={arrivalDateTime}
               onChange={(e) =>
