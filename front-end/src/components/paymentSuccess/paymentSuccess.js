@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
+import { Grid, Typography, Stack, Divider } from "@mui/material";
 import { unstable_composeClasses } from "@mui/material";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CheckCircleTwoToneIcon from "@mui/icons-material/CheckCircleTwoTone";
+import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
+import "./PaymentSuccess.css";
 
 const PaymentSuccess = () => {
   // const location = useLocation();
@@ -84,7 +89,24 @@ const PaymentSuccess = () => {
   }, []);
   return (
     <div>
-      <Paper></Paper>
+      <Grid>
+        <Paper
+          elevation={16}
+          sx={{
+            p: 6,
+            width: "50%",
+            height: "100%",
+            mx: "auto",
+            mb: 5,
+          }}
+        >
+          <CheckCircleIcon
+            sx={{ color: "green", fontSize: 40 }}
+          ></CheckCircleIcon>
+          <Typography variant="h3">Payment Successful</Typography>
+          <Typography variant="h6">Have a safe flight</Typography>
+        </Paper>
+      </Grid>
     </div>
   );
 };
