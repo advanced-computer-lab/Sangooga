@@ -7,14 +7,14 @@ const auth = require("../middleware/auth");
 router
   .route("/")
   .get(flightServices.getFlights)
-  .post(flightServices.createFlight);
+  .post(auth, flightServices.createFlight);
 
 router.route("/filter").post(flightServices.filterFlights);
 
 router
   .route("/:id")
   .get(flightServices.getFlightById)
-  .put(flightServices.updateFlight)
-  .delete(flightServices.deleteFlight);
+  .put(auth, flightServices.updateFlight)
+  .delete(auth, flightServices.deleteFlight);
 
 module.exports = router;

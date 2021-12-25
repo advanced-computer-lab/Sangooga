@@ -6,6 +6,6 @@ const auth = require("../middleware/auth");
 
 router
   .route("/createCheckoutSession")
-  .post(paymentServices.createCheckoutSession);
+  .post(auth, paymentServices.createCheckoutSession);
 
 module.exports = router;
