@@ -8,9 +8,9 @@ import { useLocation } from "react-router-dom";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CheckCircleTwoToneIcon from "@mui/icons-material/CheckCircleTwoTone";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
-import "./PaymentSuccess.css";
+import "./PaymentSuccessful.css";
 
-const PaymentSuccess = () => {
+const PaymentSuccessful = () => {
   // const location = useLocation();
   // console.log("location", location);
   // const departureData = location.state[0];
@@ -112,4 +112,4 @@ const PaymentSuccess = () => {
   );
 };
 
-export default PaymentSuccess;
+export default PaymentSuccessful;
