@@ -33,6 +33,7 @@ const filterFlights = async (req, res) => {
   try {
     const flights = await Flight.find({
       $and: [
+        maybeCreateMongoQuery("flightNumber", "$eq", flightNumber),
         maybeCreateMongoQuery("departureAirport", "$eq", departureAirport),
         maybeCreateMongoQuery("arrivalAirport", "$eq", arrivalAirport),
         maybeCreateMongoQueryTwoProps(
