@@ -14,6 +14,8 @@ const ViewAirPlaneSeats = ({
   setChosenReturnSeatsIDs,
   chosenReturnSeatsIDs,
   chosenDepartureSeatsIDs,
+  // numberOfSelectedSeats,
+  // selectedClass,
 }) => {
   const [economySeats, setEconomySeats] = useState([]);
   const [businessSeats, setBusinessSeats] = useState([]);

@@ -18,12 +18,9 @@ import "./Search.css";
 
 const Search = ({
   isAdmin,
-  arrAirport,
-  depAirport,
-  depDateTime,
-  arrDateTime,
-  numfSeats,
-  selClass,
+  setFirstSearch,
+  firstSearch,
+  setFlightResereved,
 }) => {
   const [flightNumber, setFlightNumber] = useState();
   const [arrivalAirport, setArrivalAirport] = useState("");
@@ -33,29 +30,42 @@ const Search = ({
   const [numberOfSeats, setNumberOfSeats] = useState(1);
   const [selectedClass, setSelectedClass] = useState("economy_class");
   const navigate = useNavigate();
-
+  console.log(setFirstSearch);
+  console.log(firstSearch);
+  console.log(isAdmin);
   const filterFlights = async () => {
     try {
-      const flights = await axios.post(
-        "http://localhost:5000/flight/filter",
-        {
-          arrivalAirport,
-          departureAirport,
-          departureDateTime,
-          arrivalDateTime,
-          numberOfSeats,
-          selectedClass,
-        },
-        {
-          headers: {
-            Authorization: window.localStorage.getItem("token"),
+      setFirstSearch(true);
+      if (numberOfSeats !== null && selectedClass !== null) {
+        const flights = await axios.post(
+          "http://localhost:5000/flight/filter",
+          {
+            arrivalAirport,
+            departureAirport,
+            departureDateTime,
+            arrivalDateTime,
+            numberOfSeats,
+            selectedClass,
           },
-        }
-      );
-      navigate("/flights", { state: flights.data });
+          {
+            headers: {
+              Authorization: window.localStorage.getItem("token"),
+            },
+          }
+        );
+        setFlightResereved(flights.data);
+        console.log("flights.data:", flights.data);
+
+        // navigate("/flights", {
+        //   state: flights.data,
+        //   numberOfSeats,
+        //   selectedClass,
+        // });
+      }
     } catch (err) {
       console.log(err);
     }
+    console.log("selectedClass", selectedClass);
   };
   return (
     <div className="container">

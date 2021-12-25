@@ -4,15 +4,20 @@ import Search from "../Search/Search";
 import "./Flights.css";
 import { useLocation } from "react-router-dom";
 
-const Flights = () => {
+const Flights = (flightsReserved) => {
   const [choosenFlights, setChoosenFlights] = useState([]);
   const [isReturnFlights, setIsReturnFlights] = useState(false);
   const location = useLocation();
-  const flights = location.state;
+  //const flights = location.state;
+  //const numberOfSelectedSeats = location.state[1];
+  //const selectedClass = location.state[2];
 
-  console.log(flights);
+  //console.log("flights in Flight component is", flights.data);
+  //console.log("location.state[0]:", location.state[0]);
+  //console.log(flights);
+
   const ChooseText = () => {
-    if (flights === [])
+    if (flightsReserved === [])
       return (
         <div>
           <b>Choose Departing Flight</b>
@@ -23,16 +28,18 @@ const Flights = () => {
 
   return (
     <div>
-      <div className="search-container">
+      {/* <div className="search-container">
         <Search isAdmin={false} {...flights} />
-      </div>
+      </div> */}
       <ChooseText />
       <ChooseFlights
-        flights={flights}
+        flights={flightsReserved}
         setChoosenFlights={setChoosenFlights}
         choosenFlights={choosenFlights}
         setIsReturnFlights={setIsReturnFlights}
         isReturnFlights={isReturnFlights}
+        // numberOfSelectedSeats={numberOfSelectedSeats}
+        // selectedClass={selectedClass}
       />
     </div>
   );
