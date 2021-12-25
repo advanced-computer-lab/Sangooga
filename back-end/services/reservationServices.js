@@ -22,14 +22,14 @@ const createReservation = async (req, res) => {
       });
       console.log("seat result is:", seats[i]);
 
-      if (result[0].seatStatus == true) {
+      if (result[0].seatTaken == false) {
         await Seat.updateOne(
           {
             _id: seats[i],
           },
           {
             $set: {
-              seatStatus: false,
+              seatTaken: true,
             },
           }
         );
@@ -90,10 +90,30 @@ const deleteReservation = async (req, res) => {
     reservationSeats.forEach((seat) => {
       reservationCost += seat.seatPrice;
     });
-    console.log(reservationCost);
     const reservation = await Reservation.deleteOne({
       _id: reservationId,
     });
+    console.log(reservationCost);
+    console.log("reservationSeats:", reservationSeats);
+    console.log("reservationSeats.seats[0]:", reservationSeats[0]);
+    console.log("reservationSeats[0]._id:", reservationSeats[0]._id);
+    console.log("reservationSeats._id:", reservationSeats._id);
+
+    for (let i = 0; i < reservationSeats.length; i++) {
+      //const hob = await Seat.find({ _id: reservationSeats[i]._id });
+      //console.log("hob", hob);
+      await Seat.updateOne(
+        {
+          _id: reservationSeats[i]._id,
+        },
+        {
+          $set: {
+            seatTaken: false,
+          },
+        }
+      );
+    }
+
     const transporter = nodemailer.createTransport({
       service: "hotmail",
       port: 587,
